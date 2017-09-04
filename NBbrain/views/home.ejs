@@ -1,0 +1,27 @@
+<% include header.ejs %>
+<div class="nb_wrap">
+    <div class="nb_home_content">
+        <ul class="nb_home_list">
+            测试
+        </ul>
+        <input type="file" id="testCanvas"/>
+        <button id="start">开始</button>
+    </div>
+</div>
+<!-- 片段着色器，每个像素都叫一个片段；是建立每个像素的色彩 -->
+<!-- 下面为内置的特殊变量 -->
+<script id="shader-fs" type="x-shader/x-fragment">
+    void main(void){
+        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+    }
+</script>
+<!-- 顶点着色器，顶点位置与形状 -->
+<script id="shader-vs" type="x-shader/x-vertex">
+    attribute vec3 aVertexPosition;
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    void main(void){
+        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    }
+</script>
+<% include footer.ejs %>

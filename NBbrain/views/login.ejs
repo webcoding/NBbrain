@@ -1,0 +1,11 @@
+<% include header.ejs %>
+<div class="nb_wrap">
+    <div class="nb_content">
+        <form id="myLogin" name="login" method="post" action="/checkLogin" onsubmit="return true">
+        <input type="text" name="username" maxlength="20" autocomplete="false"/>
+        <input type="password" name="password" maxlength="20" autocomplete="false"/>
+        <input type="submit"/>
+        </form>
+    </div>
+</div>
+<% include footer.ejs %>

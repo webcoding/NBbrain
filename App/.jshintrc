@@ -1,0 +1,15 @@
+{
+    "esversion": 6,
+    // 加载或保存时自动检查
+    "lint_on_edit": true,
+    "lint_on_load": true,
+    "lint_on_save": true,
+    // 代码缩进
+    "ident": false,
+    // 分号
+    "asi": false,
+    "lastsemic": false
+
+    // 变量未使用
+    // "unused": true
+}

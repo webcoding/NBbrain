@@ -1,0 +1,311 @@
+数据结构设计
+1. 用户 tbl_user_base
+user_id, 用户ID
+soc_type, 用户第三方登录类型:1微信，2qq，3微博
+soc_user_id, 用户第三方登录openid
+nickname, 用户昵称
+gender, 性别
+avatar, 头像
+description, 签名
+title, 当前称号
+create_time, 创建时间
+last_update, 最后修改时间
+
+2. 用户accesstoken  tbl_user_accesstoken
+user_id, 用户ID
+soc_type, 用户第三方登录类型:1微信，2qq，3微博
+soc_user_id, 用户第三方登录openid
+access_token, 
+create_time, 
+expire_time 过期时间
+
+3. 用户获得的所有称号 tbl_user_title
+user_id, 
+title, 
+create_time
+
+4. 用户得分记录 tbl_user_scoredata
+rec_id, 
+user_id, 
+score, 
+remark, 得分说明（备注），比如：挑战XXX成功,答题结果数据集？
+create_time
+
+5. 用户收藏记录 tbl_collect
+rec_id, 
+user_id, 
+collect_type, 收藏类型：1题目，2题库
+collect_data, 收藏的数据，题目或题库id
+create_time
+
+6. 用户挑战记录 tbl_challenge
+rec_id, 
+user_id, 
+challenge_type, 挑战类型：1题库，2个人（此处有疑问）
+challenge_data, 挑战目标，题库或个人id
+result, 挑战结果：0成功， 1失败
+create_time
+
+
+7. 题目数据表 tbl_question
+question_id, 题目ID
+question, 题目
+items, 答案选项集合，字符串json数组：["", "", ""]
+answer, 正确答案
+time, 答题时间
+score, 分数
+material, 题目素材
+create_time, 
+last_update
+
+8. 题库数据表 tbl_qbank
+qbank_id, 题库ID
+qbank_name, 题库名称
+icon, 题库图标
+create_time, 
+last_update
+
+9. 题库-》题目绑定表，可以使用非关系型结构 tbl_qbank_question
+qbank_id, question_list[{question_id, question, items, answer, material, time, score}], create_time, last_update
+
+10. 素材空间表 tbl_material
+material_id, 素材ID
+user_id, 用户ID
+material_data, 素材地址
+create_time
+
+11. 统计信息，建议走缓存，操作太频繁，如果是表方式的话，性能太低，也容易产生死锁，（用户排名依据）
+用户统计信息  user_statistics
+user_id, 用户id
+score, 用户总得分
+provide_qbank_count, 用户提供的题库总数
+provide_question_count, 用户提供的题目总数
+challenge_question_count, 用户挑战过的题目总数
+challenge_qbank_count, 用户挑战过的题库总数
+challenge_user_count, 用户挑战过的总人数
+challenger_count, 用户被挑战过的总人数
+challenged_times 用户被挑战过的总次数
+collected_qbank_count, 用户收藏的题库总数
+collected_question_count, 用户收藏的题目总数
+
+12. 题库统计信息 qbank_statistics（题库排名依据）
+qbank_id, challenged_times 题库被挑战总次数
+
+13. 题目统计信息 question_statistics
+question_id, challenged_times 题目被挑战总次数
+
+
+14. 配置信息，不一样要以数据库表的方式存储，可以是格式化的配置文件或数据对象，如xml，json等
+称号 cfg_title，
+title_id, 称号id
+title, 称号名
+rigger_rule 获得称号的条件
+
+
+接口列表
+1. 登录
+参数：
+socType: 1微信，2qq，3微博
+结果：
+页面跳转，登录成功后用户的token写入cookie
+
+2. 个人中心（查询当前用户统计数据）
+前置条件：用户已登录
+参数：
+无
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"score":100000, 用户总得分
+	"provide_qbank_count":12, 用户提供的题库总数
+	"provide_question_count":123, 用户提供的题目总数
+	"challenge_question_count":111, 用户挑战过的题目总数
+	"challenge_qbank_count":111, 用户挑战过的题库总数
+	"challenge_user_count":121, 用户挑战过的总人数
+	"challenger_count":111, 用户被挑战过的总人数
+	"challenged_times":111, 用户被挑战过的总次数
+	"collected_qbank_count":122, 用户收藏的题库总数
+	"collected_question_count":11 用户收藏的题目总数
+	}
+}
+
+3. 获取用户个人信息
+前置条件：用户已登录
+参数：
+无
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"userId":"xxxxxxxx",用户ID
+	"avater":"http://xxxxx.com/xxxx.png", 用户头像
+	"nickname":"xxx", 用户昵称
+	"title":"xx", 用户称号
+	"description":"xxxxxxxxxxxx", 用户个人签名
+	"challenge_qbank_count":111, 用户挑战过的题库总数
+	"challenge_user_count":121, 用户挑战过的总人数
+	"challenger_count":111, 用户被挑战过的总人数
+	"challenged_times":111, 用户被挑战过的总次数
+	"collected_qbank_count":122, 用户收藏的题库总数
+	"collected_question_count":11 用户收藏的题目总数
+	}
+}
+
+4. 题库排名（查询题库列表）
+前置条件：用户已登录
+参数：
+startPoint: 查询开始位置
+size：查询记录条数
+type：查询方式：1查询开始位置前size条记录,2查询开始位置后size条记录
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"dataList":[{
+		"qbankId":"xxx", 题库ID
+		"name":"xxxxxxxx",题库名
+		"icon":"xxxx", 题库图标
+		"providerName":"xxxxxx", 提供者昵称
+		"providerId":"xxxxxx", 提供者Id
+		"providerAvatar":"http://xxxxx.com/xxxx.png", 提供者头像
+		"place":1 排名？
+	}],
+	"rowCount":1213  总记录条数
+}
+}
+
+5. 用户排名（查询用户列表）？
+前置条件：用户已登录
+参数：
+startPoint: 查询开始位置
+size：查询记录条数
+type：查询方式：1查询开始位置前size条记录,2查询开始位置后size条记录
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"dataList":[{
+		"userId":"xxx", 用户ID
+		"nickname":"xxxxxxxx",用户昵称
+		"avatar":"http://xxxxx.com/xxxx.png", 用户头像
+		"description":"xxxxxx", 用户签名
+		"socType":1, 用户类型：1微信，2qq，3微博
+		"socUserId":"xxxxx", 用户第三方ID
+		"place":1 排名？
+	}],
+	"rowCount":1213  总记录条数
+}
+}
+
+6. 新增/修改题库
+前置条件：用户已登录
+参数：
+qbankId  题库ID，可选，不存在时为新增题库，存在时为修改已有题库
+name  题库名称 必须
+icon  题库图标 可选
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"qbankId":""
+}
+}
+
+7. 新增/修改题目
+前置条件：用户已登录
+参数：
+qbankId  所属题库ID，可选，题目本身不需要qbankId，如果提供的时候在保存题目的同时建立题目与制定题库的关系
+questionId 题目ID，可选，不存在时为新增题目，存在时为修改已有题目
+material 素材
+question  题目
+items 选项，json数组，["", ""]
+answer 答案
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"questionId":""
+}
+}
+
+8. 上传素材
+前置条件：用户已登录
+参数：
+file
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"materialId":"",  素材ID
+	"materialData":""   素材地址
+}
+}
+
+9. 获取题库内容（进入答题）
+前置条件：用户已登录
+参数：
+qbankId
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"qbankId":"xxx", 题库ID
+	"name":"xxxxxxxx",题库名
+	"icon":"xxxx", 题库图标
+	"providerName":"xxxxxx", 提供者昵称
+	"providerId":"xxxxxx", 提供者Id
+	"providerAvatar":"http://xxxxx.com/xxxx.png", 提供者头像
+	"place":1, 排名？
+	"questionList":[{}] 题目ID集合？考虑是否分步获取题目
+}
+}
+
+10. 获取题目内容
+前置条件：用户已登录
+参数：
+qbankId
+questionIndex
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"questionId":"xxx", 题目ID，可选，不存在时为新增题目，存在时为修改已有题目
+	"material":"", 素材
+	"question":"xxxx",  题目
+	"items":["",""] 选项，json数组，["", ""]
+}
+}
+
+11. 答题，单题答案后显示结果
+参数：
+qbankId
+answer 答案，格式为questionId与选中的item值映射{"xxxx":"xxxxx"}
+结果：
+{
+result:0, //0正确，1错误，-1未登录
+msg:""
+}
+
+12. 结算，整套题答完后结算，暂时考虑将所有题库的答案全部提交，然后由服务器逐一验证，防止恶意攻击
+参数：
+qbankId
+answers 答案集合，格式为questionId与选中的item值映射{"xxxx":"xxxxx", "xxxx":"xxxx", "xxx":""xx}
+结果：
+{
+result:0, //0成功，-1未登录，其他失败
+msg:"",
+data:{
+	"score":111, 得分
+	"items":{"xxxx":0,"xxx":1,"xxx":0} 结果数据，questionId与结果映射，0答对，1打错
+}
+}

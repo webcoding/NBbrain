@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>NBbrain</title>
+    </head>
+<body>
+<div class="nb_wrap">
+    <div class="nb_content">
+        <h2>创建题库</h2>
+        <dl>
+            <dt>题库名</dt>
+            <dd><input type="text" maxlength="20" name="qbank_name" autocomplete="false"/></dd>
+        </dl>
+        <dl>
+            <dt>答题要求</dt>
+            <dd><textarea  name="reply_rule"></textarea></dd>
+        </dl>
+        <dl>
+            <dt>所有题目需要的素材</dt>
+            <dd><input name="qbank_material_url" type="file" /></dd>
+        </dl>
+        <dl>
+            <dt>请填写题目</dt>
+            <dd><input name="question.question_name" type="text"/></dd>
+        </dl>
+        <dl>
+            <dt>分值</dt>
+            <dd>
+                <input name="question.score" checked="true" type="radio" value="1" id="question_score"/>
+                <label for="question_score">1分</label>
+                <input name="question.score" type="radio" value="2" id="question_score_1"/>
+                <label for="question_score_1">2分</label>
+                <input name="question.score" type="radio" value="3" id="question_score_2"/>
+                <label for="question_score_2">3分</label>
+            </dd>
+        </dl>
+        <dl>
+            <dt>答题所需时间</dt>
+            <dd>
+                <input name="question.time_limit" checked="true" type="radio" value="10" id="question_time_limit"/>
+                <label for="question_time_limit">10秒</label>
+                <input name="question.time_limit" type="radio" value="15" id="question_time_limit_1"/>
+                <label for="question_time_limit_1">15秒</label>
+                <input name="question.time_limit" type="radio" value="20" id="question_time_limit_2"/>
+                <label for="question_time_limit_2">20秒</label>
+            </dd>
+        </dl>
+        <dl>
+            <dt>该题目所需素材</dt>
+            <dd>
+                <input name="question.material_url" type="file"/>
+            </dd>
+        </dl>
+        <dl>
+            <dt>请填写选项内容</dt>
+            <dd>
+                <input class="itemOriginal" name="question.items" type="text"/>
+            </dd>
+        </dl>
+        <dl>
+            <dt>请填写该题答案</dt>
+            <dd>
+                <input name="question.answers" type="text"/>
+            </dd>
+        </dl>
+        <button id="addItem">继续添加选项</button>
+        <button id="addQuestion">继续添加题目</button>
+        <button id="saveEdit">保存编辑</button>
+        <button id="completeEdit">题库完成</button>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="./static/zepto.js"></script>
+<script type="text/javascript" src="./static/underscore-min.js"></script>
+<script type="text/javascript" src="./static/ajax.js"></script>
+</html>
