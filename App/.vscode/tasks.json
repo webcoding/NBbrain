@@ -1,0 +1,22 @@
+
+// 创建一个npm task（vscode概念），用来执行npm run build
+// 该文件在根目录.vscode目录下，名字是tasks.json，如果没有可以自己创建一个。
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "0.1.0",
+  "command": "npm", //执行npm命令
+  "isShellCommand": true,
+  "showOutput": "always",
+  "suppressTaskName": true,
+  "tasks": [
+    {
+      "taskName": "build", //task名称
+      "args": [ //npm run build
+        "run",
+        "build"
+      ],
+      "isBuildCommand": true
+    }
+  ]
+}

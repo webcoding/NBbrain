@@ -18,7 +18,7 @@ module.exports = {
     // context:path.join(__dirname, 'src'),
     output: {
         path: path.join(__dirname, 'dist'),
-        publicPath: '/',
+        publicPath: 'assets',
         filename: '[name].js',
         // chunkFilename: '[id].[chunkhash].js'
     },
