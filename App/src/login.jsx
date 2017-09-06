@@ -1,4 +1,4 @@
-import {React} from 'react';
+import React from 'react';
 import config from './config';
 
 const NoMatch = React.createClass({
