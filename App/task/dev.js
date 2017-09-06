@@ -19,6 +19,16 @@ import router from '../build/layout/router';
 //     }
 // })
 
+webpack(webpackConfig, function (err, stats) {
+    process.stdout.write(stats.toString({
+        colors: true,
+        modules: false,
+        children: false,
+        chunks: false,
+        chunkModules: false
+    }) + '\n\n')
+})
+
 // 静态服务
 let app = express();
 const compiler = webpack(webpackConfig);
@@ -48,5 +58,3 @@ app.listen(port, function(){
     process.stdout.cursorTo(0);
     // console.log(`server http://`);
 })
-
-
