@@ -1,6 +1,8 @@
+const hotclient = 'webpack-hot-middleware/client?reload=true';
 export default {
-    index: '../../static/src/main',
+    index: [hotclient, './src/main'],
     common: [
+        hotclient,
         'underscore',
         'react',
         'react-dom',

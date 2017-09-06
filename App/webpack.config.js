@@ -9,21 +9,10 @@ import {alias, entry, provide} from  './build/config';
 // const  chalk = require('chalk');
 // const  ExtractTextPlugin = require('extract-text-webpack-plugin');
 // const  path = require('path');
-const hotclient = 'webpack-hot-middleware/client?reload=true';
-console.log(entry);
+
 module.exports = {
-    entry: {
-        index: [hotclient, './main.js'],
-        // common: [
-        //     hotclient,
-        //     'underscore',
-        //     'react',
-        //     'react-dom',
-        //     // 'classnames',
-        //     'react-router',
-        // ]
-    },
-    context:path.join(__dirname, 'src'),
+    entry: entry,
+    // context:path.join(__dirname, 'src'),
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/',
