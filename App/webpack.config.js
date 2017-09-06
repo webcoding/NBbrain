@@ -1,6 +1,9 @@
 import webpack  from 'webpack';
+// 帮助生成hml, 用script包含webpack bundles
+import htmlwebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {alias, entry, provide} from  './build/config';
+
 // const  webpackServer = require('webpack-dev-server');
 // // const  autoprefixer = require('autoprefixer');
 // const  ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -75,6 +78,9 @@ module.exports = {
     //     })
     // ],
     plugins: [
+        new htmlwebpackPlugin({
+            title: 'NBbrain'
+        }),
         // new ProgressBarPlugin({
         //     summary: false,
         //     format: chalk.green.bold('[:bar] :percent ') + chalk.yellow('(:elapsed seconds) :msg'),
