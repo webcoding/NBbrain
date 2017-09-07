@@ -37,8 +37,11 @@
       // "args": [],
       // "cwd": "${workspaceRoot}",
       "runtimeExecutable": "${workspaceRoot}/node_modules/babel-cli/bin/babel-node.js",
+      // "runtimeExecutable": "babel-node",
+      // "runtimeExecutable": "nodemon",
       "runtimeArgs": [
-        "--nolazy"
+        "--presets",
+        "stage-0"
       ],
       "sourceMaps": true
       // "outFiles": [
