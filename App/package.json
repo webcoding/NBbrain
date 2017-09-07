@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel ./task/ -d ./dist/ --source-maps",
     "start": "nodemon --inspect --watch src --exec babel-node --presets env task/dev.js",
-    "test": "babel-node ./task/dev.js"
+    "test": "babel-node ./task/dev.js",
+    "dev": "webpack --config webpack.dev.config.js"
   },
   "author": "mengyue",
   "license": "ISC",
