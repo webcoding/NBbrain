@@ -33,17 +33,18 @@
       "type": "node",
       "request": "launch",
       "name": "test",
+      "program": "${workspaceRoot}/task/dev.js",
+      // "args": [],
+      // "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/babel-cli/bin/babel-node.js",
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "sourceMaps": true
       // "outFiles": [
       //   "${workspaceRoot}/dist/dev.js"
       // ], //源映射，指定实际执行文件
       // "preLaunchTask": "build", //首先执行build task
-      "program": "${workspaceRoot}/task/dev.js"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch",
-      "program": "${file}"
     }
   ]
 }
