@@ -45,5 +45,5 @@ app.set('view engine', 'ejs');
 app.listen(port, function(){
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
-    // console.log(`server http://`);
+    console.log(`server http://localhost:${port}`);
 })

@@ -4,20 +4,20 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "附加于已启动的 Node 服务器（debug模式）",
-      "port": 5858,
-      "restart": true
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "附加于已启动的 Node 服务器（inspect模式）",
-      "port": 9229,
-      "restart": true
-    },
+    // {
+    //   "type": "node",
+    //   "request": "attach",
+    //   "name": "附加于已启动的 Node 服务器（debug模式）",
+    //   "port": 5858,
+    //   "restart": true
+    // },
+    // {
+    //   "type": "node",
+    //   "request": "attach",
+    //   "name": "附加于已启动的 Node 服务器（inspect模式）",
+    //   "port": 9229,
+    //   "restart": true
+    // },
     {
       "type": "node",
       "request": "launch",
@@ -33,17 +33,18 @@
       "type": "node",
       "request": "launch",
       "name": "test",
+      "program": "${workspaceRoot}/task/dev.js",
+      // "args": [],
+      // "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/babel-cli/bin/babel-node.js",
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "sourceMaps": true
       // "outFiles": [
       //   "${workspaceRoot}/dist/dev.js"
       // ], //源映射，指定实际执行文件
       // "preLaunchTask": "build", //首先执行build task
-      "program": "${workspaceRoot}/task/dev.js"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch",
-      "program": "${file}"
     }
   ]
 }
