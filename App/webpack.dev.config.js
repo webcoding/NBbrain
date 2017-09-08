@@ -30,16 +30,16 @@ module.exports = {
         extensions: ['.js','.jsx','.ejs']
     },
     devtool: 'eval-source-map',
-    // devServer:{    //整个刷新，而非热更新
-    //     port: 3003,
-    //     inline: true,
-    //     colors: true,
-    //     contentBase: './dist',
-        //    hot: true,   开启HRM
-    //     // proxy: {
-    //     //     '/api': 'http://localhost:3003'
-    //     // }
-    // },
+    devServer:{    //整个刷新，而非热更新
+        port: 3003,
+        inline: true,
+        colors: true,
+        contentBase: './dist',
+        hot: true,   //开启HRM
+        // proxy: {
+        //     '/api': 'http://localhost:3003'
+        // }
+    },
     module: {
         rules: [{
             test: /.jsx?$/,
