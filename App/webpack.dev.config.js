@@ -1,10 +1,16 @@
-var webpack = require('webpack');
-var path = require('path');
-var template = require('./build/layout/main');
+var  webpack = require('webpack');
+var  path = require('path');
+var  WebapckBuildNotifierPlugin = require('webpack-build-notifier');
+var  ExtractTextPlugin = require('extract-text-webpack-plugin');
+var  HtmlWebpackPlugin = require('html-webpack-plugin');
+var  WebpackBrowserPlugin = require('webpack-browser-plugin');
+var  cleanWebpackPlugin = require('clean-webpack-plugin');
+// import wepbakDevServer from 'webpack-dev-server';
+// import template from './build/layout/main.ejs';
 // 编译出的js与css，与template结合、route
+// process.traceDeprecation = true
 
-
-export default {
+module.exports = {
     entry: {
         index: './src/main',
         common: [
@@ -21,16 +27,18 @@ export default {
         publicPath: '/'
     },
     resolve: {
-        extensions: ['.js','.jsx']
+        extensions: ['.js','.jsx','.ejs']
     },
     devtool: 'eval-source-map',
-    // devServer:{
+    // devServer:{    //整个刷新，而非热更新
     //     port: 3003,
     //     inline: true,
     //     colors: true,
-    //     proxy: {
-    //         '/api': 'http://localhost:3003'
-    //     }
+    //     contentBase: './dist',
+        //    hot: true,   开启HRM
+    //     // proxy: {
+    //     //     '/api': 'http://localhost:3003'
+    //     // }
     // },
     module: {
         rules: [{
@@ -46,6 +54,16 @@ export default {
                 }
             ]
         },{
+            test: /.ejs$/,
+            use: [{
+                loader: 'ejs-loader',
+                // options: {
+                //     query: {
+                //         variable: 'data'
+                //     }
+                // }
+            }]
+        },{
             test: /.css$/,
             use:['style-loader','css-loader']
         },{
@@ -57,16 +75,21 @@ export default {
         }]
     },
     plugins: [
+        new cleanWebpackPlugin(['dist']),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),  // HRM提供者，hot与服务通信，局部更新应用模块的能力
+        new webpack.NoErrorsPlugin(),
+
         new WebapckBuildNotifierPlugin({
-            title: 'NBbrain 项目'
+            title: '开发环境 NBbrain  项目'
         }),
-        new ExtractTextPlugin("[name].css"),
-        new webpack.optimize.CommonsChunkPlugin('common.js',['common']),
+        // new ExtractTextPlugin("common.css"),
+        // new webpack.optimize.CommonsChunkPlugin('common.js',['common']),
         new HtmlWebpackPlugin({
             title: 'NBbrain',
-            // filename: 'index.html',
+            filename: 'index.html',
             // 设置loader,!!loader!路径，默认有ejsloader；或者在use里面添加loader
-            template: template,
+            // template: template,
             // 注入的位置
             inject: true,
             // minify
@@ -74,9 +97,9 @@ export default {
             // cache
             // excludeChunks
             // favicon
-        }),
+        })
         // 自动打开浏览器、或更新
-        new WebpackBrowserPlugin()
+        // new WebpackBrowserPlugin()
         // 定义全局变量
         // new webpack.DefinePlugin({
 
