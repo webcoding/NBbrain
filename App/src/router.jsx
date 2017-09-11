@@ -1,16 +1,24 @@
-import {Router, Route, Link} from 'react-router';
-import home from './home';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {BrowserRouter, Route, Link} from 'react-router-dom';
+import Home from './home';
+import List from './list';
 import createQbank from './createBank';
-import noMatch from './noMatch';
+import User from './user';
 import login from './login';
-React.render((
-    <Router>
-        <Route path="/index" component={home}>
-            <Route path="list" component={createQbank}></Route>
-            <Route path="edit" component={createQbank}></Route>
-            <Route path="user/id" component={user}></Route>
-            <Route path="login" component={login}></Route>
-            <Route path="*" component={noMatch}></Route>
-        </Route>
-    </Router>
-), document.body);
+import NoMatch from './noMatch';
+const App = () =>(
+    <BrowserRouter>
+        <Route exact path="/index" component={Home}/>
+        <Route path="list" component={List}/>
+        <Route path="edit" component={createQbank}/>
+        <Route path="user/id" component={User}/>
+        <Route path="login" component={login}/>
+        <Route exact path="*" component={NoMatch}/>
+    </BrowserRouter>
+);
+
+ReactDOM.render(App, document.body)
+// HashRouter  or  BrowserRouter
+// hashHistory
+// <Link to="/">home</Link>

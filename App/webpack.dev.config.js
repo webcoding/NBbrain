@@ -6,7 +6,7 @@ var  HtmlWebpackPlugin = require('html-webpack-plugin');
 var  WebpackBrowserPlugin = require('webpack-browser-plugin');
 var  cleanWebpackPlugin = require('clean-webpack-plugin');
 // import wepbakDevServer from 'webpack-dev-server';
-// import template from './build/layout/main.ejs';
+// import template from './build/layout/template.html';
 // 编译出的js与css，与template结合、route
 // process.traceDeprecation = true
 
@@ -30,16 +30,16 @@ module.exports = {
         extensions: ['.js','.jsx','.ejs']
     },
     devtool: 'eval-source-map',
-    devServer:{    //整个刷新，而非热更新
-        port: 3003,
-        inline: true,
-        colors: true,
-        contentBase: './dist',
-        hot: true,   //开启HRM
-        // proxy: {
-        //     '/api': 'http://localhost:3003'
-        // }
-    },
+    // devServer:{    //整个刷新，而非热更新
+    //     port: 3003,
+    //     inline: true,
+    //     colors: true,
+    //     contentBase: './dist',
+    //     hot: true,   //开启HRM
+    //     // proxy: {
+    //     //     '/api': 'http://localhost:3003'
+    //     // }
+    // },
     module: {
         rules: [{
             test: /.jsx?$/,
@@ -78,13 +78,13 @@ module.exports = {
         new cleanWebpackPlugin(['dist']),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),  // HRM提供者，hot与服务通信，局部更新应用模块的能力
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
 
-        new WebapckBuildNotifierPlugin({
-            title: '开发环境 NBbrain  项目'
-        }),
-        // new ExtractTextPlugin("common.css"),
-        // new webpack.optimize.CommonsChunkPlugin('common.js',['common']),
+        // new WebapckBuildNotifierPlugin({
+        //     title: '开发环境 NBbrain  项目'
+        // })
+        // // new ExtractTextPlugin("common.css"),
+        // // new webpack.optimize.CommonsChunkPlugin('common.js',['common']),
         new HtmlWebpackPlugin({
             title: 'NBbrain',
             filename: 'index.html',
