@@ -42,6 +42,14 @@ module.exports = {
     // },
     module: {
         rules: [{
+            test: /.html$/,
+            use: 'html-loader',
+            enforce: 'pre'
+        },{
+            test: /.ejs$/,
+            use: 'ejs-loader',
+            enforce: 'pre'
+        },{
             test: /.jsx?$/,
             exclude: /node_modules/,
             use: [
@@ -65,7 +73,11 @@ module.exports = {
             }]
         },{
             test: /.css$/,
-            use:['style-loader','css-loader']
+            use:[{
+                loader: 'style-loader'
+            },{
+                loader: 'css-loader'
+            }]
         },{
             test: /.scss$/,
             use: ['sass-loader']
@@ -76,6 +88,9 @@ module.exports = {
     },
     plugins: [
         new cleanWebpackPlugin(['dist']),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['common', 'manifest']
+        }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),  // HRM提供者，hot与服务通信，局部更新应用模块的能力
         new webpack.NoEmitOnErrorsPlugin(),
@@ -83,13 +98,12 @@ module.exports = {
         // new WebapckBuildNotifierPlugin({
         //     title: '开发环境 NBbrain  项目'
         // })
-        // // new ExtractTextPlugin("common.css"),
-        // // new webpack.optimize.CommonsChunkPlugin('common.js',['common']),
+        new ExtractTextPlugin("dist/common.css"),
         new HtmlWebpackPlugin({
             title: 'NBbrain',
+            // template: template,
             filename: 'index.html',
             // 设置loader,!!loader!路径，默认有ejsloader；或者在use里面添加loader
-            // template: template,
             // 注入的位置
             inject: true,
             // minify
