@@ -22,10 +22,13 @@ let complimer = webpack(webpackConf);
 let dev = webpackDevMiddleware(complimer, {
     publicPath: webpackConf.output.publicPath,
 });
-// let hot = webpackHotMiddleware(complimer);
+let hot = webpackHotMiddleware(complimer);
 let app = express();
+app.enable('strict routing');
+app.set('views',__dirname + '../build/layout/main');
+app.set('view engine', 'ejs');
 app.use(dev);
-// app.use(hot);
+app.use(hot);
 // 匹配路由
 router(app);
 // app.use(proxy('/',{

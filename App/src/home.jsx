@@ -36,3 +36,9 @@ const Home = React.createClass({
     }
 });
 export default Home;
+
+// React.Component
+// ReactDOM.render
+// React.Component  React.createClass  React   React.PureComponent
+// React.createElement('tag',{attr}, 'text')   createFactory(type)
+// cloneElement()    isValidElement()    React.Children
