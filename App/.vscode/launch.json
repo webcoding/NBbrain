@@ -33,6 +33,26 @@
       "type": "node",
       "request": "launch",
       "name": "test",
+      "program": "${workspaceRoot}/task/test.js",
+      // "args": [],
+      // "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/babel-cli/bin/babel-node.js",
+      // "runtimeExecutable": "babel-node",
+      // "runtimeExecutable": "nodemon",
+      "runtimeArgs": [
+        "--presets",
+        "stage-0"
+      ],
+      "sourceMaps": true
+      // "outFiles": [
+      //   "${workspaceRoot}/dist/dev.js"
+      // ], //源映射，指定实际执行文件
+      // "preLaunchTask": "build", //首先执行build task
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "dev",
       "program": "${workspaceRoot}/task/dev.js",
       // "args": [],
       // "cwd": "${workspaceRoot}",
