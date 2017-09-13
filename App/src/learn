@@ -1,0 +1,17 @@
+class Name extends React.Component{
+    constructor(props){  }
+    render(){
+        return()
+    }
+}
+
+ReactDOM.render(<Name/>, element)
+
+
+定义：
+function Name(){
+    function Name1(){
+
+    }
+    return ();
+}

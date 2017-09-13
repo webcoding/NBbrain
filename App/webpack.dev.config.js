@@ -89,7 +89,7 @@ module.exports = {
     plugins: [
         new cleanWebpackPlugin(['dist']),
         new webpack.optimize.CommonsChunkPlugin({
-            names: ['common', 'manifest']
+            names: ['common']
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),  // HRM提供者，hot与服务通信，局部更新应用模块的能力
@@ -99,19 +99,19 @@ module.exports = {
         //     title: '开发环境 NBbrain  项目'
         // })
         new ExtractTextPlugin("dist/common.css"),
-        new HtmlWebpackPlugin({
-            title: 'NBbrain',
-            // template: template,
-            filename: 'index.html',
-            // 设置loader,!!loader!路径，默认有ejsloader；或者在use里面添加loader
-            // 注入的位置
-            inject: true,
-            // minify
-            // hash
-            // cache
-            // excludeChunks
-            // favicon
-        })
+        // new HtmlWebpackPlugin({
+        //     title: 'NBbrain',
+        //     // template: template,
+        //     filename: 'index.html',
+        //     // 设置loader,!!loader!路径，默认有ejsloader；或者在use里面添加loader
+        //     // 注入的位置
+        //     inject: true,
+        //     // minify
+        //     // hash
+        //     // cache
+        //     // excludeChunks
+        //     // favicon
+        // })
         // 自动打开浏览器、或更新
         // new WebpackBrowserPlugin()
         // 定义全局变量

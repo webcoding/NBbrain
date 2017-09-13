@@ -4,7 +4,7 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackConf from '../webpack.dev.config';
 import router from '../build/layout/router';
-
+import path from 'path';
 // express插件, ajax路径是相对，避免跨域，http代理
 // import proxy from 'http-proxy-middle'
 let entry = webpackConf.entry;
@@ -25,8 +25,8 @@ let dev = webpackDevMiddleware(complimer, {
 let hot = webpackHotMiddleware(complimer);
 let app = express();
 app.enable('strict routing');
-app.set('views',__dirname + '../build/layout/main');
 app.set('view engine', 'ejs');
+app.set('views',path.resolve('./build/layout'));
 app.use(dev);
 app.use(hot);
 // 匹配路由
