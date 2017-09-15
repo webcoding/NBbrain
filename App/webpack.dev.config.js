@@ -27,7 +27,7 @@ module.exports = {
         publicPath: '/'
     },
     resolve: {
-        extensions: ['.js','.jsx','.ejs']
+        extensions: ['.js','.jsx','.ejs','.scss']
     },
     devtool: 'eval-source-map',
     // devServer:{    //整个刷新，而非热更新

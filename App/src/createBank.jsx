@@ -1,3 +1,4 @@
+import editPage from './sass/editPage';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 
@@ -6,14 +7,23 @@ class  Qbank extends React.Component{
     getState(){
         return this.state;
     }
+    finish_edit(){
+
+    }
+    finish_question(){
+
+    }
+    add_item(){
+
+    }
     render(){
         return (
             <div className="nb_wrap">
-                <h3>开始出题</h3>
+                <h3 className="nb_title">开始出题</h3>
                 <div className="nb_content">
-                    <dl className="nb_create_item">
+                    <dl className="nb_create_item flex">
                         <dt>题库名</dt>
-                        <dd><input placeholder="请输入题库名称" type="text" maxlength="20"/></dd>
+                        <dd><input placeholder="请输入题库名称" type="text" max-length="20"/></dd>
                     </dl>
                     <dl className="nb_create_item">
                         <dt>素材</dt>
@@ -32,31 +42,30 @@ class  Qbank extends React.Component{
                         <dl className="nb_create_item">
                             <dt>分值</dt>
                             <dd>
-                                <input type="radio" for="scores_1"/><label id="scores_1">1分</label>
-                                <input type="radio" for="scores_2"/><label id="scores_2">2分</label>
-                                <input type="radio" for="scores_3"/><label id="scores_3">3分</label>
+                                <input type="radio" /><label id="scores_1">1分</label>
+                                <input type="radio" /><label id="scores_2">2分</label>
+                                <input type="radio" /><label id="scores_3">3分</label>
                             </dd>
                         </dl>
                         <dl className="nb_create_item">
                             <dt>答题所需时间</dt>
                             <dd>
-                                <input type="radio" for="time_1"/><label id="time_1">10s</label>
-                                <input type="radio" for="time_2"/><label id="time_2">15s</label>
-                                <input type="radio" for="time_3"/><label id="time_3">20s</label>
+                                <input type="radio" /><label id="time_1">10s</label>
+                                <input type="radio" /><label id="time_2">15s</label>
+                                <input type="radio" /><label id="time_3">20s</label>
                             </dd>
                         </dl>
                         <dl className="nb_create_item">
-                            <dt>选项与正确答案</dt>
+                            <dt>添加选项</dt>
                             <dd>
-                                <input type="radio"/>
+                                <input type="checkbox"/>
                                 <input type="text"/>
-                                <button className="nb_btn nb_btn_del"></button>
+                                <button className="nb_btn nb_btn_outline nb_button_small flex-item gap_left" onClick={this.add_item}>添加选项</button>
                             </dd>
-                            <button className="nb_btn nb_btn_outline">添加选项</button>
                         </dl>
-                        <button className="nb_btn nb_btn_outline">下一题</button>
+                        <button className="nb_btn nb_btn_outline nb_button_small gap_bottom" onClick={this.finish_question}>下一题</button>
                     </div>
-                    <button className="nb_btn nb_btn_primary">完成</button>
+                    <button className="nb_btn nb_btn_primary" onClick={this.finish_edit}>完成</button>
                 </div>
             </div>
 

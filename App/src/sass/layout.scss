@@ -1,0 +1,17 @@
+.flex{
+    display: flex;
+}
+.gap_{
+    &left{
+        margin-left: 6px;
+    }
+    &right{
+        margin-right: 6px;
+    }
+    &top{
+        margin-top: 6px;
+    }
+    &bottom{
+        margin-bottom: 6px;
+    }
+}

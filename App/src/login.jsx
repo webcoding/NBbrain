@@ -1,26 +1,25 @@
+import button from './sass/button'
 import React from 'react';
 import config from './config';
 
-class  NoMatch extends React.Component{
+class  Login extends React.Component{
     login(plantform){
+        let testURL;
         if(plantform==='weixin'){
             let appid = config.weinxin_test.appid;
             let secret = config.weinxin_test.secret;
-            let testURL = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`;
+            testURL = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`;
 
         }else if(plantform==='qq'){
 
         }else{
 
         }
-        $.ajax({
-            url: testURL,
-            type: 'GET',
-            dataTyp: 'jsonp',
-            success: function(data){
-                console.log(data);
-            }
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', testURL);
+        xhr.onload = function(each){
+        }
+        xhr.send();
     }
     render(){
         return (
@@ -34,4 +33,4 @@ class  NoMatch extends React.Component{
         );
     }
 }
-export default NoMatch;
+export default Login;

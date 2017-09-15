@@ -1,0 +1,29 @@
+@import './base';
+@import './layout';
+.nb_title{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+.nb_create_item{
+    display: flex;
+    margin-bottom: 10px;
+    dt{
+        margin-right: 10px;
+    }
+    dd,dt{
+        flex: 0 1 auto;
+    }
+    input, textarea{
+        border: 1px solid $grey-color;
+        ;
+    }
+    input[type="radio"],input[type="checkbox"]{
+        margin: 0 2px 0 6px;
+    }
+}
+.nb_question{
+    h4{
+        margin-bottom: 10px;
+    }
+}

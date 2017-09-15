@@ -12,13 +12,14 @@ const element =  document.getElementsByClassName('mod-app')[0];
 
 ReactDOM.render(
     (<BrowserRouter history={browserHistory}>
-        <Route exact strict path="/" component={Home}>
-            <Route path="list" component={List}/>
-            <Route path="edit" component={createQbank}/>
-            <Route path="user/id" component={User}/>
-            <Route path="login" component={login}/>
+        <div>
+            <Route exact strict path="/" component={Home}/>
+            <Route path="/list" component={List}/>
+            <Route path="/edit" component={createQbank}/>
+            <Route path="/user/id" component={User}/>
+            <Route path="/login" component={login}/>
             <Route exact path="*" component={NoMatch}/>
-        </Route>
+        </div>
     </BrowserRouter>
 ),element);
 

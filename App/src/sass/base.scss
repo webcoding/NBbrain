@@ -7,11 +7,18 @@ $purple-color: #6252cd;
 $yellow-color: #e09a00;
 $cyan-color: #008997;
 $grey-color: #bfbfbf;
+$base-color: #fff;
+$main-color: #212121;
 
 html {
-    color: #212121;
-    background: #f2f2f2;
+    color: $main-color;
+    background: $base-color;
     height: 100%;
+}
+
+body{
+    color: $main-color;
+    background: $base-color;
 }
 
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, lengend, button, input, textarea, form, th, td {
@@ -19,6 +26,7 @@ body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fi
     padding: 0;
     -webkit-margin-before: 0;
     -webkit-margin-after: 0;
+
 }
 
 * {
@@ -105,17 +113,13 @@ i {
 a {
     text-decoration: none;
     cursor: pointer;
-    color: #212121;
+    color: $main-color;
     outline: 0 none;
 }
 
 a:focus, input:focus {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none;
-}
-
-input:hover {
-    /*border-width: 1px;*/
 }
 
 abbr[title], acronym[title] {
@@ -139,7 +143,7 @@ button, input, select, textarea, label {
     font-size: 100%;
     vertical-align: middle;
     outline: 0;
-    border: none;
+    border: 0 none;
 }
 
 textarea {
@@ -159,7 +163,6 @@ table th {
 hr {
     border: none;
     height: 1px;
-    *color: #fff;
 }
 
 img {
@@ -169,12 +172,6 @@ img {
 }
 div {
     outline: none;
-}
-
-
-input[type="button"],
-input[type="submit"] {
-    border: 0 none;
 }
 
 ::-webkit-input-placeholder {
