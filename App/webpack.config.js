@@ -118,7 +118,7 @@ module.exports = {
         // 热替换
         new webpack.HotModuleReplacementPlugin(),
         // 报错不退出程序
-        // new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         // 公共文件
         new webpack.optimize.CommonsChunkPlugin({
             name: 'common',
