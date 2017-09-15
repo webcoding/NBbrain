@@ -1,20 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Link, browserHistory} from 'react-router-dom';
 import Home from './home';
 import List from './list';
 import createQbank from './createBank';
 import User from './user';
 import login from './login';
 import NoMatch from './noMatch';
-const element =  document.getElementsByTagName('body')[0];
-console.log(React)
-// const root = document.createElement('div');
-// root.id = 'root';
-// document.body.appendChild(root)
+const element =  document.getElementsByClassName('mod-app')[0];
+
+
 ReactDOM.render(
-    (<BrowserRouter>
-        <Route exact path="/index" component={Home}>
+    (<BrowserRouter history={browserHistory}>
+        <Route exact strict path="/" component={Home}>
             <Route path="list" component={List}/>
             <Route path="edit" component={createQbank}/>
             <Route path="user/id" component={User}/>

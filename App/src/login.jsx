@@ -1,7 +1,7 @@
 import React from 'react';
 import config from './config';
 
-const NoMatch = React.createClass({
+class  NoMatch extends React.Component{
     login(plantform){
         if(plantform==='weixin'){
             let appid = config.weinxin_test.appid;
@@ -21,17 +21,17 @@ const NoMatch = React.createClass({
                 console.log(data);
             }
         });
-    },
+    }
     render(){
         return (
-            <div class="nb_wrap">
-                <div class="nb_content">
-                    <button class="nb_btn nb_btn_green" onClick={this.login.bind(this, 'weixin')}>微信登录</button>
-                    <button class="nb_btn nb_btn_primary" onClick={this.login.bind(this, 'qq')}>QQ登录</button>
-                    <button class="nb_btn nb_btn_orange" onClick={this.login.bind(this, 'weibo')}>微博登录</button>
+            <div className="nb_wrap">
+                <div className="nb_content">
+                    <button className="nb_btn nb_btn_green" onClick={this.login.bind(this, 'weixin')}>微信登录</button>
+                    <button className="nb_btn nb_btn_primary" onClick={this.login.bind(this, 'qq')}>QQ登录</button>
+                    <button className="nb_btn nb_btn_orange" onClick={this.login.bind(this, 'weibo')}>微博登录</button>
                 </div>
             </div>
         );
     }
-});
+}
 export default NoMatch;

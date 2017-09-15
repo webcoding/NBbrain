@@ -1,7 +1,7 @@
 import React from 'react';
-const NoMatch = React.createClass({
+class  NoMatch extends React.Component{
     render(){
         return (<p>您输入的为错误的url</p>);
     }
-});
+}
 export default NoMatch;
