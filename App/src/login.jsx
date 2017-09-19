@@ -37,7 +37,7 @@ class  Login extends React.Component{
     render(){
         let appid = config.weinxin_test.appid;
         let secret = config.weinxin_test.secret;
-        let reUrl = `http://10.7.248.72:3004/user`;
+        let reUrl = `http://10.7.248.72:3004/login`;
         let state = 123;
         let testURL = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${reUrl}&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect `;
         return (
