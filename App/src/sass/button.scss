@@ -2,11 +2,6 @@
 .nb_btn{
     padding: 8px 12px;
     color: $base-color;
-    &.nb_btn_outline{
-        color: $main-color;
-        background-color: transparent;
-        border: 1px solid $primary-color;
-    }
     &.nb_btn_green{
         background-color: $green-color;
         border: 1px solid $green-color;
@@ -21,5 +16,10 @@
     }
     &.nb_button_small{
         padding: 2px 4px;
+    }
+    &.nb_btn_outline{
+        color: $main-color;
+        background-color: transparent;
+        border: 1px solid $primary-color;
     }
 }

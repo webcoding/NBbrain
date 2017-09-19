@@ -13,14 +13,19 @@ import logger from 'koa-logger';
 import views from 'koa-views';
 import mount from 'koa-mount';
 import serve from 'koa-static';
-import body from 'koa-better-body'
-import cors from 'koa-cors'
-import db from './connect.js'
+import body from 'koa-better-body';
+import cors from 'koa-cors';
+import db from './connect.js';
+
+// import cors from 'cors';
 
 var app = new koa();
 
 app.use(logger());
-app.use(body())
+app.use(body());
+app.use(cors({
+    origin: true
+}));
 app.use(bodyParser({
     enableTypes:['json', 'form'],
     formLimit: '50mb',

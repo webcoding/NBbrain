@@ -14,7 +14,7 @@ class Home extends React.Component{
                             <div className="nb_list_oper">
                                 <i className="nb_icon nb_icon_star"></i>
                                 <i className="nb_icon nb_icon_share"></i>
-                                <button className="nb_btn nb_btn_outline nb_btn_primary">开始挑战</button>
+                                <button className="nb_btn nb_btn_outline nb_btn_primary nb_button_small">开始挑战</button>
                             </div>
                         </dd>
                     </dl>
@@ -27,7 +27,7 @@ class Home extends React.Component{
                             <div className="nb_list_oper">
                                 <i className="nb_icon nb_icon_star"></i>
                                 <i className="nb_icon nb_icon_share"></i>
-                                <button className="nb_btn nb_btn_outline nb_btn_primary">开始挑战</button>
+                                <button className="nb_btn nb_btn_outline nb_btn_primary nb_button_small">开始挑战</button>
                             </div>
                         </dd>
                     </dl>
