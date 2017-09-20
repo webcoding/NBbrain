@@ -8,11 +8,13 @@
 'use strict';
 import Router from 'koa-router'
 import _ from 'underscore'
+import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion} from '../question.js'
 import { setLoginUser, getLocalUid, userIsExist} from '../user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
+import config from '../config'
 // import formParse from 'co-busboy'
 import fs from 'fs'
 // import nodemail from 'node-mail';
@@ -43,8 +45,14 @@ router.get('/', async (ctx) =>{
 })
 
 router.all('/login', async(ctx) => {
-  // 已登录用户进入的处理方案？
-    await ctx.render('login.ejs');
+    let code = ctx.header.referer.match(/code=([0-9a-zA-Z]*)/) || [];
+    code = code.length>0 ? code[1] : '';
+    let appid = config.weinxin_test.appid;
+    let secret = config.weinxin_test.secret;
+    https.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`, (res)=>{
+        console.log(res)
+    })
+    // ctx.body = 'finish';
 })
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;
