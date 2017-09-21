@@ -11,13 +11,12 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion} from '../question.js'
-import { setLoginUser, getLocalUid, userIsExist} from '../user.js'
+import {newestQuestion, newestChallenge, createQuestion} from '../common/question.js'
+import { setLoginUser, getLocalUid, userIsExist} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
-import config from '../config'
-// import formParse from 'co-busboy'
+import {getToken, getUserBaseMsg} from './login'
 import fs from 'fs'
-// import nodemail from 'node-mail';
+import {status} from '../common/utils'
 
 var router = new Router();
 var usermodel = new userSchema;
@@ -44,16 +43,15 @@ router.get('/', async (ctx) =>{
     })
 })
 
-router.all('/login', async(ctx) => {
+router.get('/login', async(ctx) => {
     let code = ctx.header.referer.match(/code=([0-9a-zA-Z]*)/) || [];
+    let uid = ctx.cookies.get('user_id');
     code = code.length>0 ? code[1] : '';
-    let appid = config.weinxin_test.appid;
-    let secret = config.weinxin_test.secret;
-    https.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`, (res)=>{
-        console.log(res)
-    })
-    // ctx.body = 'finish';
-})
+    await getToken(code, uid);
+    status.success(ctx,'success');
+});
+
+
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;
     let username = temp.username;
