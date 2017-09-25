@@ -14,7 +14,7 @@ import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion} from '../common/question.js'
 import { setLoginUser, getLocalUid, userIsExist} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
-import {getToken, getUserBaseMsg} from './login'
+import {weixinLogin, getUserBaseMsg} from './login'
 import fs from 'fs'
 import {status} from '../common/utils'
 
@@ -47,9 +47,12 @@ router.get('/login', async(ctx) => {
     let code = ctx.header.referer.match(/code=([0-9a-zA-Z]*)/) || [];
     let uid = ctx.cookies.get('user_id');
     code = code.length>0 ? code[1] : '';
-    debugger;
-    console.log(uid);
-    let token = getToken(code, uid);
+    console.log('cookie',uid);
+    if(!uid){
+        uid = createRandom();
+    }
+    weixinLogin(code, uid);
+    ctx.cookies.set('user_id':uid);
     status.success(ctx,'success');
 });
 
