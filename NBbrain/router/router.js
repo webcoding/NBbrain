@@ -47,6 +47,8 @@ router.get('/login', async(ctx) => {
     let code = ctx.header.referer.match(/code=([0-9a-zA-Z]*)/) || [];
     let uid = ctx.cookies.get('user_id');
     code = code.length>0 ? code[1] : '';
+    debugger;
+    console.log(uid);
     let token = getToken(code, uid);
     status.success(ctx,'success');
 });
