@@ -47,11 +47,10 @@ router.get('/login', async(ctx) => {
     let code = ctx.header.referer.match(/code=([0-9a-zA-Z]*)/) || [];
     let uid = ctx.cookies.get('user_id');
     code = code.length>0 ? code[1] : '';
-    console.log('cookie',uid);
     if(!uid){
         uid = createRandom();
     }
-    weixinLogin(code, uid);
+    await weixinLogin(code, uid);
     ctx.cookies.set('user_id':uid);
     status.success(ctx,'success');
 });

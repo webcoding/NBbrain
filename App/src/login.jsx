@@ -9,7 +9,9 @@ class  Login extends React.Component{
         if(!code.length) return;
         let xhr = new XMLHttpRequest();
         let data = new FormData('code', code.length>0 && code[1] || '');
+        // xhr.withCredentials = true;
         xhr.open('get','http://localhost:3001/login' ,true);
+        // xhr.setRequestHeader()
         xhr.send(data);
         xhr.onreadystatechange = function(){
             console.log(xhr.readyState===4 && xhr.responseText);

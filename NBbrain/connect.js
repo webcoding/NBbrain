@@ -8,9 +8,12 @@
 'use strict';
 import mongoose from 'mongoose'
 
-mongoose.connect('mongodb://127.0.0.1:27017/NBbrain',{
+let promise = mongoose.connect('mongodb://127.0.0.1:27017/NBbrain',{
     userMongoClient: true
 });
+// promise.then(function(db){
+
+// })
 let db = mongoose.connection;
 db.on('connected', function(){
     console.log('connected!!!');

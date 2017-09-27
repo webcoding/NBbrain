@@ -24,7 +24,15 @@ var app = new koa();
 app.use(logger());
 app.use(body());
 app.use(cors({
-    origin: true
+    origin: function (ctx) {
+        if (ctx.url === '/test') {
+            return "*"; // 允许来自所有域名请求
+        }
+        return 'http://localhost:3004';
+    },
+    credentials: true,
+    methods:['GET', 'PUT', 'POST'],
+    headers: 'Content-Type,Authorization,X-Requested-With,ajax_log_id'
 }));
 app.use(bodyParser({
     enableTypes:['json', 'form'],
@@ -32,11 +40,7 @@ app.use(bodyParser({
     jsonLimit: '50mb',
     textLimit: '100kb',
     multipart: true
-    // strict:
-    // extendTypes: {json: ['']}
 }));
-// app.use(cors());
-// app.use(function(ctx){allowCORS(ctx)});
 app.use(views(__dirname + '/views', {
     extension: 'ejs',
     // map: {}
