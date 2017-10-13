@@ -25,12 +25,12 @@ app.use(logger());
 app.use(body());
 app.use(cors({
     origin: function (ctx) {
-        if (ctx.url === '/test') {
-            return "*"; // 允许来自所有域名请求
-        }
+        // if (ctx.url === '/test') {
+        //     return "*"; // 允许来自所有域名请求
+        // }
         return 'http://localhost:3004';
     },
-    credentials: true,
+    credentials: true,   //跨域时是否允许其他域发送cookie, omit不允许其他域, same-origin同域, include允许；会导致cookie无法读取
     methods:['GET', 'PUT', 'POST'],
     headers: 'Content-Type,Authorization,X-Requested-With,ajax_log_id'
 }));

@@ -13,7 +13,10 @@ class  Qbank extends React.Component{
     finish_question(){
 
     }
-    add_item(){
+    add_item(e){
+        e.currentTarget.innsertBefore(this.refs.addCheckItem.cloneNode(true));
+    }
+    validate(){
 
     }
     render(){
@@ -23,7 +26,7 @@ class  Qbank extends React.Component{
                 <div className="nb_content">
                     <dl className="nb_create_item flex">
                         <dt>题库名</dt>
-                        <dd><input placeholder="请输入题库名称" type="text" max-length="20"/></dd>
+                        <dd><input placeholder="请输入题库名称" type="text" maxLength="20"/></dd>
                     </dl>
                     <dl className="nb_create_item">
                         <dt>素材</dt>
@@ -55,14 +58,14 @@ class  Qbank extends React.Component{
                                 <input type="radio" /><label id="time_3">20s</label>
                             </dd>
                         </dl>
-                        <dl className="nb_create_item">
+                        <dl className="nb_create_item" ref="addCheckItem">
                             <dt>添加选项</dt>
                             <dd>
                                 <input type="checkbox"/>
                                 <input type="text"/>
-                                <button className="nb_btn nb_btn_outline nb_button_small flex-item gap_left" onClick={this.add_item}>添加选项</button>
                             </dd>
                         </dl>
+                        <button className="nb_btn nb_btn_outline nb_button_small flex-item gap_left" onClick={this.add_item}>添加选项</button>
                         <button className="nb_btn nb_btn_outline nb_button_small gap_bottom" onClick={this.finish_question}>下一题</button>
                     </div>
                     <button className="nb_btn nb_btn_primary" onClick={this.finish_edit}>完成</button>

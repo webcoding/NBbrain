@@ -13,7 +13,7 @@ const element =  document.getElementsByClassName('mod-app')[0];
 ReactDOM.render(
     (<BrowserRouter history={browserHistory}>
         <div>
-            <Route exact strict path="/" component={Home}/>
+            <Route exact strict path="/index" component={Home}/>
             <Route path="/list" component={List}/>
             <Route path="/edit" component={createQbank}/>
             <Route path="/user/id" component={User}/>

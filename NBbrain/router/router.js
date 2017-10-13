@@ -17,6 +17,7 @@ import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import fs from 'fs'
 import {status} from '../common/utils'
+import config from '../config'
 
 var router = new Router();
 var usermodel = new userSchema;
@@ -51,10 +52,15 @@ router.get('/login', async(ctx) => {
         uid = createRandom();
     }
     await weixinLogin(code, uid);
-    ctx.cookies.set('user_id':uid);
+    ctx.cookies.set('user_id', uid, config.cookieConfig);
     status.success(ctx,'success');
 });
 
+// router.get('/test', async(ctx)=>{
+//     let uid = ctx.query.uid;
+//     ctx.cookies.set('test_user_id',uid, config.cookieConfig);
+//     status.success(ctx, 'test');
+// })
 
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;
