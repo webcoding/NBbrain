@@ -53,14 +53,14 @@ router.get('/login', async(ctx) => {
     }
     await weixinLogin(code, uid);
     ctx.cookies.set('user_id', uid, config.cookieConfig);
-    status.success(ctx,'success');
+    status.success(ctx,{message: 'success', data:{uid: uid}});
 });
 
-// router.get('/test', async(ctx)=>{
-//     let uid = ctx.query.uid;
-//     ctx.cookies.set('test_user_id',uid, config.cookieConfig);
-//     status.success(ctx, 'test');
-// })
+router.get('/test', async(ctx)=>{
+    let uid = ctx.query.uid;
+    ctx.cookies.set('test_user_id',uid, config.cookieConfig);
+    status.success(ctx, 'test');
+})
 
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;

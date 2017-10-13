@@ -8,18 +8,21 @@ class  Login extends React.Component{
         let code = location.search.match(/code=([0-9a-zA-Z]*)/) || [];
         if(!code.length) return;
         let xhr = new XMLHttpRequest();
-        let data = new FormData('code', code.length>0 && code[1] || '');
-        // xhr.withCredentials = true;
+        // let data = new FormData('code', code.length>0 && code[1] || '');
         xhr.open('get','http://localhost:3001/login' ,true);
-        xhr.setRequestHeader({'X-Requested-With': XMLHttpRequest});
-        xhr.send(data);
+        xhr.withCredentials = true;
+        // xhr.setRequestHeader({'X-Requested-With': XMLHttpRequest});
+        // xhr.send(data);
         xhr.onreadystatechange = function(){
-            console.log(xhr.readyState===4 && xhr.responseText);
+            if(xhr.readyState===4){
+                let result = xhr.responseText;
+                history.go(`http://localhost:3004/user/{result.uid}`)
+            }
         }
     }
     test(){
         let xhr = new XMLHttpRequest();
-        xhr.open('get','http://localhost:3001/test?uid=222222' ,true);
+        xhr.open('get','http://localhost:3001/login?uid=222222' ,true);
         // 设置http请求头
         // xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         // 在处理未包含mime-type头部信息的内容时会报错
