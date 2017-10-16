@@ -5,18 +5,25 @@ import config from './config';
 class  Login extends React.Component{
     componentDidMount(){
         // 根据code获取access_token, 定义为callback更好
-        let code = location.search.match(/code=([0-9a-zA-Z]*)/) || [];
+        let arr;
+        let code = (arr = location.search.match(/code=([0-9a-zA-Z]*)/)) ? arr[1] : '';
         if(!code.length) return;
         let xhr = new XMLHttpRequest();
-        // let data = new FormData('code', code.length>0 && code[1] || '');
-        xhr.open('get','http://localhost:3001/login' ,true);
+        xhr.open('get','http://localhost:3001/login?code=' + code ,true);
         xhr.withCredentials = true;
+        xhr.send(null);
+        xhr.onerror = function(err){
+            console.log(err);
+        }
+        xhr.onprogress = function(){
+            console.log(xhr.readyState)
+        }
         // xhr.setRequestHeader({'X-Requested-With': XMLHttpRequest});
         // xhr.send(data);
         xhr.onreadystatechange = function(){
             if(xhr.readyState===4){
                 let result = xhr.responseText;
-                history.go(`http://localhost:3004/user/{result.uid}`)
+                // history.go(`http://localhost:3004/user/{result.uid}`)
             }
         }
     }
