@@ -20,7 +20,28 @@ function createData(){
         return temp.charAt(d*temp.length/100);
     }).join('');
 }
+export async function getQbankMsg(qbankid){
+    let result;
+    await qbanksModel.findOne({qbank_id: qbankid},(err, doc)=>{
+        result = doc;
+    })
+    return result;
+}
 
+export async function updateQbank(data, qbankid){
+    let result;
+    if(!qbankid){
+        data.qbank_id = createRandom();
+        await qbanksModel.create(data, function(err, doc){
+            result = doc;
+        })
+    }else{
+        await qbanksModel.update({qbank_id: qbankid},{$set:data},function(err, doc){
+            result = doc;
+        })
+    }
+    return result;
+}
 
 var uid = createData()
 var testdata = {

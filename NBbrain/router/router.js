@@ -11,7 +11,7 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbank} from '../common/question.js'
 import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -46,6 +46,7 @@ router.get('/', async (ctx) =>{
 // 登录接口
 router.get('/login', async(ctx) => {
     let code = ctx.query.code;
+    // 在后面再判断？
     let uid = ctx.cookies.get('user_id');
     if(!uid){
         uid = createRandom();
@@ -62,8 +63,19 @@ router.get('/user', async(ctx)=>{
     status.success(ctx, result);
 })
 
-// 添加题库
+// 获取题库数据
+router.get('/getQbank', async(ctx)=>{
+    let qbankid = ctx.query.qbankid;
+    let result = await getQbankMsg(qbankid);
+    status.success(ctx, result);
+})
 
+// 添加题库
+router.post('updateQbank', async(ctx)=>{
+    let qbankid = ctx.query.qbankid;
+    let result = await updateQbank(qbankid);
+    status.success(ctx, result);
+})
 
 // 添加题目
 
