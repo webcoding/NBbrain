@@ -26,10 +26,12 @@ export async function saveUserMsg(data, uid, cb){
     }
 }
 
-export async function getUserMsg(uid, cb){
-    userSchema.findOne({user_id: uid},{nickname:1},function(err, doc){
-        cb(doc);
+export async function getUserMsg(uid){
+    let result;
+    await userSchema.findOne({user_id: uid},function(err, doc){
+        result = doc;
     });
+    return result;
 }
 
 export async function setLoginUser(ctx, username, password){

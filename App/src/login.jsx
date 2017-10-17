@@ -22,8 +22,10 @@ class  Login extends React.Component{
         // xhr.send(data);
         xhr.onreadystatechange = function(){
             if(xhr.readyState===4){
-                let result = xhr.responseText;
-                // history.go(`http://localhost:3004/user/{result.uid}`)
+                let result = xhr.response;
+                result = JSON.parse(result);
+                let url = 'http://localhost:3004/user/' + result.data.uid;
+                // history.go(url)
             }
         }
     }

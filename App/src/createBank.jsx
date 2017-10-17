@@ -19,10 +19,30 @@ class  Qbank extends React.Component{
     validate(){
 
     }
+    addImage(e){
+        let input = e.currentTarget;
+        let select_file = input.files[0];
+        let type_list = [];
+        if(!(type_list.includes(select_file.type))){
+            alert('选择的文件格式不支持，请重新选择！');
+        }else{
+            let reader = new FileReader(select_file);
+            let imgDOM = this.refs.showImage;
+            reader.onprogress = function(evt){
+                console.log(evt);
+                // precentLoaded = Math.round(evt.loaded / evt.)
+            }
+            reader.onload = function(evt){
+                let url = reader.result;
+                imgDOM.src = url;
+            }
+            // reader.readAsDataURL(select_file);
+        }
+    }
     render(){
         return (
             <div className="nb_wrap">
-                <h3 className="nb_title">开始出题</h3>
+                <h3 className="nb_title">新增题库</h3>
                 <div className="nb_content">
                     <dl className="nb_create_item flex">
                         <dt>题库名</dt>
@@ -30,44 +50,20 @@ class  Qbank extends React.Component{
                     </dl>
                     <dl className="nb_create_item">
                         <dt>素材</dt>
-                        <dd><input type="file"/></dd>
+                        <dd>
+                            <button className="nb_btn nb_btn_primary">选择</button>
+                            <input type="file" onChange={(e)=>this.addImage.bind(this, e)}/>
+                            <div className="imageBox">
+                                <img ref="showImage"/>
+                                <div className="selectedImageArea"></div>
+                            </div>
+                        </dd>
                     </dl>
                     <dl className="nb_create_item">
                         <dt>答题规则</dt>
                         <dd><textarea placeholder="请输入答题规则"></textarea></dd>
                     </dl>
-                    <div className="nb_question">
-                        <h4>开始第一题</h4>
-                        <dl className="nb_create_item">
-                            <dt>题目</dt>
-                            <dd><input placeholder="请输入题目" type="text"/></dd>
-                        </dl>
-                        <dl className="nb_create_item">
-                            <dt>分值</dt>
-                            <dd>
-                                <input type="radio" /><label id="scores_1">1分</label>
-                                <input type="radio" /><label id="scores_2">2分</label>
-                                <input type="radio" /><label id="scores_3">3分</label>
-                            </dd>
-                        </dl>
-                        <dl className="nb_create_item">
-                            <dt>答题所需时间</dt>
-                            <dd>
-                                <input type="radio" /><label id="time_1">10s</label>
-                                <input type="radio" /><label id="time_2">15s</label>
-                                <input type="radio" /><label id="time_3">20s</label>
-                            </dd>
-                        </dl>
-                        <dl className="nb_create_item" ref="addCheckItem">
-                            <dt>添加选项</dt>
-                            <dd>
-                                <input type="checkbox"/>
-                                <input type="text"/>
-                            </dd>
-                        </dl>
-                        <button className="nb_btn nb_btn_outline nb_button_small flex-item gap_left" onClick={this.add_item}>添加选项</button>
-                        <button className="nb_btn nb_btn_outline nb_button_small gap_bottom" onClick={this.finish_question}>下一题</button>
-                    </div>
+                    <button className="nb_btn nb_btn_primary" onClick={this.finish_edit}>开始添加题目</button>
                     <button className="nb_btn nb_btn_primary" onClick={this.finish_edit}>完成</button>
                 </div>
             </div>

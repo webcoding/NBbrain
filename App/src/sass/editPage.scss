@@ -9,14 +9,28 @@
     display: flex;
     margin-bottom: 10px;
     dt{
-        margin-right: 10px;
+        width: 60px;
     }
-    dd,dt{
-        flex: 0 1 auto;
+    dd{
+        flex: 1;
     }
-    input, textarea{
+    input[type="text"], textarea{
         border: 1px solid $grey-color;
         ;
+        width: 100%;
+    }
+    textarea{
+        height: 100px;
+    }
+    input[type="file"]{
+        width: 48px;
+        opacity: 0;
+        margin-left: -48px;
+    }
+    .imageBox{
+        width:100%;
+        height: 200px;
+        background: rgba(0, 0, 0, 0.3);
     }
     input[type="radio"],input[type="checkbox"]{
         margin: 0 2px 0 6px;

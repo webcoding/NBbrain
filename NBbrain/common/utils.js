@@ -32,6 +32,7 @@ export var status = {
     success(ctx, value){
         ctx.body = {
             code: 200,
+            message: 'sucess',
             data: value
         }
         return false;
@@ -47,7 +48,7 @@ export var status = {
 
 
 export function createRandom(){
-    var temp = '=abcdefghigklmnopqrstuvwsyz0123456789_';
+    var temp = 'abcdefghigklmnopqrstuvwsyz0123456789_';
     return String(Math.random()).match(/(\d{2})/g).slice(0,20).map(function(d){
         return temp.charAt(d*temp.length/100);
     }).join('');

@@ -12,7 +12,7 @@ import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion} from '../common/question.js'
-import { setLoginUser, getLocalUid, userIsExist} from '../common/user.js'
+import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import fs from 'fs'
@@ -22,7 +22,7 @@ import config from '../config'
 var router = new Router();
 var usermodel = new userSchema;
 var qbankmodel = new qbanksModel;
-
+// 首页接口
 router.get('/', async (ctx) =>{
   // 需要验证uid的正确性？
     let uid = getLocalUid(ctx);
@@ -43,7 +43,7 @@ router.get('/', async (ctx) =>{
       challenges: challengeList
     })
 })
-
+// 登录接口
 router.get('/login', async(ctx) => {
     let code = ctx.query.code;
     let uid = ctx.cookies.get('user_id');
@@ -52,14 +52,22 @@ router.get('/login', async(ctx) => {
     }
     await weixinLogin(code, uid);
     ctx.cookies.set('user_id', uid, config.cookieConfig);
-    status.success(ctx,{message: 'success', data:{uid: uid}});
+    status.success(ctx,{uid: uid});
 });
 
-router.get('/test', async(ctx)=>{
+// user接口
+router.get('/user', async(ctx)=>{
     let uid = ctx.query.uid;
-    ctx.cookies.set('test_user_id',uid, config.cookieConfig);
-    status.success(ctx, 'test');
+    let result = await getUserMsg(uid);
+    status.success(ctx, result);
 })
+
+// 添加题库
+
+
+// 添加题目
+
+
 
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;
