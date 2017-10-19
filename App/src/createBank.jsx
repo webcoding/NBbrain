@@ -1,32 +1,51 @@
 import editPage from './sass/editPage';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import utils from './common/utils';
+
+// 验证、获取uid去用户列表页面、编辑图片
+
+
 
 // class createQbank extends Component
 class  Qbank extends React.Component{
-    componentDidMount(){
+    constructor(props){
+        super(props);
         // 编辑、获取数据
         let xhr = new XMLHttpRequest(), temp;
-        let qbankid = (temp = location.pathname.match(/\/(\w*)$/)) ? temp[1] : '';
+        let qbankid = (temp = location.pathname.match(/\?(\w*)$/)) ? temp[1] : '';
+        this.state = {
+            qbank_name: '',
+            reply_rule: '',
+            qbank_material_url: ''
+        }
+        if(!qbankid) return;
         let result = utils.ajax('get','http://localhost:3001/getqbank?qbankid='+qbankid);
-        for(let key in result.data){
-            this.state[key] = result.data[key]
+        if(!result) return;
+        this.state = {
+            qbank_name: result.data.qbank_name || '',
+            reply_rule: result.data.reply_rule || '',
+            qbank_material_url: result.data.qbank_material_url || ''
         }
     }
-    getState(){
-        return this.state;
-    }
     finish_edit(){
-
         let data = new FormData();
-        utils.ajax('post','http://localhost:3001/updateQbank', data)
+        for(let key in this.state){
+            data.append(key, this.state[key]);
+        }
+        let result = utils.ajax('post','http://localhost:3001/updateQbank', data);
+        history.forward('/user/uid')
     }
     add_item(e){
         e.currentTarget.innsertBefore(this.refs.addCheckItem.cloneNode(true));
     }
     handleData(e,key){
+        if(e.currentTarget.type==='file'){
+            this.setState({
+                [key]: e.currentTarget.files[0]
+            });
+        }
         this.setState({
             [key]: e.currentTarget.value
         });
@@ -49,6 +68,7 @@ class  Qbank extends React.Component{
                 imgDOM.src = url;
             }
             reader.readAsDataURL(select_file);
+            this.handleData(e, 'qbank_material_url');
         }
     }
     render(){
@@ -58,7 +78,7 @@ class  Qbank extends React.Component{
                 <div className="nb_content">
                     <dl className="nb_create_item flex">
                         <dt>题库名</dt>
-                        <dd><input placeholder="请输入题库名称" value={this.state.qbank_name} onChange={(e)=>this.handleData(e, 'qbank_name')} type="text" maxLength="20"/></dd>
+                        <dd><input placeholder="请输入题库名称" value={this.state.qbank_name || ''} onChange={(e)=>this.handleData(e, 'qbank_name')} type="text" maxLength="20"/></dd>
                     </dl>
                     <dl className="nb_create_item">
                         <dt>素材</dt>
@@ -67,7 +87,7 @@ class  Qbank extends React.Component{
                             <input type="file" onChange={(e)=>this.addImage(e)}/>
                             <div className="editArea">
                             <div className="imageBox">
-                                <img className="showImage" ref="showImage"/>
+                                <img className="showImage" src={this.state.qbank_material_url || ''} ref="showImage"/>
                             </div>
                                 <div className="ImageCover"></div>
                                 <div className="selectedImageArea"></div>
@@ -76,10 +96,10 @@ class  Qbank extends React.Component{
                     </dl>
                     <dl className="nb_create_item">
                         <dt>答题规则</dt>
-                        <dd><textarea value={this.state.reply_rule}  onChange={(e)=>this.handleData(e, 'reply_rule') placeholder="请输入答题规则"></textarea></dd>
+                        <dd><textarea value={this.state.reply_rule || ''}  onChange={(e)=>this.handleData(e, 'reply_rule')} placeholder="请输入答题规则"></textarea></dd>
                     </dl>
-                    <button className="nb_btn nb_btn_primary" onClick={this.finish_edit}>开始添加题目</button>
-                    <button className="nb_btn nb_btn_primary" onClick={this.finish_edit}>完成</button>
+                    <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>开始添加题目</button>
+                    <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>完成</button>
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbank} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData} from '../common/question.js'
 import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -71,9 +71,10 @@ router.get('/getQbank', async(ctx)=>{
 })
 
 // 添加题库
-router.post('updateQbank', async(ctx)=>{
-    let qbankid = ctx.query.qbankid;
-    let result = await updateQbank(qbankid);
+router.post('/updateQbank', async(ctx)=>{
+    let fields = ctx.request.fields;
+    // let files = ctx.request.files;
+    let result = await updateQbankData(fields);
     status.success(ctx, result);
 })
 
@@ -285,26 +286,7 @@ router.get('/userMessage', async(ctx) => {
 
 export default router;
 
-function readFile(file,qbank_id, question_id){
-    if(file && file[0] && file[0].name){
-        let path = '/Users/mengyue/研究/NBbrian/NBbrain/upload';
-        let oldPath = file[0].path;
-        qbank_id = qbank_id ? qbank_id + '_' : '';
-        question_id = question_id ? question_id + '_' : '';
-        let fileName = qbank_id + question_id + file[0].name;
-        let newPath =  path + '/'+ fileName;
-        console.log(qbank_id)
-        console.log(newPath)
-        fs.exists(path, function(exists){
-            if(!exists){
-                fs.mkdir(path);
-            }
-            fs.rename(oldPath, newPath, function(err){
-                console.log(err);
-            })
-        })
-    }
-}
+
 
 function addQuestion(doc, fields, qbank_id, question_id){
     let temp = _.extend({}, fields), arr = [];
@@ -325,7 +307,6 @@ function addQuestion(doc, fields, qbank_id, question_id){
             }
         });
         doc.questions = temp;
-        console.log('2',temp)
     }
     return doc;
 }

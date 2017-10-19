@@ -7,12 +7,18 @@
 
 'use strict';
 import _ from 'underscore'
+import {createRandom, saveFile} from '../common/utils'
 import qbanksModel from '../schema/qbankSchema.js'
 import userModel from '../schema/userSchema.js'
 
+// new Model(data, true)  严格模式
+// 创建实例，可以用这种方式添加数据, 实例.save()
+// 或 Model.create(data) 增加数据
 let qbanksmodel = new qbanksModel;
 let usermodel = new userModel;
 
+// markModified???
+// 查询、更新用Model，实例也可以？
 
 function createData(){
     var temp = '=abcdefghigklmnopqrstuvwsyz0123456789_';
@@ -28,18 +34,23 @@ export async function getQbankMsg(qbankid){
     return result;
 }
 
-export async function updateQbank(data, qbankid){
+export async function updateQbankData(data){
     let result;
-    if(!qbankid){
+    let filePath;
+    if(!data.qbankid){
         data.qbank_id = createRandom();
+        data.qbank_material_url = await saveFile(data.qbank_material_url,data.qbankid);
+        console.log(data);
         await qbanksModel.create(data, function(err, doc){
             result = doc;
         })
     }else{
-        await qbanksModel.update({qbank_id: qbankid},{$set:data},function(err, doc){
+        data.filePath = await saveFile(files,data.qbankid);
+        await qbanksModel.update({qbank_id: data.qbankid},{$set:data},function(err, doc){
             result = doc;
         })
     }
+    console.log(result);
     return result;
 }
 

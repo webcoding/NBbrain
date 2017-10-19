@@ -8,9 +8,14 @@
 'use strict';
 
 import mongoose from 'mongoose'
-import {createRandom} from '../common/utils'
 // import materialSchema from './material.js'
 // import questionSchema from './question.js'
+
+// 扩展插件、实例方法(methods.fn)、静态方法(statics.fn)、复合索引、文档生命周期钩子
+// Schema.virtual('virAttr').get(fn)    .set(fn)    实例.virAttr来调用
+// 配置：safe:{j:1日志, w: 2副本, wtimeout: 10000}, strict, capped一次操作数据量, versionKey, autoIndex
+// shareKey 分布式
+
 var questionSchema = new mongoose.Schema({
         question_id: {type: String, unique: true, require: true},
         question_name: String,
@@ -33,5 +38,10 @@ var qbankSchema = new mongoose.Schema({
     challenged_question_count: Number,  //题目被挑战过的次数
     questions: [questionSchema]
 });
+
+
+
+// 发面为Model
+// Document == 实例有属性与操作性
 let qbanksModel = mongoose.model('qbanks', qbankSchema);
 export default qbanksModel;

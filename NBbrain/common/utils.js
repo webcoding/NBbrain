@@ -28,6 +28,23 @@ export function chiptorEncrypt(ctx, username, password){
     return result;
 }
 
+export async function saveFile(file,qbank_id, question_id){
+    if(file && file[0] && file[0].name){
+        let path = '/Users/mengyue/研究/NBbrian/NBbrain/upload';
+        let oldPath = file[0].path;
+        qbank_id = qbank_id ? qbank_id + '_' : '';
+        question_id = question_id ? question_id + '_' : '';
+        let fileName = qbank_id + question_id + file[0].name;
+        let newPath =  path + '/'+ fileName;
+        let exists = fs.existsSync(path);
+        if(!exists){
+            fs.mkdirSync(path);
+        }
+        fs.renameSync(oldPath, newPath);
+        return newPath;
+    }
+}
+
 export var status = {
     success(ctx, value){
         ctx.body = {
