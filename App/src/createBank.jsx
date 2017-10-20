@@ -18,7 +18,7 @@ class  Qbank extends React.Component{
         this.state = {
             qbank_name: '',
             reply_rule: '',
-            qbank_material_url: ''
+            qbank_material_url: null
         }
         if(!qbankid) return;
         let result = utils.ajax('get','http://localhost:3001/getqbank?qbankid='+qbankid);
@@ -26,7 +26,7 @@ class  Qbank extends React.Component{
         this.state = {
             qbank_name: result.data.qbank_name || '',
             reply_rule: result.data.reply_rule || '',
-            qbank_material_url: result.data.qbank_material_url || ''
+            qbank_material_url: result.data.qbank_material_url || null
         }
     }
     finish_edit(){
@@ -45,10 +45,11 @@ class  Qbank extends React.Component{
             this.setState({
                 [key]: e.currentTarget.files[0]
             });
+        }else{
+            this.setState({
+                [key]: e.currentTarget.value
+            });
         }
-        this.setState({
-            [key]: e.currentTarget.value
-        });
     }
     addImage(e){
         let input = e.currentTarget;

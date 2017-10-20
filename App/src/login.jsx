@@ -24,8 +24,10 @@ class  Login extends React.Component{
             if(xhr.readyState===4){
                 let result = xhr.response;
                 result = JSON.parse(result);
-                let url = 'http://localhost:3004/user/' + result.data.uid;
-                // history.go(url)
+                if(result.data.uid){
+                    let url = 'http://localhost:3004/user/' + result.data.uid;
+                    location.href = url;
+                }
             }
         }
     }

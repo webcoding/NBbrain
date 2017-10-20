@@ -15,9 +15,10 @@ import mongoose from 'mongoose'
 // Schema.virtual('virAttr').get(fn)    .set(fn)    实例.virAttr来调用
 // 配置：safe:{j:1日志, w: 2副本, wtimeout: 10000}, strict, capped一次操作数据量, versionKey, autoIndex
 // shareKey 分布式
+// 中途修改Schema结构怎么办？
 
 var questionSchema = new mongoose.Schema({
-        question_id: {type: String, unique: true, require: true},
+        question_id: {type: String},
         question_name: String,
         items: [String],
         answers: [String],

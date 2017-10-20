@@ -8,6 +8,7 @@
 'use strict';
 import {md5Encrypt, chiptorEncrypt} from './utils'
 import userSchema from '../schema/userSchema'
+import {getUserQbanks} from './question'
 
 export async function hasToken(uid,cb){
     await userSchema.findOne({user_id: uid},{access_token:1,openid:1}).exec(cb);
@@ -27,10 +28,11 @@ export async function saveUserMsg(data, uid, cb){
 }
 
 export async function getUserMsg(uid){
-    let result;
+    let result = {};
     await userSchema.findOne({user_id: uid},function(err, doc){
-        result = doc;
+        result.basic = doc;
     });
+    result.qbanks = await getUserQbanks(uid);
     return result;
 }
 
@@ -51,6 +53,13 @@ export async function setLoginUser(ctx, username, password){
 
 }
 
+export async function userIsLogin(){
+    let uid = ctx.cookies.get('user_id');
+    await userSchema.findOne({user_id:uid},(err, doc)=>{
+        result = doc;
+    });
+    return result;
+}
 
 export function getLocalUid(ctx){
     let uid;

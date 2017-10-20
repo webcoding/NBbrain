@@ -16,7 +16,7 @@ ReactDOM.render(
             <Route exact strict path="/index" component={Home}/>
             <Route path="/list(/:userid)?" component={List}/>
             <Route path="/edit(/:qbankid)?" component={createQbank}/>
-            <Route path="/user?qbankid" component={User}/>
+            <Route path="/user/:userid" component={User}/>
             <Route path="/login" component={login}/>
             <Route exact path="*" component={NoMatch}/>
         </div>

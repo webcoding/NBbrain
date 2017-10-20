@@ -15,7 +15,6 @@ import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQban
 import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
-import fs from 'fs'
 import {status} from '../common/utils'
 import config from '../config'
 
@@ -73,8 +72,9 @@ router.get('/getQbank', async(ctx)=>{
 // 添加题库
 router.post('/updateQbank', async(ctx)=>{
     let fields = ctx.request.fields;
-    // let files = ctx.request.files;
-    let result = await updateQbankData(fields);
+    let files = ctx.request.files;
+    let result = await updateQbankData(fields, files);
+    console.log(result);
     status.success(ctx, result);
 })
 

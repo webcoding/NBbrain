@@ -34,23 +34,39 @@ export async function getQbankMsg(qbankid){
     return result;
 }
 
-export async function updateQbankData(data){
+export async function updateQbankData(data, files){
     let result;
-    let filePath;
-    if(!data.qbankid){
+    if(!data.qbank_id){
         data.qbank_id = createRandom();
-        data.qbank_material_url = await saveFile(data.qbank_material_url,data.qbankid);
-        console.log(data);
+        data.qbank_material_url = await saveFile(files,data.qbank_id);
+        // data.questions = [{question_id: data.qbank_id}];
         await qbanksModel.create(data, function(err, doc){
-            result = doc;
+            if(!err){
+                result = doc;
+            }else{
+                console.log(err.errmsg);
+                result = null
+            }
         })
     }else{
-        data.filePath = await saveFile(files,data.qbankid);
-        await qbanksModel.update({qbank_id: data.qbankid},{$set:data},function(err, doc){
-            result = doc;
+        data.qbank_material_url = await saveFile(files,data.qbank_id);
+        await qbanksModel.update({qbank_id: data.qbank_id},{$set:data},function(err, doc){
+            if(!err){
+                result = doc;
+            }else{
+                console.log(err.errmsg);
+                result = null
+            }
         })
     }
-    console.log(result);
+    return result;
+}
+
+export async function getUserQbanks(uid){
+    let result;
+    await qbanksModel.find({user_id: uid}, {qbank_id:1, qbank_name:1, reply_rule:1, qbank_material_url:1,update_time:1, questions:1}, function(err, doc){
+        result = doc;
+    });
     return result;
 }
 

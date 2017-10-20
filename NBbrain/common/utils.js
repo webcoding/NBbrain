@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import fs from 'fs';
 import config from '../config'
 // 创建Hash('md5')得到生成器, update(str)  生成,   digest('hex')最终
 // Hmac('sha1',key)  彩虹表攻击, key--密钥  openssl生成
