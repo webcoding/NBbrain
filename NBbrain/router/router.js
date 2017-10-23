@@ -11,7 +11,7 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbank} from '../common/question.js'
 import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -80,7 +80,12 @@ router.post('/updateQbank', async(ctx)=>{
 
 // 添加题目
 
-
+// 获取用户的题库
+router.get('/getUsersQbanks', async(ctx)=>{
+    let uid = ctx.query.uid;
+    let result = await getUsersQbank(uid);
+    status.success(ctx, result);
+})
 
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;
@@ -101,6 +106,9 @@ router.post('/checkLogin', async(ctx) => {
       ctx.redirect(refer)
     }
 })
+
+
+
 
 router.all('/register', async (ctx) => {
     // 验证

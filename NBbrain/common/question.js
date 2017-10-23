@@ -34,6 +34,14 @@ export async function getQbankMsg(qbankid){
     return result;
 }
 
+export async function getUsersQbank(uid){
+    let result;
+    await qbanksModel.findOne({user_id: uid},(err, doc)=>{
+        result = doc;
+    })
+    return result;
+}
+
 export async function updateQbankData(data, files){
     let result;
     if(!data.qbank_id){

@@ -1,3 +1,4 @@
+// ---------------color-------------------
 $primary-color: #0E77CA;
 $green-color: #00924c;
 $red-color: #d73435;
@@ -9,6 +10,13 @@ $cyan-color: #008997;
 $grey-color: #bfbfbf;
 $base-color: #fff;
 $main-color: #212121;
+
+$second-main-color: rgba(61,80,93,1);
+
+// ---------------size-------------------
+$block-height: 48px;
+
+
 
 html {
     color: $main-color;
