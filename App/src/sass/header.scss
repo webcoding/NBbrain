@@ -1,18 +1,23 @@
 @import './base';
 .nb_top_wrap{
-    background-color: $second-main-color;
+    // background-image: $head-bg;
+    background-color: $shallow-grey;
     width: 100%;
     height: $block-height;
     line-height: $block-height;
     color: $base-color;
     position: fixed;
-    bottom: 0;
+    top: 0;
     .nb_top_content{
         width: 100%;
         display: flex;
-        li{
+        .nb_top_left,.nb_top_right{
+            width: 10%;
+        }
+        .nb_top_center{
+            width: 80%;
             text-align: center;
-            flex: 1;
+            color: $yellow-color;
         }
     }
 }
