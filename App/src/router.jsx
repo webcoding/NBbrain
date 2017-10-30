@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Link, browserHistory} from 'react-router-dom';
 import Home from './home';
 import List from './list';
+import Rank from './rank';
 import createQbank from './createBank';
 import User from './user';
 import login from './login';
@@ -14,6 +15,7 @@ ReactDOM.render(
     (<BrowserRouter history={browserHistory}>
         <div>
             <Route exact strict path="/index" component={Home}/>
+            <Route path="/rank" component={Rank}/>
             <Route path="/list(/:userid)?" component={List}/>
             <Route path="/edit(/:qbankid)?" component={createQbank}/>
             <Route path="/user/:userid" component={User}/>

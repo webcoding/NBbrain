@@ -1,6 +1,7 @@
 import button from './sass/button'
 import React from 'react';
 import config from './config';
+import utils from './common/utils';
 
 class  Login extends React.Component{
     componentDidMount(){
@@ -24,7 +25,9 @@ class  Login extends React.Component{
             if(xhr.readyState===4){
                 let result = xhr.response;
                 result = JSON.parse(result);
+                let uid = result
                 if(result.data.uid){
+                    utils.store('uid',result.data.uid)
                     let url = 'http://localhost:3004/user/' + result.data.uid;
                     location.href = url;
                 }

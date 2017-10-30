@@ -2,6 +2,16 @@
 .nb_wrap{
     width: 100%;
     .nb_content{
-        padding: 0 6px;
+        padding: 54px 6px 50px;
+        .nb_home_title{
+            color: $second-main-color;
+            font-size: 16px;
+            line-height: 1.8em;
+            margin-bottom: 4px;
+        }
+        .nb_list{
+            display: flex;
+            justify-content: space-between;
+        }
     }
 }

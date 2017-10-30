@@ -1,0 +1,33 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg" stroke="null" style="vector-effect: non-scaling-stroke;" class="icon">
+ <defs stroke="null">
+  <style stroke="null" style="vector-effect: non-scaling-stroke;" type="text/css"/>
+ </defs>
+ <g stroke="null">
+  <title stroke="null">background</title>
+  <rect stroke="null" fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g stroke="null">
+  <title stroke="null">Layer 1</title>
+  <defs stroke="null">
+   <style stroke="null" style="vector-effect: non-scaling-stroke;" type="text/css"/>
+  </defs>
+  <path stroke="null" id="svg_8" d="m-3,228" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="null" fill="null"/>
+  <defs stroke="null">
+   <style stroke="null" style="vector-effect: non-scaling-stroke;" type="text/css"/>
+  </defs>
+  <g stroke="null" id="svg_22">
+   <path stroke="null" id="svg_14" d="m988.058139,1035.16711l0,0z"/>
+   <path stroke="null" id="svg_15" d="m399.756869,814.756339l0,0z"/>
+   <path stroke="null" id="svg_17" d="m163.76008,216.638974l430.714876,0l0,70.78312l-430.714876,0l0,-70.78312l0,0z"/>
+   <path stroke="null" id="svg_18" d="m163.76008,398.053489l344.520861,0l0,70.78312l-344.520861,0l0,-70.78312z"/>
+   <path stroke="null" id="svg_19" d="m163.76008,605.946134l172.26043,0l0,70.78312l-172.26043,0l0,-70.78312l0,0z"/>
+   <path stroke="null" id="svg_20" d="m374.811007,933.383605l-301.455753,0l0,-862.767586l693.380132,0l0,247.74092c17.226043,0 56.01654,4.391175 73.242583,4.391175l0,-287.523655c0,-17.69578 -17.226043,-35.39156 -34.452086,-35.39156l-770.961126,0c-17.226043,0 -34.452086,17.69578 -34.452086,35.39156l0,937.941881c0,17.69578 17.226043,35.39156 34.452086,35.39156l383.311358,0c-17.226043,-22.086955 -30.177475,-57.478515 -43.065108,-75.174295l0,0l0,0z"/>
+  </g>
+  <defs>
+   <style type="text/css"/>
+  </defs>
+  <g stroke="null" id="svg_27">
+   <path stroke="null" id="svg_26" d="m658.584111,635.968301c59.887664,0 108.565327,-49.505408 108.565327,-110.411439c0.033664,-61.111447 -48.643999,-110.445675 -108.565327,-110.445675c-60.055983,0 -108.565327,49.334227 -108.565327,110.411439c0,60.940267 48.509345,110.445675 108.565327,110.445675zm0,44.815061c-117.654518,0 -214.841525,95.484497 -230.192158,226.061001c0,0 81.668057,56.044504 230.192158,56.044504c148.355782,0 230.023839,-56.044504 230.023839,-56.044504c-15.316969,-130.576504 -112.503976,-226.061001 -230.023839,-226.061001z"/>
+  </g>
+ </g>
+</svg>

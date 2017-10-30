@@ -1,6 +1,9 @@
+import list from './sass/list.scss';
 import React from 'react';
-import Footer from './foot';
-import Header from './head';
+import Head from './head';
+import Foot from './foot';
+import QbankListItem from './common/my_qbank_list_item';
+import test_data from './test_data';
 class  List extends React.Component{
     constructor(props){
         super(props);
@@ -28,22 +31,14 @@ class  List extends React.Component{
     render(){
         return (
             <div className="nb_wrap">
-                <Header leftType="back" rightType="menu" centerType="title" title="我的题库"/>
+                <Head leftType="back" rightType="accent" centerType="title" title="我的题库"/>
                 <div className="nb_content">
-                    <dl className="nb_list_item">
-                        <dt><img src=""/></dt>
-                        <dd>
-                            <p>贡献者：<strong></strong></p>
-                            <p>题库名</p>
-                            <div className="nb_list_oper">
-                                <i className="nb_icon nb_icon_star"></i>
-                                <i className="nb_icon nb_icon_share"></i>
-                                <button className="nb_btn nb_btn_outline nb_btn_primary">开始挑战</button>
-                            </div>
-                        </dd>
-                    </dl>
+                    <ul className="nb_list">
+                        {test_data.data.map((item,index) => <QbankListItem key={index} item={item}/>)}
+                    </ul>
+                    <p>完成状态</p>
                 </div>
-                <Footer/>
+                <Foot/>
             </div>
         );
     }

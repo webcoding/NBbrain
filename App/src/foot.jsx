@@ -1,5 +1,7 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import footer from './sass/footer';
+import SVG from './common/SVG';
 
 export default class  Footer extends React.Component{
     constructor(props){
@@ -9,10 +11,10 @@ export default class  Footer extends React.Component{
         return (
             <div className="nb_bottom_wrap">
                 <ul className="nb_bottom_content">
-                    <li>首页</li>
-                    <li>列表</li>
-                    <li>我的题库</li>
-                    <li>个人中心</li>
+                    <li><Link to="/index"><SVG className="nb_font" type="home"/></Link></li>
+                    <li><Link to="/rank"><SVG className="nb_font" type="ranking"/></Link></li>
+                    <li><Link to="/list/:userid"><SVG className="nb_font" type="my_qbank_list"/></Link></li>
+                    <li><Link to="/user/:userid"><SVG className="nb_font" type="account"/></Link></li>
                 </ul>
             </div>
         );

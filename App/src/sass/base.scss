@@ -10,10 +10,14 @@ $cyan-color: #008997;
 $grey-color: #bfbfbf;
 $base-color: #fff;
 $main-color: #212121;
-$shallow-grey: #f1f1f1;
+$shallow-grey: #f8f8f8;
+$line-color: #eeeeee;
+$title-color: #333333;
+$title-size: 14px;
 
 $second-main-color: rgba(61,80,93,1);
 // $head-bg: linear-gradient(to bottom, rgb(247, 202, 118),rgb(232,164,122));
+
 
 // ---------------size-------------------
 $block-height: 48px;
@@ -204,3 +208,30 @@ div {
     /* Internet Explorer 10+ */
     color: #bdbdbd;
 }
+.nb_font{
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    padding: 12px 0;
+    fill: $yellow-color;
+    &.nb_font_large{
+        width: 16px;
+        height: 16px;
+    }
+    &.nb_font_span{
+        margin-right: 6px;
+        padding: 0;
+    }
+    &.nb_font_clear_gap{
+        margin: 0;
+        padding: 0;
+    }
+    &.nb_font_align{
+        vertical-align: -2px;
+    }
+    &.nb_font_weak_yeallow{
+        fill: rgb(204, 174, 0);
+    }
+
+}
+

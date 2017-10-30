@@ -79,6 +79,12 @@ module.exports = {
                 loader: 'css-loader'
             }]
         },{
+            test: /\.svg$/,
+            loader: 'svg-sprite-loader',
+            options: {
+                runtimeCompat: true,
+            }
+        },{
             test: /.scss$/,
             use: ['sass-loader']
         },{

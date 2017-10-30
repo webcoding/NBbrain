@@ -1,3 +1,4 @@
+import _ from 'lodash'
 export default {
     ajax(method = 'get', url =  '', data = null){
         let response;
@@ -11,5 +12,16 @@ export default {
             }
         }
         return response;
+    },
+    store(key,value){
+        if(_.isObject(key)){
+            for(let k in key){
+                localStorage.setItem(k,key[k]);
+            }
+        }else if(!value){
+            localStorage.getItem(key);
+        }else{
+            localStorage.setItem(key, value);
+        }
     }
 }
