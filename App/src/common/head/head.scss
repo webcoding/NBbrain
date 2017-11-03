@@ -1,0 +1,24 @@
+@import '../base';
+.nb_top_wrap{
+    // background-image: $head-bg;
+    background-color: $shallow-grey;
+    box-shadow: 0 0 1px rgba(0,0,0,0.3);
+    width: 100%;
+    height: $block-height;
+    line-height: $block-height;
+    color: $base-color;
+    position: fixed;
+    top: 0;
+    .nb_top_content{
+        width: 100%;
+        display: flex;
+        .nb_top_left,.nb_top_right{
+            width: 10%;
+        }
+        .nb_top_center{
+            width: 80%;
+            text-align: center;
+            color: $yellow-color;
+        }
+    }
+}

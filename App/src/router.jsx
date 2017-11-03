@@ -2,24 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Link, browserHistory} from 'react-router-dom';
 import Home from './home';
-import List from './list';
 import Rank from './rank';
-import createQbank from './createBank';
+import QbankRank from './qbankRank';
+import MyQbank from './MyQbank';
+import Edit from './edit';
+import EditQuestion from './editQuestion/';
 import User from './user';
-import login from './login';
+import Login from './login';
 import NoMatch from './noMatch';
+
 const element =  document.getElementsByClassName('mod-app')[0];
 
 
 ReactDOM.render(
     (<BrowserRouter history={browserHistory}>
         <div>
-            <Route exact strict path="/index" component={Home}/>
+            <Route path="/index" component={Home}/>
             <Route path="/rank" component={Rank}/>
-            <Route path="/list(/:userid)?" component={List}/>
-            <Route path="/edit(/:qbankid)?" component={createQbank}/>
+            <Route path="/qbank_rank" component={QbankRank}/>
+            <Route path="/myqbank(/:userid)?" component={MyQbank}/>
+            <Route path="/myqbank/edit(/:qbankid)?" component={Edit}/>
+            <Route path="/myqbank/edit_question(/:qbankid)?(/:questionid)?" component={EditQuestion}/>
             <Route path="/user/:userid" component={User}/>
-            <Route path="/login" component={login}/>
+            <Route path="/login" component={Login}/>
             <Route exact path="*" component={NoMatch}/>
         </div>
     </BrowserRouter>

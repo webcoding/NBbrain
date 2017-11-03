@@ -1,0 +1,243 @@
+// ---------------color-------------------
+$primary-color: #0E77CA;
+$green-color: #00924c;
+$red-color: #d73435;
+$pink-color: #dc277d;
+$orange-color: #d75000;
+$purple-color: #6252cd;
+$yellow-color: #e09a00;
+$cyan-color: #008997;
+$grey-color: #bfbfbf;
+$base-color: #fff;
+$main-color: #212121;
+$shallow-grey: #f8f8f8;
+$line-color: #eeeeee;
+$title-color: #333333;
+$title-size: 14px;
+
+$second-main-color: rgba(61,80,93,1);
+// $head-bg: linear-gradient(to bottom, rgb(247, 202, 118),rgb(232,164,122));
+
+
+// ---------------size-------------------
+$block-height: 48px;
+$head-height: 32px;
+
+
+
+html {
+    color: $main-color;
+    background: $base-color;
+    height: 100%;
+}
+
+body{
+    color: $main-color;
+    background: $base-color;
+}
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, lengend, button, input, textarea, form, th, td {
+    margin: 0;
+    padding: 0;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-weight: normal;
+}
+
+body, button, input, select, textarea {
+    font: 14px/1.5 "helvetica", "arial","Pingfang",'PingFang SC', "Hiragino Sans GB", "Microsoft Yahei", "STHeiti", "sans-serif";
+}
+
+address, cite, dfn, em, var {
+    font-style: normal;
+}
+
+code, kbd, pre, samp, tt {
+    font-family: "Courier New", Courier, monospace;
+}
+
+small {
+    font-size: 12px;
+}
+
+ul, ol,li {
+    list-style: none;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+
+audio,
+canvas,
+progress,
+video {
+    display: inline-block; /* 1 */
+    vertical-align: baseline; /* 2 */
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+i {
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: $main-color;
+    outline: 0 none;
+}
+
+a:focus, input:focus {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+abbr[title], acronym[title] {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+legend {
+    color: #000;
+}
+
+fieldset, img {
+    border: none;
+}
+
+button, input, select, textarea, label {
+    font-size: 100%;
+    vertical-align: middle;
+    outline: 0;
+    border: 0 none;
+}
+
+textarea {
+    resize: none !important;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+table th {
+    text-align: left;
+}
+
+hr {
+    border: none;
+    height: 1px;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+    border: 0;
+    outline: none;
+}
+div {
+    outline: none;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #bdbdbd;
+}
+
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #bdbdbd;
+}
+
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #bdbdbd;
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #bdbdbd;
+}
+.nb_font{
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    padding: 12px 0;
+    fill: $yellow-color;
+    &.nb_font_large{
+        width: 16px;
+        height: 16px;
+    }
+    &.nb_font_span{
+        margin-right: 6px;
+        padding: 0;
+    }
+    &.nb_font_clear_gap{
+        margin: 0;
+        padding: 0;
+    }
+    &.nb_font_align{
+        vertical-align: -2px;
+    }
+    &.nb_font_weak_yeallow{
+        fill: rgb(204, 174, 0);
+    }
+    &.nb_font_weak_red{
+        fill: $red-color;
+    }
+    &.nb_font_weak_orange{
+        fill: $orange-color;
+    }
+
+}
+

@@ -1,0 +1,29 @@
+@import '../base';
+.nb_rank_item{
+  background-color: $shallow-grey;
+  margin-top: 10px;
+  padding: 2%;
+  box-shadow: 0 0 1px $line-color;
+  position: relative;
+  .nb_list_avator{
+    vertical-align: -4px;
+  }
+  .nb_font_position{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+  .nb_rank_nickname{
+    color: $grey-color;
+    margin-left: 10px;
+    vertical-align: 2px;
+    .nb_rank_title{
+      margin-right: 10px;
+      color: $red-color;
+      font-weight: 700;
+    }
+  }
+  .nb_rank_repution{
+    margin-top: 10px;
+  }
+}

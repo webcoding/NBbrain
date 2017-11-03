@@ -1,0 +1,18 @@
+@import '../base';
+.nb_bottom_wrap{
+    background-color: $second-main-color;
+    width: 100%;
+    height: $block-height;
+    line-height: $block-height;
+    color: $base-color;
+    position: fixed;
+    bottom: 0;
+    .nb_bottom_content{
+        width: 100%;
+        display: flex;
+        li{
+            text-align: center;
+            flex: 1;
+        }
+    }
+}
