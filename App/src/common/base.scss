@@ -9,7 +9,7 @@ $yellow-color: #e09a00;
 $cyan-color: #008997;
 $grey-color: #bfbfbf;
 $base-color: #fff;
-$main-color: #212121;
+$main-color: rgb(74,74,74);
 $shallow-grey: #f8f8f8;
 $line-color: #eeeeee;
 $title-color: #333333;
@@ -212,22 +212,9 @@ div {
     text-align: center;
     width: 24px;
     height: 24px;
-    padding: 12px 0;
     fill: $yellow-color;
-    &.nb_font_large{
-        width: 16px;
-        height: 16px;
-    }
-    &.nb_font_span{
-        margin-right: 6px;
-        padding: 0;
-    }
-    &.nb_font_clear_gap{
-        margin: 0;
-        padding: 0;
-    }
     &.nb_font_align{
-        vertical-align: -2px;
+        vertical-align: -4px;
     }
     &.nb_font_weak_yeallow{
         fill: rgb(204, 174, 0);
@@ -238,6 +225,22 @@ div {
     &.nb_font_weak_orange{
         fill: $orange-color;
     }
+    &.nb_font_head{
+        padding: 12px 0;
+    }
+}
+.nb_flex{
+    display: flex;
+    &.nb_center{
+        justify-content: center;
+    }
+    &.nb_ver_center{
+        align-items: center;
+    }
+    .nb_flex_equal{
+        flex: 1;
+    }
+}
+.nb_icon_text{
 
 }
-

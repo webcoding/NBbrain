@@ -2,6 +2,7 @@ import React from 'react';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import QbankListItem from '../common/qbankListItem';
+import SVG from '../common/SVG';
 import test_data from '../test_data';
 
 class  MyQbank extends React.Component{
@@ -31,10 +32,14 @@ class  MyQbank extends React.Component{
     render(){
         return (
             <div className="nb_wrap">
-                <Head leftType="back" rightType="accent" centerType="title" title="我的题库"/>
+                <Head>
+                    <SVG type="back"/>
+                    <h3>我的题库</h3>
+                    <SVG type="system"/>
+                </Head>
                 <div className="nb_content">
                     <ul className="nb_list">
-            {test_data.myQbanks.data.map((item,index) => <QbankListItem key={index} item={item}/>)}
+
                     </ul>
                     <p>完成状态</p>
                 </div>

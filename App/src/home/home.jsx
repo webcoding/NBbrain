@@ -3,12 +3,17 @@ import React from 'react';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import ListItem from '../common/listItem';
+import SVG from '../common/SVG';
 import test_data from '../test_data';
 class Home extends React.Component{
     render(){
         return (
             <div className="nb_wrap">
-                <Head leftType="home" rightType="account" centerType="title" title="NBbrain"/>
+                <Head>
+                    <SVG type="back" classes="nb_font_head"/>
+                    <h3>NBbrain</h3>
+                    <SVG type="system" classes="nb_font_head"/>
+                </Head>
                 <div className="nb_content">
                     <h2 className="nb_home_title">最近挑战过的题目</h2>
                     <ul className="nb_list">
