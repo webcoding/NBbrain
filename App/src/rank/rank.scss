@@ -1,7 +1,7 @@
+@import '../common/base.scss';
 .nb_rank_nav{
-  margin: 10px auto;
-  text-align: center;
 }
+@include tab(2);
 .nb_rank_list{
   width: 100%;
   margin: 6px auto;

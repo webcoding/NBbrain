@@ -228,6 +228,20 @@ div {
     &.nb_font_head{
         padding: 12px 0;
     }
+    &.nb_font_default{
+        fill: $main-color;
+    }
+    &.nb_font_small{
+        width: 14px;
+        height: 14px;
+    }
+    &.nb_font_middle{
+        width: 18px;
+        height: 18px;
+    }
+    &.nb_right_gap{
+        margin-right: 6px;
+    }
 }
 .nb_flex{
     display: flex;
@@ -237,10 +251,41 @@ div {
     &.nb_ver_center{
         align-items: center;
     }
+    &.nb_flex_between{
+        justify-content: space-between;
+    }
     .nb_flex_equal{
         flex: 1;
     }
+    .nb_flex_default{
+        flex: 0 1 auto;
+    }
 }
-.nb_icon_text{
+.nb_inline_flex{
+    display: inline-flex;
+    &.nb_inline_between{
+        justify-content: space-between;
+    }
+}
+
+@mixin tab($num:2){
+    .nb_tab{
+        width: 100%;
+        box-shadow: 0 1px 0 rgb(233, 233,233);
+        display: flex;
+        .nb_tab_item{
+            flex: 1;
+            text-align: center;
+            color: rgb(155, 155, 155);
+            font-size: 16px;
+            height: 28px;
+            line-height: 28px;
+            padding: 10px 0;
+            &.current{
+                color: rgb(36, 37, 38);
+                border-bottom: 1px solid rgb(36, 37, 38);
+            }
+        }
+    }
 
 }

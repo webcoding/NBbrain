@@ -19,6 +19,11 @@
         border: 1px solid $orange-color;
         color: $base-color;
     }
+    &.nb_btn_yellow{
+        background-color: $yellow-color;
+        border: 1px solid $yellow-color;
+        color: $base-color;
+    }
     &.nb_button_small{
         padding: 2px 4px;
     }

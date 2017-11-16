@@ -1,52 +1,53 @@
 @import '../base';
 .nb_list_item{
-  flex: 0 1 auto;
-  width: 46%;
   overflow: hidden;
-  padding: 1%;
-  margin: 0 0 10px 0;
-  background-color: $shallow-grey;
-  box-shadow: 0px 0px 1px $grey-color;
-  border-radius: 4px;
+  padding: 3% 1%;
+  border-bottom: solid 1px $grey-color;
   font-size: 12px;
   .nb_qbank_matrial{
     text-align: center;
+    width: 90px;
+    overflow: hidden;
+    margin-right: 10px;
+    img{
+      width: 100%;
+    }
   }
-  .nb_list_qbank_name{
-    color: $title-color;
+  .nb_list_oprate{
     width: 100%;
-    font-size: $title-size;
-    margin: 6px 0;
-  }
-  .nb_list_qbank_value{
-    margin-bottom: 10px;
-    display: flex;
-    p{
-      flex: 1;
-      color: $grey-color;
+    .nb_list_qbank_name{
+      color: $title-color;
+      width: 100%;
+      font-size: $title-size;
+      margin: 6px 0;
     }
-  }
-  img{
-    width: 100%;
-  }
-  .nb_list_user{
-    box-shadow: 0px -1px 0px $line-color;
-    padding: 6px 0;
-    .nb_list_avator{
-      vertical-align: -6px;
+    .nb_list_qbank_value{
+      display: flex;
+      p{
+        flex: 1;
+        color: $grey-color;
+      }
     }
-    .nb_list_message{
-      width: 50%;
-      color: #bbbbbb;
-      display: inline-block;
-    }
-    .nb_font_adjust{
-      height: 18px;
-      vertical-align: -4px;
-    }
-    .nb_list_item_btn{
-      padding: 4px;
-      color: rgb(109,174,252);
+
+    .nb_list_user{
+      .nb_list_avator{
+        vertical-align: -6px;
+        border-radius: 50%;
+      }
+      .nb_list_message{
+        width: 58%;
+        color: #bbbbbb;
+        display: inline-block;
+      }
+      .nb_font_adjust{
+        height: 18px;
+        vertical-align: -4px;
+      }
+      .nb_list_item_btn{
+        padding: 6px 4px;
+        color: $yellow-color;
+        vertical-align: -6px;
+      }
     }
   }
 }
