@@ -19,6 +19,9 @@ class RankItem extends React.Component {
       <li className="nb_rank_item">
         {avator}
         <span className="nb_rank_nickname"><i className="nb_rank_title">[{title}]</i>{nickname}</span>
+        <Link to="" className="nb_btn nb_btn_outline">
+          <SVG type="challenge_now" classes="nb_font_small"/>GO
+        </Link>
         <p className="nb_rank_repution nb_flex nb_flex_between">
           <i>
             <SVG type="total_scores" classes="nb_font nb_font_default nb_font_align nb_font_middle"/>{scores}

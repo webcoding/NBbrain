@@ -62,23 +62,6 @@ module.exports = {
                 }
             ]
         },{
-            test: /.ejs$/,
-            use: [{
-                loader: 'ejs-loader',
-                // options: {
-                //     query: {
-                //         variable: 'data'
-                //     }
-                // }
-            }]
-        },{
-            test: /.css$/,
-            use:[{
-                loader: 'style-loader'
-            },{
-                loader: 'css-loader'
-            }]
-        },{
             test: /\.svg$/,
             loader: 'svg-sprite-loader',
             options: {
@@ -86,7 +69,10 @@ module.exports = {
             }
         },{
             test: /.scss$/,
-            use: ['sass-loader']
+            use: ExtractTextPlugin.extract({
+                use: ['css-loader','sass-loader'],
+                fallback: 'style-loader'
+            })
         },{
             test: /\.(png|jpg|gif)$/,
             use: ['url-loader', 'file-loader']
@@ -104,7 +90,7 @@ module.exports = {
         // new WebapckBuildNotifierPlugin({
         //     title: '开发环境 NBbrain  项目'
         // })
-        new ExtractTextPlugin("dist/common.css"),
+        new ExtractTextPlugin("dist/style.css"),
         // new HtmlWebpackPlugin({
         //     title: 'NBbrain',
         //     // template: template,

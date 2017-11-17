@@ -1,17 +1,20 @@
 @import '../base';
 $color-list:$red-color $orange-color $primary-color;
+@mixin diff_color(){
+  @for $i from 1 through 3{
+    &:nth-child($i-1){
+      border-left-color: lighten(nth($color-list, $i), 60%);
+    }
+    .nb_rank_title:nth-child($i-1){
+      color: nth($color-list, $i);
+    }
+  }
+}
 .nb_rank_item{
   margin-top: 4%;
   padding: 2%;
   border-left: 4px solid $main-color;
-  @for $i from 1 through 3{
-    &:nth-of-type($i-1){
-      border-left-color: lighten(nth($color-list, $i), 60%);
-    }
-    .nb_rank_title:nth-of-type($i-1){
-      color: nth($color-list, $i);
-    }
-  }
+  @include diff_color;
   .nb_list_avator{
     vertical-align: -4px;
   }
@@ -28,3 +31,4 @@ $color-list:$red-color $orange-color $primary-color;
     color: $grey-color;
   }
 }
+
