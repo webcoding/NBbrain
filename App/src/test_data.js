@@ -34,7 +34,7 @@ export default {
             }
         ]
     },
-    // 不能挑战自己
+    // 不能挑战自己, 挑战----在线的人【通知】
     rank: {
         data: [{
                 user_id: '222222',
@@ -114,6 +114,48 @@ export default {
                 question_ids: [],
                 // 0 未完成  1  已完成   2  审核中(已发布)   3审核通过
                 complish_statue: 0  //已发布  [1/10]  [0/10]  审核中   审核通过
+                // 去编辑
+                // 去发布
+                // 发布后---审核---审核通过-----推荐给好友挑战
+            },
+            {
+                qbank_id: '11111111',
+                qbank_name: '题库名',
+                qbank_material_url: 'http://localhost:3004/static/ranking.svg',
+                total_question: 10,
+                question_number: 10,
+                // 编辑时，跳转到最后需要编辑的那个
+                question_ids: [],
+                // 0 未完成  1  已完成   2  审核中(已发布)   3审核通过
+                complish_statue: 1  //已发布  [1/10]  [0/10]  审核中   审核通过
+                // 去编辑
+                // 去发布
+                // 发布后---审核---审核通过-----推荐给好友挑战
+            },
+            {
+                qbank_id: '11111111',
+                qbank_name: '题库名',
+                qbank_material_url: 'http://localhost:3004/static/ranking.svg',
+                total_question: 10,
+                question_number: 10,
+                // 编辑时，跳转到最后需要编辑的那个
+                question_ids: [],
+                // 0 未完成  1  已完成   2  审核中(已发布)   3审核通过
+                complish_statue: 2  //已发布  [1/10]  [0/10]  审核中   审核通过
+                // 去编辑
+                // 去发布
+                // 发布后---审核---审核通过-----推荐给好友挑战
+            },
+            {
+                qbank_id: '11111111',
+                qbank_name: '题库名',
+                qbank_material_url: 'http://localhost:3004/static/ranking.svg',
+                total_question: 10,
+                question_number: 10,
+                // 编辑时，跳转到最后需要编辑的那个
+                question_ids: [],
+                // 0 未完成  1  已完成   2  审核中(已发布)   3审核通过
+                complish_statue: 3  //已发布  [1/10]  [0/10]  审核中   审核通过
                 // 去编辑
                 // 去发布
                 // 发布后---审核---审核通过-----推荐给好友挑战

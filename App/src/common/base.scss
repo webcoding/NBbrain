@@ -243,31 +243,37 @@ div {
         margin-right: 6px;
     }
 }
-.nb_flex{
-    display: flex;
-    &.nb_center{
-        justify-content: center;
-    }
-    &.nb_ver_center{
-        align-items: center;
-    }
-    &.nb_flex_between{
-        justify-content: space-between;
-    }
-    .nb_flex_equal{
-        flex: 1;
-    }
-    .nb_flex_default{
-        flex: 0 1 auto;
+@mixin flex($val: flex, $item_align:flex-end){
+    .nb_#{$val}{
+        display: $val;
+        &.nb_center{
+            justify-content: center;
+        }
+        &.nb_ver_center{
+            align-items: center;
+        }
+        &.nb_ver_between{
+            align-items: stretch;
+        }
+        &.nb_flex_between{
+            justify-content: space-between;
+        }
+        .nb_flex_equal{
+            flex: 1;
+        }
+        .nb_flex_default{
+            flex: 0 1 auto;
+        }
+        &.nb_flex_clomun{
+            flex-direction: column;
+        }
+        .nb_flex_item_end{
+            align-self: $item_align;
+        }
     }
 }
-.nb_inline_flex{
-    display: inline-flex;
-    &.nb_inline_between{
-        justify-content: space-between;
-    }
-}
-
+@include flex;
+@include flex(inline-flex);
 @mixin tab($num:2){
     .nb_tab{
         width: 100%;

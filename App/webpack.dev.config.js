@@ -5,7 +5,6 @@ var  ExtractTextPlugin = require('extract-text-webpack-plugin');
 var  HtmlWebpackPlugin = require('html-webpack-plugin');
 var  WebpackBrowserPlugin = require('webpack-browser-plugin');
 var  cleanWebpackPlugin = require('clean-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 // import wepbakDevServer from 'webpack-dev-server';
 // import template from './build/layout/template.html';
 // 编译出的js与css，与template结合、route
@@ -63,6 +62,16 @@ module.exports = {
                 }
             ]
         },{
+            test: /.ejs$/,
+            use: [{
+                loader: 'ejs-loader',
+                // options: {
+                //     query: {
+                //         variable: 'data'
+                //     }
+                // }
+            }]
+        },{
             test: /\.svg$/,
             loader: 'svg-sprite-loader',
             options: {
@@ -70,10 +79,7 @@ module.exports = {
             }
         },{
             test: /.scss$/,
-            use: ExtractTextPlugin.extract({
-                use: ['css-loader','sass-loader'],
-                fallback: 'style-loader'
-            })
+            use: ['style-loader','css-loader','sass-loader']
         },{
             test: /\.(png|jpg|gif)$/,
             use: ['url-loader', 'file-loader']
@@ -91,22 +97,20 @@ module.exports = {
         // new WebapckBuildNotifierPlugin({
         //     title: '开发环境 NBbrain  项目'
         // })
-        new ExtractTextPlugin({
-            filename: "dist/common.css"
-        }),
-        new HtmlWebpackPlugin({
-            title: 'NBbrain',
-            // template: template,
-            filename: 'index.html',
-            // 设置loader,!!loader!路径，默认有ejsloader；或者在use里面添加loader
-            // 注入的位置
-            inject: true,
-            // minify
-            // hash
-            // cache
-            // excludeChunks
-            // favicon
-        })
+        new ExtractTextPlugin("dist/common.css"),
+        // new HtmlWebpackPlugin({
+        //     title: 'NBbrain',
+        //     // template: template,
+        //     filename: 'index.html',
+        //     // 设置loader,!!loader!路径，默认有ejsloader；或者在use里面添加loader
+        //     // 注入的位置
+        //     inject: true,
+        //     // minify
+        //     // hash
+        //     // cache
+        //     // excludeChunks
+        //     // favicon
+        // })
         // 自动打开浏览器、或更新
         // new WebpackBrowserPlugin()
         // 定义全局变量

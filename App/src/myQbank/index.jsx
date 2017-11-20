@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from '../common/head';
 import Foot from '../common/foot';
-import QbankListItem from '../common/qbankListItem';
+import MyQbankList from '../common/myQbankList';
 import SVG from '../common/SVG';
 import test_data from '../test_data';
 
@@ -33,15 +33,14 @@ class  MyQbank extends React.Component{
         return (
             <div className="nb_wrap">
                 <Head>
-                    <SVG type="back"/>
+                    <SVG type="back" classes="nb_font_head"/>
                     <h3>我的题库</h3>
-                    <SVG type="system"/>
+                    <SVG type="system"  classes="nb_font_head"/>
                 </Head>
                 <div className="nb_content">
                     <ul className="nb_list">
-
+                    {test_data.myQbanks.data.map((item,index) => <MyQbankList key={index} item={item}/>)}
                     </ul>
-                    <p>完成状态</p>
                 </div>
                 <Foot/>
             </div>

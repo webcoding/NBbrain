@@ -1,25 +1,39 @@
 @import './base';
 $color_map: ('green' $green-color) ('blue' $primary-color) ('orange' $orange-color) ('yellow' $yellow-color);
 
-@mixin btn($font_color, $bg_color){
+@mixin btn($font_color:#ffffff, $bg_color:transparent){
     .nb_btn{
         padding: 8px 12px;
         color: $font_color;
         border-radius: 2px;
+        background-color: rgb(25, 26, 28);
+        a{
+            color: $font_color;
+        }
         @each $name, $val in $color_map{
             &.nb_btn_#{$name}{
                 background-color: $val;
                 border: 1px solid $val;
-                color: #ffffff;
+                color: $font_color;
             }
             &.nb_btn_outline{
                 color: $val;
-                background-color: transparent;
+                background-color: $bg_color;
                 border: 1px solid $val;
             }
+            a{
+                color: $val;
+            }
         }
-        &.nb_button_small{
+        &.nb_btn_radius{
+            border-radius: 4px;
+        }
+        &.nb_btn_small{
             padding: 2px 4px;
+        }
+        &.nb_btn_valign{
+            vertical-align: -2px;
         }
     }
 }
+@include btn;
