@@ -155,7 +155,10 @@ export default {
                 // 编辑时，跳转到最后需要编辑的那个
                 question_ids: [],
                 // 0 未完成  1  已完成   2  审核中(已发布)   3审核通过
-                complish_statue: 3  //已发布  [1/10]  [0/10]  审核中   审核通过
+                complish_statue: 3,  //已发布  [1/10]  [0/10]  审核中   审核通过
+                collect_total: 200,
+                challenge_total: 300,
+                total_question: 20,
                 // 去编辑
                 // 去发布
                 // 发布后---审核---审核通过-----推荐给好友挑战

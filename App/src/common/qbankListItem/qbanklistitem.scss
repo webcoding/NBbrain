@@ -1,0 +1,18 @@
+.nb_rank_item{
+  .nb_qbank_material{
+    width: 96px;
+    height: 96px;
+    overflow: hidden;
+    background-color: rgb(244,244,244);
+    border-radius: 4px;
+    img{
+      width: 100%;
+    }
+  }
+  .nb_qbank_message{
+    margin-left: 2%;
+    width: 100%;
+    .nb_rank_repution{
+    }
+  }
+}

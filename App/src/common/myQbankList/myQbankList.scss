@@ -1,6 +1,7 @@
 .nb_list_item{
   height: 168px;
   overflow: hidden;
+  border:none;
   img{
     width: 168px;
     height: 168px;
@@ -16,6 +17,7 @@
 
     .nb_list_qbank_name{
       font-size: 18px;
+      margin: 10px 0;
     }
     .nb_list_progress{
       color: rgb(157, 157, 157);

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import '../rank/rank.scss';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import SVG from '../common/SVG';

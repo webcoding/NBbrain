@@ -12,16 +12,16 @@ class QbankListItem extends React.Component{
         let operator = null;
         if(complish_statue===0){
             complish_text =`[${question_number}/${total_question}]`;
-            operator = <Link to="/edit/:qbank_id"><i><SVG type="edit" classes="nb_font_middle nb_font_align"/>编辑</i></Link>;
+            operator = <Link to="/edit/:qbank_id"><i><SVG type="edit" classes="nb_font_middle nb_font_align nb_right_gap"/>编辑</i></Link>;
         }else if(complish_statue===1){
             complish_text = "[已完成]";
-            operator = <i><SVG type="published"  classes="nb_font_middle nb_font_align"/>发布</i>;
+            operator = <i><SVG type="published"  classes="nb_font_middle nb_font_align nb_right_gap"/>发布</i>;
         }else if(complish_statue===2){
             complish_text = "[已发布]";
-            operator = <i><SVG type="audit" classes="nb_font_middle nb_font_align"/>审核中...</i>
+            operator = <i><SVG type="audit" classes="nb_font_middle nb_font_align nb_right_gap"/>审核中...</i>
         }else if(complish_statue===3){
             complish_text = "[审核通过]"
-            operator = <i><SVG type="friend"  classes="nb_font_middle nb_font_align"/>邀请朋友来挑战</i>
+            operator = <i><SVG type="friend"  classes="nb_font_middle nb_font_align nb_right_gap"/>邀请朋友来挑战</i>
         }
         return (
                 <li className="nb_list_item nb_flex nb_ver_center">
