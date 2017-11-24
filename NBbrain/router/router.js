@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-24 10:52:43
+ * @Last Modified time: 2017-11-24 17:43:48
 */
 
 'use strict';
@@ -11,7 +11,7 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbanks} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbanks, updateQuestionData} from '../common/question.js'
 import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -49,6 +49,13 @@ router.post('/updateQbank', async(ctx)=>{
 router.get('/myQbanks', async(ctx)=>{
     let user_id = ctx.cookies.get('user_id');
     let result = await getUsersQbanks(user_id);
+    status.success(ctx, result);
+})
+
+// 添加题目
+router.post('/updateQuestion', async(ctx)=>{
+    let fields = ctx.request.fields;
+    let result = await updateQuestionData(fields);
     status.success(ctx, result);
 })
 

@@ -3,19 +3,32 @@ import Head from '../common/head';
 import Foot from '../common/foot';
 import {render} from 'react-dom';
 import SVG from '../common/SVG';
+import utils from '../common/utils';
 
 // class createQbank extends Component
 export default class  Question extends React.Component{
     constructor(props){
         super(props);
+        let temp;
+        let qbank_id = (temp = location.pathname.match(/\/([a-z0-9\_]*)$/)) && temp.length>1 ? temp[1]: '';
         this.state = {
+            qbank_id: qbank_id,
             question_id:'',
             question_name:'',
             time: 0,
             items:[],
-            answer: -1,
-            score: 0
+            answer: 'A',
+            score: 1
         };
+    }
+    finish_edit(){
+        utils.ajax('post','http://localhost:3001/updateQuestion',this.state,function(result){
+            //显示预览状态
+        });
+    }
+    finish_question(){
+        this.finish_edit();
+        this.props.index++;
     }
     handleData(e,key){
         this.setState({
@@ -24,6 +37,19 @@ export default class  Question extends React.Component{
     }
     render(){
         let {index} = this.props;
+        let score = [1,2,3], item = ['A','B','C','D'];
+        let temp = score.map((item)=>{
+            return <label key={`scores_${item}`} id={`scores_${item}`}>
+                <input type="radio" checked={this.state.score===item} value={item} onChange={(e)=>{this.handleData(e,'score')}}/>
+            {item}分</label>
+        });
+        let items = item.map((item, i)=>{
+            return (<label key={`item_${item}`}>{item}
+                        <input type="checkbox" checked={this.state.answer===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
+                        <input type="text"  value={this.state.items[i] || ''} onChange={(e)=>{this.handleData(e,'items')}}/>
+                    </label>
+            )
+        });
         return (
             <div className="nb_wrap">
                 <Head>
@@ -42,9 +68,7 @@ export default class  Question extends React.Component{
                         <dl className="nb_createQuestion_item">
                             <dt>分值</dt>
                             <dd>
-                                <input type="radio" /><label id="scores_1">1分</label>
-                                <input type="radio" /><label id="scores_2">2分</label>
-                                <input type="radio" /><label id="scores_3">3分</label>
+                                {temp}
                             </dd>
                         </dl>
                         <dl className="nb_createQuestion_item">
@@ -56,17 +80,15 @@ export default class  Question extends React.Component{
                         <dl className="nb_createQuestion_item" ref="addCheckItem">
                             <dt>添加选项并给出正确答案</dt>
                             <dd>
-                                <input type="checkbox"/>
-                                <input type="text"/>
+                                {items}
                             </dd>
                         </dl>
                     </div>
                     <button className="nb_btn" onClick={this.finish_question}>下一题</button>
-                    <button className="nb_btn" onClick={this.finish_edit}>完成</button>
+                    <button className="nb_btn" onClick={this.finish_edit}>保存</button>
                 </div>
                 <Foot/>
             </div>
-
         );
     }
 }

@@ -154,11 +154,19 @@ fieldset, img {
     border: none;
 }
 
-button, input, select, textarea, label {
+button, select, textarea, label {
     font-size: 100%;
     vertical-align: middle;
     outline: 0;
-    border: 0 none;
+    border:none;
+}
+input{
+    font-size: 100%;
+    vertical-align: middle;
+    outline: 0;
+}
+input{
+    border:1px solid $grey-color;
 }
 
 textarea {

@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-23 16:32:22
+ * @Last Modified time: 2017-11-24 17:42:24
 */
 
 'use strict';
@@ -10,6 +10,7 @@ import _ from 'underscore'
 import {createRandom, saveFile} from '../common/utils'
 import qbanksModel from '../schema/qbankSchema.js'
 import userModel from '../schema/userSchema.js'
+import {updateQuestion} from './v_field';
 
 // new Model(data, true)  严格模式
 // 创建实例，可以用这种方式添加数据, 实例.save()
@@ -68,6 +69,32 @@ export async function updateQbankData(data, files){
         })
     }
     return result;
+}
+
+export async function updateQuestionData(data){
+    if(data.qbank_id){
+        if(!data.question_id){
+            data.question_id = createRandom();
+            await qbanksModel.findOneAndUpdate(
+                {qbank_id: data.qbank_id},
+                {$set: {questions:[_.pick(data,updateQuestion)]}},
+                (err, doc)=>{
+                    console.log(doc);
+                    retult = {
+                        question_id: data.question_id
+                    }
+                });
+        }else{
+            // await qbanksModel.findOneAndUpdate(
+            //     {qbank_id: data.qbank_id, data.question_id: {$in:questions}},
+            //     {$set: {questions:[_.pick(data,updateQuestion)]}},
+            //     (err, doc)=>{
+            //         retult =  {
+            //             question_id: data.question_id
+            //         }
+            //     });
+        }
+    }
 }
 
 export async function getUserQbanks(uid){
