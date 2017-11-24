@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-24 17:42:24
+ * @Last Modified time: 2017-11-24 17:58:15
 */
 
 'use strict';
@@ -37,7 +37,7 @@ export async function getQbankMsg(qbankid){
 
 export async function getUsersQbanks(uid){
     let result;
-    await qbanksModel.findOne({user_id: uid},(err, doc)=>{
+    await qbanksModel.find({user_id: uid},(err, doc)=>{
         result = doc;
     })
     return result;

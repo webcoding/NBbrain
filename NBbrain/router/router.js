@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-24 17:43:48
+ * @Last Modified time: 2017-11-24 17:57:03
 */
 
 'use strict';
@@ -46,7 +46,7 @@ router.post('/updateQbank', async(ctx)=>{
 })
 
 // 获取我的题库
-router.get('/myQbanks', async(ctx)=>{
+router.get('/getMyQbanks', async(ctx)=>{
     let user_id = ctx.cookies.get('user_id');
     let result = await getUsersQbanks(user_id);
     status.success(ctx, result);
