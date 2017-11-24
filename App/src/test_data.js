@@ -164,5 +164,20 @@ export default {
                 // 发布后---审核---审核通过-----推荐给好友挑战
             }
         ]
+    },
+    edit:{
+        qbank_name:'题库名',
+        qbank_material_url: '',
+        total_score: 40,
+        time: 120,
+        total_question: 5,
+
+    },
+    editQuestion: {
+        question_name: '题目',
+        time: 12,
+        items:[],
+        answer: 1,
+        score: 2
     }
 }

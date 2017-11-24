@@ -12,7 +12,7 @@ class QbankListItem extends React.Component{
         let operator = null;
         if(complish_statue===0){
             complish_text =`[${question_number}/${total_question}]`;
-            operator = <Link to="/edit/:qbank_id"><i><SVG type="edit" classes="nb_font_middle nb_font_align nb_right_gap"/>编辑</i></Link>;
+            operator = <i><SVG type="edit" classes="nb_font_middle nb_font_align nb_right_gap"/>编辑</i>;
         }else if(complish_statue===1){
             complish_text = "[已完成]";
             operator = <i><SVG type="published"  classes="nb_font_middle nb_font_align nb_right_gap"/>发布</i>;
@@ -27,7 +27,7 @@ class QbankListItem extends React.Component{
                 <li className="nb_list_item nb_flex nb_ver_center">
                     <img src={qbank_material_url}/>
                     <div className="nb_list_qbnk nb_flex nb_flex_clomun nb_ver_between">
-                        <span className="nb_btn nb_btn_radius">{operator}</span>
+                        <Link to="/edit" className="nb_btn nb_btn_radius">{operator}</Link>
                         <h4 className="nb_list_qbank_name">{qbank_name}</h4>
                         <p className="nb_list_progress">{complish_text}</p>
 

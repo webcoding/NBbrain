@@ -1,6 +1,6 @@
 import _ from 'lodash'
 export default {
-    ajax(method = 'get', url =  '', data = null){
+    ajax(method = 'get', url =  '', data = null, fn){
         let response;
         var xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
@@ -8,10 +8,14 @@ export default {
         xhr.send(data);
         xhr.onreadystatechange = function(){
             if(xhr.readyState === 4){
-                response = JSON.parse(xhr.response);
+                try{
+                    response = JSON.parse(xhr.response);
+                    fn(response);
+                }catch(err){
+                    console.log('返回json数据有问题，请检查')
+                }
             }
         }
-        return response;
     },
     store(key,value){
         if(_.isObject(key)){
@@ -19,7 +23,7 @@ export default {
                 localStorage.setItem(k,key[k]);
             }
         }else if(!value){
-            localStorage.getItem(key);
+            return localStorage.getItem(key);
         }else{
             localStorage.setItem(key, value);
         }

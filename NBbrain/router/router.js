@@ -1,8 +1,8 @@
 /*
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
-* @Last Modified by:   mengyue
-* @Last Modified time: 2017-08-06 19:15:01
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-11-24 10:52:43
 */
 
 'use strict';
@@ -11,16 +11,47 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbank} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbanks} from '../common/question.js'
 import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import {status} from '../common/utils'
 import config from '../config'
+import {updateQbank_f} from '../common/v_field';
 
 var router = new Router();
 var usermodel = new userSchema;
 var qbankmodel = new qbanksModel;
+// 登录与注册
+router.get('/login', async(ctx) => {
+    let code = ctx.query.code;
+    // 在后面再判断？
+    let uid = ctx.cookies.get('user_id');
+    if(!uid){
+        uid = createRandom();
+    }
+    await weixinLogin(code, uid);
+    ctx.cookies.set('user_id', uid, config.cookieConfig);
+    status.success(ctx,{uid: uid});
+});
+
+// 添加题库
+router.post('/updateQbank', async(ctx)=>{
+    let fields = ctx.request.fields;
+    let files = ctx.request.files;
+    fields.user_id = ctx.cookies.get('user_id');
+    let result = await updateQbankData(fields, files);
+    let temp = _.pick(result, updateQbank_f);
+    status.success(ctx, temp);
+})
+
+// 获取我的题库
+router.get('/myQbanks', async(ctx)=>{
+    let user_id = ctx.cookies.get('user_id');
+    let result = await getUsersQbanks(user_id);
+    status.success(ctx, result);
+})
+
 // 首页接口
 router.get('/', async (ctx) =>{
   // 需要验证uid的正确性？
@@ -42,18 +73,6 @@ router.get('/', async (ctx) =>{
       challenges: challengeList
     })
 })
-// 登录接口
-router.get('/login', async(ctx) => {
-    let code = ctx.query.code;
-    // 在后面再判断？
-    let uid = ctx.cookies.get('user_id');
-    if(!uid){
-        uid = createRandom();
-    }
-    await weixinLogin(code, uid);
-    ctx.cookies.set('user_id', uid, config.cookieConfig);
-    status.success(ctx,{uid: uid});
-});
 
 // user接口
 router.get('/user', async(ctx)=>{
@@ -69,21 +88,14 @@ router.get('/getQbank', async(ctx)=>{
     status.success(ctx, result);
 })
 
-// 添加题库
-router.post('/updateQbank', async(ctx)=>{
-    let fields = ctx.request.fields;
-    let files = ctx.request.files;
-    let result = await updateQbankData(fields, files);
-    console.log(result);
-    status.success(ctx, result);
-})
+
 
 // 添加题目
 
 // 获取用户的题库
 router.get('/getUsersQbanks', async(ctx)=>{
     let uid = ctx.query.uid;
-    let result = await getUsersQbank(uid);
+    let result = await getUsersQbanks(uid);
     status.success(ctx, result);
 })
 

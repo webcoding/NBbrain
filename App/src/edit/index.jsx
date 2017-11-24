@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import Head from '../common/head';
+import Foot from '../common/foot';
+import SVG from '../common/SVG';
 import editPage from './edit.scss';
 import {render} from 'react-dom';
 // import PropTypes from 'prop-types';
@@ -17,16 +20,18 @@ class  Qbank extends React.Component{
         let qbankid = (temp = location.pathname.match(/\?(\w*)$/)) ? temp[1] : '';
         this.state = {
             qbank_name: '',
-            reply_rule: '',
-            qbank_material_url: null
+            time: 60,
+            qbank_material_url: null,
+            total_question: 1
         }
         if(!qbankid) return;
         let result = utils.ajax('get','http://localhost:3001/getqbank?qbankid='+qbankid);
         if(!result) return;
         this.state = {
             qbank_name: result.data.qbank_name || '',
-            reply_rule: result.data.reply_rule || '',
-            qbank_material_url: result.data.qbank_material_url || null
+            time: result.data.time,
+            qbank_material_url: result.data.qbank_material_url || null,
+            total_question: result.data.total_question
         }
     }
     finish_edit(){
@@ -34,17 +39,20 @@ class  Qbank extends React.Component{
         for(let key in this.state){
             data.append(key, this.state[key]);
         }
-        let result = utils.ajax('post','http://localhost:3001/updateQbank', data);
-        history.forward('/user/uid')
-    }
-    add_item(e){
-        e.currentTarget.innsertBefore(this.refs.addCheckItem.cloneNode(true));
+        utils.ajax('post','http://localhost:3001/updateQbank', data, function(result){
+            let url = `http://localhost:3004/edit_question/${result.data.qbank_id}`;
+            history.pushState('','新增题目',url);
+        });
     }
     handleData(e,key){
         if(e.currentTarget.type==='file'){
             this.setState({
                 [key]: e.currentTarget.files[0]
             });
+        // }else if(e.currentTarget.type==='radio'){
+        //     this.setState({
+        //         [key]: parseInt(e.currentTarget.parentNode.textContent)
+        //     });
         }else{
             this.setState({
                 [key]: e.currentTarget.value
@@ -73,9 +81,22 @@ class  Qbank extends React.Component{
         }
     }
     render(){
+
+        let img = null;
+        img = this.state.qbank_material_url ? <img className="showImage" src={this.state.qbank_material_url} ref="showImage"/> : <img className="showImage" ref="showImage"/>;
+        let list = null, time = [60, 120, 180];
+        list = time.map((item)=>{
+            return (<label key={`time_${item}`}>
+            <input type="radio" name="time"  checked={this.state.time} value={item} onChange={(e)=>this.handleData(e, 'time')}/>{item}S
+            </label>)
+        })
         return (
             <div className="nb_wrap">
-                <h3 className="nb_title">新增题库</h3>
+                <Head>
+                    <SVG type="back" classes="nb_font_head"/>
+                    <h3>新增题库</h3>
+                    <SVG type="more" classes="nb_font_head"/>
+                </Head>
                 <div className="nb_content">
                     <dl className="nb_create_item flex">
                         <dt>题库名</dt>
@@ -88,7 +109,7 @@ class  Qbank extends React.Component{
                             <input type="file" onChange={(e)=>this.addImage(e)}/>
                             <div className="editArea">
                             <div className="imageBox">
-                                <img className="showImage" src={this.state.qbank_material_url || ''} ref="showImage"/>
+                                {img}
                             </div>
                                 <div className="ImageCover"></div>
                                 <div className="selectedImageArea"></div>
@@ -96,12 +117,21 @@ class  Qbank extends React.Component{
                         </dd>
                     </dl>
                     <dl className="nb_create_item">
-                        <dt>答题规则</dt>
-                        <dd><textarea value={this.state.reply_rule || ''}  onChange={(e)=>this.handleData(e, 'reply_rule')} placeholder="请输入答题规则"></textarea></dd>
+                        <dt>答题时长</dt>
+                        <dd>
+                            {list}
+                        </dd>
+                    </dl>
+                    <dl className="nb_create_item">
+                        <dt>题目个数</dt>
+                        <dd>
+                            <input type="number" value={this.state.total_question} onChange={(e)=>{this.handleData(e,'total_question')}} />
+                        </dd>
                     </dl>
                     <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>开始添加题目</button>
                     <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>完成</button>
                 </div>
+                <Foot/>
             </div>
 
         );

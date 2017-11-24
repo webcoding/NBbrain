@@ -54,7 +54,7 @@ export default class  User extends React.Component{
                         <span className="nb_user_avator_box">
                             <img src={headimgurl}/>
                         </span>
-                        <div class="">
+                        <div>
                             <h3 className="nb_user_name">{nickname}</h3>
                             <span className="nb_user_title">{title}</span>
                         </div>

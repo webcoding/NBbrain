@@ -31,7 +31,7 @@ export function chiptorEncrypt(ctx, username, password){
 
 export async function saveFile(file,qbank_id, question_id){
     if(file && file[0] && file[0].name){
-        let path = '/Users/mengyue/研究/NBbrian/NBbrain/upload';
+        let path = '/Users/mengyue/study/NBbrian/NBbrain/upload';
         let oldPath = file[0].path;
         qbank_id = qbank_id ? qbank_id + '_' : '';
         question_id = question_id ? question_id + '_' : '';
