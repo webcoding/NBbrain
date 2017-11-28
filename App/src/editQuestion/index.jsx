@@ -22,9 +22,11 @@ export default class  Question extends React.Component{
         };
     }
     finish_edit(){
-        utils.ajax('post','http://localhost:3001/updateQuestion',this.state,function(result){
-            //显示预览状态
-        });
+        let fn = utils.promisify(utils.ajax);
+        let promise = fn('post','http://localhost:3001/updateQuestion',this.state);
+        promise.then((result)=>{
+            console.log(result);
+        })
     }
     finish_question(){
         this.finish_edit();
@@ -46,7 +48,7 @@ export default class  Question extends React.Component{
         let items = item.map((item, i)=>{
             return (<label key={`item_${item}`}>{item}
                         <input type="checkbox" checked={this.state.answer===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
-                        <input type="text"  value={this.state.items[i] || ''} onChange={(e)=>{this.handleData(e,'items')}}/>
+                        <input type="text"  value={this.state.items[i] || ''} onBlur={(e)=>{this.handleData(e,'items')}}/>
                     </label>
             )
         });

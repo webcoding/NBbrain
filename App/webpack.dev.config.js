@@ -29,7 +29,8 @@ module.exports = {
     resolve: {
         extensions: ['.js','.jsx','.ejs','.scss']
     },
-    devtool: 'eval-source-map',
+    watch: true,
+    devtool: 'source-map',
     // devServer:{    //整个刷新，而非热更新
     //     port: 3003,
     //     inline: true,
@@ -79,7 +80,13 @@ module.exports = {
             }
         },{
             test: /.scss$/,
-            use: ['style-loader','css-loader','sass-loader']
+            use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use:[
+                    {loader: 'css-loader', options:{ sourceMap: true}},
+                    {loader: 'sass-loader', options: {sourceMap: true}},
+                ]
+            })
         },{
             test: /\.(png|jpg|gif)$/,
             use: ['url-loader', 'file-loader']
@@ -97,7 +104,7 @@ module.exports = {
         // new WebapckBuildNotifierPlugin({
         //     title: '开发环境 NBbrain  项目'
         // })
-        new ExtractTextPlugin("dist/common.css"),
+        new ExtractTextPlugin("common.css"),
         // new HtmlWebpackPlugin({
         //     title: 'NBbrain',
         //     // template: template,

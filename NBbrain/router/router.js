@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-24 17:57:03
+ * @Last Modified time: 2017-11-28 14:46:02
 */
 
 'use strict';
@@ -12,7 +12,7 @@ import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbanks, updateQuestionData} from '../common/question.js'
-import { setLoginUser, getLocalUid, userIsExist, getUserMsg} from '../common/user.js'
+import { setLoginUser, getLocalUid, userIsExist, getUserMsg, getUid} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import {status} from '../common/utils'
@@ -39,24 +39,37 @@ router.get('/login', async(ctx) => {
 router.post('/updateQbank', async(ctx)=>{
     let fields = ctx.request.fields;
     let files = ctx.request.files;
-    fields.user_id = ctx.cookies.get('user_id');
-    let result = await updateQbankData(fields, files);
-    let temp = _.pick(result, updateQbank_f);
-    status.success(ctx, temp);
+    fields.user_id = getUid(ctx);
+    if(!fields.user_id){
+        status.gotoLogin()
+    }else{
+        let result = await updateQbankData(fields, files);
+        let temp = _.pick(result, updateQbank_f);
+        status.success(ctx, temp);
+    }
 })
 
 // 获取我的题库
 router.get('/getMyQbanks', async(ctx)=>{
-    let user_id = ctx.cookies.get('user_id');
-    let result = await getUsersQbanks(user_id);
-    status.success(ctx, result);
+    let user_id = getUid(ctx);
+    if(!user_id){
+        status.gotoLogin()
+    }else{
+        let result = await getUsersQbanks(user_id);
+        status.success(ctx, result);
+    }
 })
 
 // 添加题目
 router.post('/updateQuestion', async(ctx)=>{
     let fields = ctx.request.fields;
-    let result = await updateQuestionData(fields);
-    status.success(ctx, result);
+    let user_id;
+    if(!user_id){
+        status.gotoLogin()
+    }else{
+        let result = await updateQuestionData(fields);
+        status.success(ctx, result);
+    }
 })
 
 // 首页接口

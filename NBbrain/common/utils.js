@@ -57,10 +57,16 @@ export var status = {
     },
     failed(ctx, code){
         ctx.body = {
-            code: 200,
+            code: 500,
             message: message[code] || ''
         }
         return false;
+    },
+    gotoLogin(ctx){
+        ctx.body = {
+            code: 512,
+            message: 'go to login'
+        }
     }
 }
 

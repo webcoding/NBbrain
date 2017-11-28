@@ -25,23 +25,29 @@ class  Qbank extends React.Component{
             total_question: 1
         }
         if(!qbankid) return;
-        let result = utils.ajax('get','http://localhost:3001/getqbank?qbankid='+qbankid);
-        if(!result) return;
-        this.state = {
-            qbank_name: result.data.qbank_name || '',
-            time: result.data.time,
-            qbank_material_url: result.data.qbank_material_url || null,
-            total_question: result.data.total_question
-        }
+        let fn = utils.promisify(utils.ajax);
+        let promise = fn('get','http://localhost:3001/getqbank?qbankid='+qbankid)
+        promise.then((result)=>{
+            this.setState({
+                qbank_name: result.data.qbank_name || '',
+                time: result.data.time,
+                qbank_material_url: result.data.qbank_material_url || null,
+                total_question: result.data.total_question
+            });
+        });
     }
     finish_edit(){
         let data = new FormData();
         for(let key in this.state){
             data.append(key, this.state[key]);
         }
-        utils.ajax('post','http://localhost:3001/updateQbank', data, function(result){
+        let fn = utils.promisify(utils.ajax);
+        let promise = fn('post','http://localhost:3001/updateQbank', data);
+        promise.then((result)=>{
             let url = `http://localhost:3004/edit_question/${result.data.qbank_id}`;
             history.pushState('','新增题目',url);
+        },(err)=>{
+            console.log(err);
         });
     }
     handleData(e,key){
