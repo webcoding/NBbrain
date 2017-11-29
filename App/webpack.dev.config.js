@@ -22,9 +22,11 @@ module.exports = {
         ]
     },
     output: {
+        // ？
         path: path.join(__dirname, 'dist'),
         filename: '[name].js',
-        publicPath: '/'
+        // 必须为绝对地址
+        publicPath: 'http://127.0.0.1/static/'
     },
     resolve: {
         extensions: ['.js','.jsx','.ejs','.scss']

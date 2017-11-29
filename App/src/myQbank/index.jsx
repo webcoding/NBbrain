@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import MyQbankList from '../common/myQbankList';
@@ -28,7 +29,7 @@ class  MyQbank extends React.Component{
                 <Head>
                     <SVG type="back" classes="nb_font_head"/>
                     <h3>我的题库</h3>
-                    <SVG type="system"  classes="nb_font_head"/>
+                    <Link to="/edit"><SVG type="add"  classes="nb_font_head"/></Link>
                 </Head>
                 <div className="nb_content">
                     <ul className="nb_list">

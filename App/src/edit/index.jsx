@@ -45,10 +45,14 @@ class  Qbank extends React.Component{
         let promise = fn('post','http://localhost:3001/updateQbank', data);
         promise.then((result)=>{
             let url = `http://localhost:3004/edit_question/${result.data.qbank_id}`;
+            console.log(url);
             history.pushState('','新增题目',url);
         },(err)=>{
             console.log(err);
         });
+    }
+    add_question(){
+
     }
     handleData(e,key){
         if(e.currentTarget.type==='file'){

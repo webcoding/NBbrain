@@ -26,6 +26,7 @@ let hot = webpackHotMiddleware(complimer);
 let app = express();
 app.use('/static',express.static('icon'));
 app.use('/static',express.static('material'));
+app.use('/static',express.static('dist'));
 app.enable('strict routing');
 app.set('view engine', 'ejs');
 app.set('views',path.resolve('./build/layout'));

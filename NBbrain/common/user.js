@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-28 11:12:33
+ * @Last Modified time: 2017-11-29 15:27:24
 */
 
 'use strict';
@@ -11,7 +11,13 @@ import userSchema from '../schema/userSchema'
 import {getUserQbanks} from './question'
 
 export async function hasToken(uid,cb){
-    await userSchema.findOne({user_id: uid},{access_token:1,openid:1}).exec(cb);
+    let result = null;
+    await userSchema.findOne({user_id: uid},{access_token:1,openid:1},(err, doc)=>{
+        if(!err){
+            result = doc;
+        }
+    });
+    return result;
 }
 
 export function getUid(ctx){
@@ -23,25 +29,36 @@ export function getUid(ctx){
 
 }
 
-export async function saveUserMsg(data, uid, cb){
+export async function isExistUser(openid){
+    let result = null;
+    await userSchema.findOne({openid: openid}, (err, doc)=>{
+        result = doc;
+    })
+    return result;
+}
+
+export async function saveUserMsg(data, uid, token, cb){
     if(!!data.errcode) return;
     data = JSON.parse(data);
     data.user_id = uid;
+    data.access_token = token;
     if(data && data.nickname){
-        // if(await userIsExist(uid)){
-            userSchema.update({user_id:uid}, {'$set':data},{upsert: true},cb);
-        // }else{
-        //     userSchema.create(data,cb);
-        // }
+        userSchema.update({user_id:uid}, {'$set':data},{upsert: true},cb);
     }
+}
+
+export async function getUserAll(uid){
+    let result = {};
+    result.basic = await getUserMsg(uid);
+    result.qbanks = await getUserQbanks(uid);
+    return result;
 }
 
 export async function getUserMsg(uid){
     let result = {};
     await userSchema.findOne({user_id: uid},function(err, doc){
-        result.basic = doc;
+        result = doc;
     });
-    result.qbanks = await getUserQbanks(uid);
     return result;
 }
 
@@ -80,7 +97,6 @@ export async function userIsExist(uid){
     await userSchema.findOne({user_id:uid},(err, doc)=>{
         result = doc;
     });
-    console.log(result);
     return result;
 }
 

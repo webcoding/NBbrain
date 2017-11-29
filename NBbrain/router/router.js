@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-28 14:46:02
+ * @Last Modified time: 2017-11-29 15:26:02
 */
 
 'use strict';
@@ -12,7 +12,7 @@ import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbanks, updateQuestionData} from '../common/question.js'
-import { setLoginUser, getLocalUid, userIsExist, getUserMsg, getUid} from '../common/user.js'
+import { setLoginUser, getLocalUid, userIsExist, getUserAll, getUid} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import {status} from '../common/utils'
@@ -25,11 +25,8 @@ var qbankmodel = new qbanksModel;
 // 登录与注册
 router.get('/login', async(ctx) => {
     let code = ctx.query.code;
-    // 在后面再判断？
+    // 过期或未登录过
     let uid = ctx.cookies.get('user_id');
-    if(!uid){
-        uid = createRandom();
-    }
     await weixinLogin(code, uid);
     ctx.cookies.set('user_id', uid, config.cookieConfig);
     status.success(ctx,{uid: uid});
@@ -97,7 +94,7 @@ router.get('/', async (ctx) =>{
 // user接口
 router.get('/user', async(ctx)=>{
     let uid = ctx.query.uid;
-    let result = await getUserMsg(uid);
+    let result = await getUserAll(uid);
     status.success(ctx, result);
 })
 
