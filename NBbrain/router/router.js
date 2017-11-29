@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-29 15:26:02
+ * @Last Modified time: 2017-11-29 17:04:06
 */
 
 'use strict';
@@ -60,7 +60,7 @@ router.get('/getMyQbanks', async(ctx)=>{
 // 添加题目
 router.post('/updateQuestion', async(ctx)=>{
     let fields = ctx.request.fields;
-    let user_id;
+    let user_id = getUid(ctx);
     if(!user_id){
         status.gotoLogin()
     }else{

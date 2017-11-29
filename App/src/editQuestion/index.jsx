@@ -16,6 +16,7 @@ export default class  Question extends React.Component{
             question_id:'',
             question_name:'',
             time: 0,
+            // 验证选项值不能相同
             items:[],
             answer: 'A',
             score: 1
@@ -23,7 +24,11 @@ export default class  Question extends React.Component{
     }
     finish_edit(){
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('post','http://localhost:3001/updateQuestion',this.state);
+        let data = new FormData();
+        for(let key in this.state){
+            data.append(key, this.state[key]);
+        }
+        let promise = fn('post','http://localhost:3001/updateQuestion',data);
         promise.then((result)=>{
             console.log(result);
         })
@@ -48,7 +53,7 @@ export default class  Question extends React.Component{
         let items = item.map((item, i)=>{
             return (<label key={`item_${item}`}>{item}
                         <input type="checkbox" checked={this.state.answer===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
-                        <input type="text"  value={this.state.items[i] || ''} onBlur={(e)=>{this.handleData(e,'items')}}/>
+                        <input type="text"/>
                     </label>
             )
         });
@@ -86,8 +91,8 @@ export default class  Question extends React.Component{
                             </dd>
                         </dl>
                     </div>
-                    <button className="nb_btn" onClick={this.finish_question}>下一题</button>
-                    <button className="nb_btn" onClick={this.finish_edit}>保存</button>
+                    <button className="nb_btn" onClick={(e)=>{this.finish_question()}}>下一题</button>
+                    <button className="nb_btn" onClick={(e)=>{this.finish_edit()}}>保存</button>
                 </div>
                 <Foot/>
             </div>

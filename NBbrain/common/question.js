@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-24 17:58:15
+ * @Last Modified time: 2017-11-29 17:07:36
 */
 
 'use strict';
@@ -80,9 +80,6 @@ export async function updateQuestionData(data){
                 {$set: {questions:[_.pick(data,updateQuestion)]}},
                 (err, doc)=>{
                     console.log(doc);
-                    retult = {
-                        question_id: data.question_id
-                    }
                 });
         }else{
             // await qbanksModel.findOneAndUpdate(
