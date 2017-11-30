@@ -8,7 +8,7 @@ import path from 'path';
 // express插件, ajax路径是相对，避免跨域，http代理
 // import proxy from 'http-proxy-middle'
 let entry = webpackConf.entry;
-const hotclient = ['webpack-hot-middleware/client?noInfo=true&reload=true']
+const hotclient = ['webpack-hot-middleware/client?noInfo=true&reload=true'];
 Object.keys(entry).forEach((name) => {
     const value = entry[name]
     if (Array.isArray(value)) {

@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-30 11:52:55
+ * @Last Modified time: 2017-11-30 18:04:00
 */
 
 'use strict';
@@ -27,9 +27,12 @@ router.get('/login', async(ctx) => {
     let code = ctx.query.code;
     // 过期或未登录过
     let uid = ctx.cookies.get('user_id');
-    await weixinLogin(code, uid);
-    ctx.cookies.set('user_id', uid, config.cookieConfig);
-    status.success(ctx,{uid: uid});
+    let cfg = config.cookieConfig;
+    let success = status.success;
+    let userMsg = await weixinLogin(code, uid,(result)=>{
+        success(ctx,{uid: result.user_id});
+        ctx.cookies.set('user_id', result.user_id, cfg);
+    });
 });
 
 // 添加题库
