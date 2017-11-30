@@ -1,13 +1,19 @@
 import React from 'react';
 import config from '../config';
 import utils from '../common/utils';
-import button from '../common/button'
+import button from '../common/button';
+import Foot from '../common/foot';
+import Head from '../common/head';
+import SVG from '../common/SVG';
 
 class  Login extends React.Component{
     componentDidMount(){
         // 根据code获取access_token, 定义为callback更好
         let arr;
         let code = (arr = location.search.match(/code=([0-9a-zA-Z]*)/)) ? arr[1] : '';
+        let temp;
+        let from = !!(temp = location.search.match(/from=([^&]*)/)) ? temp[1] : null;
+        utils.store('from', from);
         if(!code.length) return;
         let xhr = new XMLHttpRequest();
         xhr.open('get','http://localhost:3001/login?code=' + code ,true);
@@ -25,11 +31,16 @@ class  Login extends React.Component{
             if(xhr.readyState===4){
                 let result = xhr.response;
                 result = JSON.parse(result);
-                let uid = result
+                let uid = result;
                 if(result.data.uid){
-                    utils.store('uid',result.data.uid)
-                    let url = 'http://localhost:3004/user/' + result.data.uid;
-                    location.href = url;
+                    utils.store('uid',result.data.uid);
+                    from = utils.store('from');
+                    if(!!from){
+                        history.pushState(null,'NBbrain',from);
+                    }else{
+                        let url = 'http://localhost:3004/user/' + result.data.uid;
+                        history.pushState(null,'NBbrain',url);
+                    }
                 }
             }
         }
@@ -55,11 +66,16 @@ class  Login extends React.Component{
         let testURL = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${reUrl}&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect `;
         return (
             <div className="nb_wrap">
+                <Head>
+                    <SVG type="back" classes="nb_font_head"/>
+                    <h3>登录</h3>
+                    </Head>
                 <div className="nb_content">
                     <a className="nb_btn nb_btn_green" href={testURL}>微信登录</a>
                     <button className="nb_btn nb_btn_primary" onClick={this.test}>QQ登录</button>
                     <button className="nb_btn nb_btn_orange">微博登录</button>
                 </div>
+                <Foot/>
             </div>
         );
     }

@@ -26,7 +26,9 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js',
         // 必须为绝对地址
-        publicPath: 'http://127.0.0.1/static/'
+        publicPath: 'http://127.0.0.1/static/',
+        hotUpdateChunkFilename: 'hot/hot-update.js',
+        hotUpdateMainFilename: 'hot/hot-update.json'
     },
     resolve: {
         extensions: ['.js','.jsx','.ejs','.scss']

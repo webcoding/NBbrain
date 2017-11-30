@@ -10,12 +10,13 @@ export async function weixinLogin(code, uid){
     let userLoginMsg = null;
     // 根据uid获取用户信息
     if(!!uid){
-        return getUserMsg(uid);
+        result =  getUserMsg(uid);
     }else{
-        userLoginMsg = hasToken(uid);
-    }
+    // else{
+    //     userLoginMsg = hasToken(uid);
+    // }
     // 获取token
-    if(!userLoginMsg){
+    // if(!userLoginMsg){
         await https.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code`, (res)=>{
             res.on('data', (data)=>{
                 result += data;
@@ -26,7 +27,7 @@ export async function weixinLogin(code, uid){
                     // cookie中uid不可用，使用openid获取用户信息
                     let temp = isExistUser(result.openid);
                     if(!!temp){
-                        return temp;
+                        result = temp;
                     }else{
                         // access_token是可用的
                         isAvaliable(result.access_token, result.openid, function(){
@@ -39,10 +40,12 @@ export async function weixinLogin(code, uid){
                 }
             });
         });
-    }else{
-        // 不获取access_token，但是否过期？
-        getUserBaseMsg(userLoginMsg.access_token, result.userLoginMsg, uid);
     }
+    return result;
+    // }else{
+    //     // 不获取access_token，但是否过期？
+    //     getUserBaseMsg(userLoginMsg.access_token, result.userLoginMsg, uid);
+    // }
   }
 export async function getRefreshToken(token){
     let appid = config.weinxin_test.appid;
@@ -57,6 +60,7 @@ export async function getRefreshToken(token){
 }
 // 获取用户基本信息
 export async function getUserBaseMsg(token, openid, uid){
+    let rtn = null;
     https.get(`https://api.weixin.qq.com/sns/userinfo?access_token=${token}&openid=${openid}&lang=zh_CN`, (res)=>{
         let result = '';
         res.on('data', (data)=>{
@@ -67,6 +71,7 @@ export async function getUserBaseMsg(token, openid, uid){
                 if(err){
                     console.log(err.errmsg);
                 }else{
+
                     console.log('保存用户信息',data);
                 }
             });

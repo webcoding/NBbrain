@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-29 15:27:24
+ * @Last Modified time: 2017-11-30 11:10:28
 */
 
 'use strict';
@@ -23,7 +23,7 @@ export async function hasToken(uid,cb){
 export function getUid(ctx){
     let user_id = ctx.cookies.get('user_id');
     if(!user_id){
-        return -1;
+        return 0;
     }
     return user_id;
 

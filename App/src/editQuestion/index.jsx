@@ -18,7 +18,7 @@ export default class  Question extends React.Component{
             time: 0,
             // 验证选项值不能相同
             items:[],
-            answer: 'A',
+            answer: ['A'],
             score: 1
         };
     }
@@ -39,7 +39,7 @@ export default class  Question extends React.Component{
     }
     handleData(e,key){
         this.setState({
-            [key]: e.currentTarget.value
+            [key]: key==='items' || key==='answer'? [e.currentTarget.value] : e.currentTarget.value
         });
     }
     render(){
@@ -51,9 +51,10 @@ export default class  Question extends React.Component{
             {item}分</label>
         });
         let items = item.map((item, i)=>{
-            return (<label key={`item_${item}`}>{item}
-                        <input type="checkbox" checked={this.state.answer===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
-                        <input type="text"/>
+            return (<label key={`item_${item}`}>
+                        <input type="radio" checked={this.state.answer[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
+                        {item}
+                        <input type="text" value={this.state.items[i]}/>
                     </label>
             )
         });

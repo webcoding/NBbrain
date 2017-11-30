@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-29 17:07:36
+ * @Last Modified time: 2017-11-30 11:50:20
 */
 
 'use strict';
@@ -72,6 +72,7 @@ export async function updateQbankData(data, files){
 }
 
 export async function updateQuestionData(data){
+    let result = null;
     if(data.qbank_id){
         if(!data.question_id){
             data.question_id = createRandom();
@@ -79,19 +80,22 @@ export async function updateQuestionData(data){
                 {qbank_id: data.qbank_id},
                 {$set: {questions:[_.pick(data,updateQuestion)]}},
                 (err, doc)=>{
-                    console.log(doc);
+                    if(!err){
+                        result = doc;
+                    }
                 });
         }else{
-            // await qbanksModel.findOneAndUpdate(
-            //     {qbank_id: data.qbank_id, data.question_id: {$in:questions}},
-            //     {$set: {questions:[_.pick(data,updateQuestion)]}},
-            //     (err, doc)=>{
-            //         retult =  {
-            //             question_id: data.question_id
-            //         }
-            //     });
+            await qbanksModel
+                    .findOne({qbank_id: data.qbank_id})
+                    .where('questions.question_id')
+                    .in(data.question_id)
+                    .update(
+                        {$set:{questions:[_.pick(data,updateQuestion)]}},(err, doc)=>{
+                            result = doc;
+                    })
         }
     }
+    return result;
 }
 
 export async function getUserQbanks(uid){

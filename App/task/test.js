@@ -21,6 +21,8 @@ Object.keys(entry).forEach((name) => {
 let complimer = webpack(webpackConf);
 let dev = webpackDevMiddleware(complimer, {
     publicPath: webpackConf.output.publicPath,
+    hot: true,
+    stats: {colors: true}
 });
 let hot = webpackHotMiddleware(complimer);
 let app = express();

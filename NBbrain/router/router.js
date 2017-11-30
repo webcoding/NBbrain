@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-29 17:04:06
+ * @Last Modified time: 2017-11-30 11:52:55
 */
 
 'use strict';
@@ -38,7 +38,7 @@ router.post('/updateQbank', async(ctx)=>{
     let files = ctx.request.files;
     fields.user_id = getUid(ctx);
     if(!fields.user_id){
-        status.gotoLogin()
+        status.gotoLogin(ctx)
     }else{
         let result = await updateQbankData(fields, files);
         let temp = _.pick(result, updateQbank_f);
@@ -50,7 +50,7 @@ router.post('/updateQbank', async(ctx)=>{
 router.get('/getMyQbanks', async(ctx)=>{
     let user_id = getUid(ctx);
     if(!user_id){
-        status.gotoLogin()
+        status.gotoLogin(ctx)
     }else{
         let result = await getUsersQbanks(user_id);
         status.success(ctx, result);
@@ -62,7 +62,7 @@ router.post('/updateQuestion', async(ctx)=>{
     let fields = ctx.request.fields;
     let user_id = getUid(ctx);
     if(!user_id){
-        status.gotoLogin()
+        status.gotoLogin(ctx)
     }else{
         let result = await updateQuestionData(fields);
         status.success(ctx, result);

@@ -11,7 +11,8 @@ export default {
                 try {
                     response = JSON.parse(xhr.response);
                     if(response.code===512){
-                        history.replaceState(null, 'NBbrain', '/login');
+                        let url =  `/login?from=${location.href}`;
+                        history.replaceState(null, 'NBbrain',url);
                     }
                     cb(null, response);
                 } catch (err) {
