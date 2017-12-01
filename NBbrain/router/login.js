@@ -12,7 +12,7 @@ export async function weixinLogin(code, uid){
         return await getUserMsg(uid);
     }else{
         let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code`;
-        let permission = await httpsGet(url);
+        let permission = await getPermission(url);
         let userMsg = !!permission && await isExistUser(permission.openid);
         return userMsg = !userMsg && !!permission && await getNewUserMsg(permission.openid, permission.access_token);
     }
@@ -30,20 +30,20 @@ function httpsGet(url){
         return temp;
     })
 }
-// async function getPermission(url){
-//     let temp = '';
-//     let result = null;
-//     https.get(url, (res)=>{
-//         res.on('data', (data)=>{
-//             temp += data;
-//         });
-//         res.on('end', ()=>{
-//             result = JSON.parse(temp);
-//         });
-//     });
-//     return result;
+async function getPermission(url){
+    let temp = '';
+    let result = null;
+    https.get(url, (res)=>{
+        res.on('data', (data)=>{
+            temp += data;
+        });
+        res.on('end', ()=>{
+            result = JSON.parse(temp);
+        });
+    });
+    return result;
 
-// }
+}
 
 async function getNewUserMsg(openid, access_token){
         // access_token是可用的

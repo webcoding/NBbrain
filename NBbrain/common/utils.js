@@ -46,10 +46,10 @@ export async function saveFile(file,qbank_id, question_id){
     }
 }
 
-export function promisify(API,...args){
+export function promisify(API,url){
     // return (...args)=>{
         return new Promise((resolve, reject)=>{
-            API(...args,(err,response)=>{
+            API(url,(err,response)=>{
                 !!err ? reject(err) : resolve(response);
             })
         })
