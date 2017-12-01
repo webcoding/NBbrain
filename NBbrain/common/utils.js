@@ -46,6 +46,16 @@ export async function saveFile(file,qbank_id, question_id){
     }
 }
 
+export function promisify(API,...args){
+    // return (...args)=>{
+        return new Promise((resolve, reject)=>{
+            API(...args,(err,response)=>{
+                !!err ? reject(err) : resolve(response);
+            })
+        })
+    // }
+}
+
 export var status = {
     success(ctx, value){
         ctx.body = {
