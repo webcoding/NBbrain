@@ -1,8 +1,8 @@
 /*
 * @Author: mengyue
 * @Date:   2016-07-14 06:51:28
-* @Last Modified by:   mengyue
-* @Last Modified time: 2017-08-06 19:48:42
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2017-12-18 16:51:07
 */
 
 'use strict';
@@ -47,6 +47,7 @@ app.use(views(__dirname + '/views', {
 }));
 app.use(serve(__dirname + '/upload'));
 app.use(mount('/static', serve('interactive')));
+
 // app.use(mount('/upload'), serve('materials'))
 // app.use(function(ctx){
 //     ctx.set();

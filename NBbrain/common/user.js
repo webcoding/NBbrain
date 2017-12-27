@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-30 11:10:28
+ * @Last Modified time: 2017-12-27 17:54:31
 */
 
 'use strict';
@@ -11,13 +11,7 @@ import userSchema from '../schema/userSchema'
 import {getUserQbanks} from './question'
 
 export async function hasToken(uid,cb){
-    let result = null;
-    await userSchema.findOne({user_id: uid},{access_token:1,openid:1},(err, doc)=>{
-        if(!err){
-            result = doc;
-        }
-    });
-    return result;
+    return await userSchema.findOne({user_id: uid},{access_token:1,openid:1})
 }
 
 export function getUid(ctx){
@@ -30,11 +24,7 @@ export function getUid(ctx){
 }
 
 export async function isExistUser(openid){
-    let result = null;
-    await userSchema.findOne({openid: openid}, (err, doc)=>{
-        result = doc;
-    })
-    return result;
+    return await userSchema.findOne({openid: openid});
 }
 
 export async function saveUserMsg(data, uid, token, cb){
@@ -55,11 +45,7 @@ export async function getUserAll(uid){
 }
 
 export async function getUserMsg(uid){
-    let result = {};
-    await userSchema.findOne({user_id: uid},function(err, doc){
-        result = doc;
-    });
-    return result;
+    return await userSchema.findOne({user_id: uid});
 }
 
 export async function setLoginUser(ctx, username, password){
@@ -81,10 +67,7 @@ export async function setLoginUser(ctx, username, password){
 
 export async function userIsLogin(){
     let uid = ctx.cookies.get('user_id');
-    await userSchema.findOne({user_id:uid},(err, doc)=>{
-        result = doc;
-    });
-    return result;
+    return await userSchema.findOne({user_id:uid});
 }
 
 export function getLocalUid(ctx){
@@ -93,11 +76,7 @@ export function getLocalUid(ctx){
 }
 
 export async function userIsExist(uid){
-    let result;
-    await userSchema.findOne({user_id:uid},(err, doc)=>{
-        result = doc;
-    });
-    return result;
+    return await userSchema.findOne({user_id:uid});
 }
 
 export function allowCORS(ctx){

@@ -46,14 +46,24 @@ export async function saveFile(file,qbank_id, question_id){
     }
 }
 
-export function promisify(API,url){
-    // return (...args)=>{
+export function promisify(API){
+    return (...args)=>{
         return new Promise((resolve, reject)=>{
-            API(url,(err,response)=>{
-                !!err ? reject(err) : resolve(response);
+            API(...args,(response,err)=>{
+                let temp = '';
+                response.on('data',(data)=>{
+                    temp += data;
+                });
+                response.on('end',()=>{
+                    temp = JSON.parse(temp);
+                    resolve(temp)
+                })
+                response.on('error',(e)=>{
+                    reject(e)
+                })
             })
         })
-    // }
+    }
 }
 
 export var status = {
