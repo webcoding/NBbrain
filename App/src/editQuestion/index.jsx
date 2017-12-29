@@ -4,6 +4,7 @@ import Foot from '../common/foot';
 import {render} from 'react-dom';
 import SVG from '../common/SVG';
 import utils from '../common/utils';
+import './question'
 
 // class createQbank extends Component
 export default class  Question extends React.Component{
@@ -19,7 +20,7 @@ export default class  Question extends React.Component{
             // 验证选项值不能相同
             items:[],
             answer: ['A'],
-            score: 1
+            score: '1'
         };
     }
     finish_edit(){
@@ -35,18 +36,26 @@ export default class  Question extends React.Component{
     }
     finish_question(){
         this.finish_edit();
-        this.props.index++;
+        // this.props.index++;
     }
-    handleData(e,key){
-        this.setState({
-            [key]: key==='items' || key==='answer'? [e.currentTarget.value] : e.currentTarget.value
-        });
+    handleData(e, key, index){
+        if(key !== 'items'){
+            this.setState({
+                [key]: key==='answer'? [e.currentTarget.value] : e.currentTarget.value
+            });
+        }else{
+            let temp = this.state.items;
+            temp[index] = e.currentTarget.value;
+            this.setState({
+                items: temp
+            });
+        }
     }
     render(){
         let {index} = this.props;
-        let score = [1,2,3], item = ['A','B','C','D'];
+        let score = ['1','2','3'], item = ['A','B','C','D'];
         let temp = score.map((item)=>{
-            return <label key={`scores_${item}`} id={`scores_${item}`}>
+            return <label className="nb_choice_score" key={`scores_${item}`} id={`scores_${item}`}>
                 <input type="radio" checked={this.state.score===item} value={item} onChange={(e)=>{this.handleData(e,'score')}}/>
             {item}分</label>
         });
@@ -54,7 +63,7 @@ export default class  Question extends React.Component{
             return (<label key={`item_${item}`}>
                         <input type="radio" checked={this.state.answer[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
                         {item}
-                        <input type="text" value={this.state.items[i]}/>
+                        <input type="text" className="nb_item_text" onChange={(e)=>{this.handleData(e,'items', i)}}  placeholder={`选项${item}`} value={this.state.items[i]}/>
                     </label>
             )
         });
@@ -82,10 +91,10 @@ export default class  Question extends React.Component{
                         <dl className="nb_createQuestion_item">
                             <dt>答题所需时间</dt>
                             <dd>
-                                <input type="number"/>
+                                <input type="number" onChange={(e)=>{this.handleData(e, 'time')}}/>
                             </dd>
                         </dl>
-                        <dl className="nb_createQuestion_item" ref="addCheckItem">
+                        <dl className="nb_createQuestion_item nb_create_chioce" ref="addCheckItem">
                             <dt>添加选项并给出正确答案</dt>
                             <dd>
                                 {items}

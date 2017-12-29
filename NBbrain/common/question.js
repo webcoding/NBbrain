@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-12-27 17:49:01
+ * @Last Modified time: 2017-12-29 18:35:51
 */
 
 'use strict';
@@ -68,30 +68,19 @@ export async function updateQbankData(data, files){
 }
 
 export async function updateQuestionData(data){
-    let result = null;
     if(data.qbank_id){
         if(!data.question_id){
             data.question_id = createRandom();
-            await qbanksModel.findOneAndUpdate(
+            console.log(_.pick(data,updateQuestion));
+            return await qbanksModel.findOneAndUpdate(
                 {qbank_id: data.qbank_id},
-                {$set: {questions:[_.pick(data,updateQuestion)]}},
-                (err, doc)=>{
-                    if(!err){
-                        result = doc;
-                    }
-                });
+                {$push: {questions:_.pick(data,updateQuestion)}});
         }else{
-            await qbanksModel
-                    .findOne({qbank_id: data.qbank_id})
-                    .where('questions.question_id')
-                    .in(data.question_id)
-                    .update(
-                        {$set:{questions:[_.pick(data,updateQuestion)]}},(err, doc)=>{
-                            result = doc;
-                    })
+            return await qbanksModel
+                .findOneAndUpdate({$and: [{qbank_id: data.qbank_id}, {$elemMatch: {question_id: data.question_id}}]},
+                    {$addToSet:{questions:_.pick(data,updateQuestion)}})
         }
     }
-    return result;
 }
 
 export async function getUserQbanks(uid){

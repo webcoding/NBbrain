@@ -13,14 +13,15 @@ export async function weixinLogin(code, uid){
     }else{
         let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code`;
         let permission = await getPermission(url);
-        console.log(permission);
         let userMsg = !!permission && await isExistUser(permission.openid);
+        console.log(userMsg);
         if(!userMsg && !!permission){
             let access_token = permission.access_token;
             let openid = permission.openid;
             let uid = await isAvaliable(access_token, openid)
-            await getUserBaseMsg(access_token, openid, uid);
+            return await getUserBaseMsg(access_token, openid, uid);
         }
+        return userMsg;
     }
 }
 
