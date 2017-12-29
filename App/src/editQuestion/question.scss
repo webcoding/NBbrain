@@ -1,0 +1,30 @@
+.nb_question{
+  .nb_createQuestion_item{
+    display: flex;
+    margin-top: 10px;
+    dt{
+      color: rgb(64,64,64);
+      margin-right: 8px;
+    }
+    dd{
+      input{
+        border: 1px solid #efefef;
+        color: rgb(67,67,67);
+      }
+      .nb_choice_score{
+        margin-right: 10px;
+      }
+    }
+    &.nb_create_chioce{
+      display: block;
+      label{
+        display: block;
+        margin-top: 10px;
+        .nb_item_text{
+          width: 88%;
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+}
