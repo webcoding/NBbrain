@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 11:26:54
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-21 15:56:03
+ * @Last Modified time: 2018-01-04 15:31:05
 */
 
 'use strict';
@@ -32,9 +32,7 @@ var qbankSchema = new mongoose.Schema({
     qbank_id: {type: String, unique: true, require: true},
     qbank_name: String,
     reply_rule: String,
-    total_score: Number,
     time: Number,
-    total_question: Number,
     // icon: String,
     create_time: {type: Date, default: Date.now},
     update_time: {type: Date, default: Date.now},

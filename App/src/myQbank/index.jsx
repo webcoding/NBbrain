@@ -23,7 +23,6 @@ class  MyQbank extends React.Component{
         })
     }
     render(){
-        if(!this.state.qbanks) return;
         return (
             <div className="nb_wrap">
                 <Head>

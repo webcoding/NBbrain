@@ -19,7 +19,7 @@ export default class  Question extends React.Component{
             time: 0,
             // 验证选项值不能相同
             items:[],
-            answer: ['A'],
+            answers: ['A'],
             score: '1'
         };
     }
@@ -31,7 +31,7 @@ export default class  Question extends React.Component{
         }
         let promise = fn('post','http://localhost:3001/updateQuestion',data);
         promise.then((result)=>{
-            console.log(result);
+            console.log(result)
         })
     }
     finish_question(){
@@ -53,13 +53,13 @@ export default class  Question extends React.Component{
     }
     render(){
         let {index} = this.props;
-        let score = ['1','2','3'], item = ['A','B','C','D'];
+        let score = ['1','2','3'], chioces = ['A','B','C','D'];
         let temp = score.map((item)=>{
             return <label className="nb_choice_score" key={`scores_${item}`} id={`scores_${item}`}>
                 <input type="radio" checked={this.state.score===item} value={item} onChange={(e)=>{this.handleData(e,'score')}}/>
             {item}分</label>
         });
-        let items = item.map((item, i)=>{
+        let H_items = chioces.map((item, i)=>{
             return (<label key={`item_${item}`}>
                         <input type="radio" checked={this.state.answer[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
                         {item}
@@ -97,7 +97,7 @@ export default class  Question extends React.Component{
                         <dl className="nb_createQuestion_item nb_create_chioce" ref="addCheckItem">
                             <dt>添加选项并给出正确答案</dt>
                             <dd>
-                                {items}
+                                {H_items}
                             </dd>
                         </dl>
                     </div>

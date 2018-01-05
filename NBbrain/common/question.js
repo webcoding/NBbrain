@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-12-29 18:35:51
+ * @Last Modified time: 2018-01-05 18:04:18
 */
 
 'use strict';
@@ -71,24 +71,39 @@ export async function updateQuestionData(data){
     if(data.qbank_id){
         if(!data.question_id){
             data.question_id = createRandom();
-            console.log(_.pick(data,updateQuestion));
+            data.items = data.items && data.items.split(',');
+            data.answers = data.answers && data.answers.split(',');
             return await qbanksModel.findOneAndUpdate(
                 {qbank_id: data.qbank_id},
-                {$push: {questions:_.pick(data,updateQuestion)}});
+                {
+                    $currentDate: {update_time: true},
+                    $push: {questions:_.pick(data,updateQuestion)}
+                }
+            );
         }else{
+            data.items = data.items && data.items.split(',');
+            data.answers = data.answers && data.answers.split(',');
             return await qbanksModel
                 .findOneAndUpdate({$and: [{qbank_id: data.qbank_id}, {$elemMatch: {question_id: data.question_id}}]},
-                    {$addToSet:{questions:_.pick(data,updateQuestion)}})
+                    {
+                        $currentDate: {update_time: true},
+                        $addToSet:{questions:_.pick(data,updateQuestion)}
+                    }
+                );
         }
     }
 }
 
 export async function getUserQbanks(uid){
-    let result;
-    await qbanksModel.find({user_id: uid}, {qbank_id:1, qbank_name:1, reply_rule:1, qbank_material_url:1,update_time:1, questions:1}, function(err, doc){
-        result = doc;
-    });
-    return result;
+    return await qbanksModel.aggregate([
+        {$match:{user_id: uid}},
+        {$project:{
+            qbank_id:1, qbank_name:1, qbank_material_url:1,update_time:1,complish_statue:1,
+            question_number: {$size: "$questions"},
+            total_question: 1,
+            question_ids:"$questions.question_id"
+        }}
+    ])
 }
 
 var uid = createData()
