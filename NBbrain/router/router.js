@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-12-26 17:37:12
+ * @Last Modified time: 2018-01-11 11:48:59
 */
 
 'use strict';
@@ -11,8 +11,8 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUsersQbanks, updateQuestionData} from '../common/question.js'
-import { setLoginUser, getLocalUid, userIsExist, getUserAll, getUid} from '../common/user.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank} from '../common/question.js'
+import { setLoginUser, getLocalUid, getUserAll, getUid} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import {status} from '../common/utils'
@@ -52,7 +52,7 @@ router.get('/getMyQbanks', async(ctx)=>{
     if(!user_id){
         status.gotoLogin(ctx)
     }else{
-        let result = await getUsersQbanks(user_id);
+        let result = await getUserQbanks(user_id);
         status.success(ctx, result);
     }
 })
@@ -70,16 +70,14 @@ router.post('/updateQuestion', async(ctx)=>{
 })
 
 // 首页接口
-router.get('/', async (ctx) =>{
+router.get('/recentUpdateQbank', async (ctx) =>{
   // 需要验证uid的正确性？
     let uid = getLocalUid(ctx);
-    let questionList;
-    let challengeList;
-    // setLoginUser(ctx, 'test9','nihao')
+    let qbankList;
     if(!!uid){
-        challengeList = qbanksModel.find({user_id:uid}).sort({update_date:-1}).limit(5).exec(function(err, doc){
-            console.log(doc)
-        });
+        status.gotoLogin(ctx)
+    }else{
+        let result = await getRecentUpdateQbank(5)
     }
     questionList = qbanksModel.find().sort({'create_time':-1}).limit(5).exec(function(err, doc){
         console.log(doc)
@@ -89,6 +87,10 @@ router.get('/', async (ctx) =>{
       questions: questionList,
       challenges: challengeList
     })
+})
+router.get('recentChallengeQbank', async(ctx)=>{
+    let uid = getLocalUid(ctx);
+    let challengeList;
 })
 
 // user接口
@@ -110,11 +112,11 @@ router.get('/getQbank', async(ctx)=>{
 // 添加题目
 
 // 获取用户的题库
-router.get('/getUsersQbanks', async(ctx)=>{
-    let uid = ctx.query.uid;
-    let result = await getUsersQbanks(uid);
-    status.success(ctx, result);
-})
+// router.get('/getUsersQbanks', async(ctx)=>{
+//     let uid = ctx.query.uid;
+//     let result = await getUsersQbanks(uid);
+//     status.success(ctx, result);
+// })
 
 router.post('/checkLogin', async(ctx) => {
     let temp = ctx.request.body;

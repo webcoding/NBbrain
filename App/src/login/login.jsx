@@ -47,25 +47,14 @@ class  Login extends React.Component{
             }
         }
     }
-    test(){
-        let xhr = new XMLHttpRequest();
-        xhr.open('get','http://localhost:3001/login?uid=222222' ,true);
-        // 设置http请求头
-        // xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        // 在处理未包含mime-type头部信息的内容时会报错
-        // xhr.overrideMimeType("text/xml");
-        xhr.withCredentials = true;
-        xhr.send(null);
-        xhr.onreadystatechange = function(){
-            console.log(xhr.readyState===4 && xhr.responseText);
-        }
-    }
     render(){
+        let qq = config.qq;
         let appid = config.weinxin_test.appid;
         let secret = config.weinxin_test.secret;
         let reUrl = `http://oauth.devnode.cn/debug/wechat/index.html`;
         let state = 123;
         let testURL = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${reUrl}&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect `;
+        let qqUrl = `http://open.z.qq.com/demo/index.jsp?response_type=code&client_id=${qq.appid}&redirect_uri=${location.href}&state=test`
         return (
             <div className="nb_wrap">
                 <Head>
@@ -74,7 +63,7 @@ class  Login extends React.Component{
                     </Head>
                 <div className="nb_content">
                     <a className="nb_btn nb_btn_green" href={testURL}>微信登录</a>
-                    <button className="nb_btn nb_btn_primary" onClick={this.test}>QQ登录</button>
+                    <button className="nb_btn nb_btn_primary" href={qqUrl}>QQ登录</button>
                     <button className="nb_btn nb_btn_orange">微博登录</button>
                 </div>
                 <Foot/>

@@ -7,7 +7,7 @@ class QbankListItem extends React.Component{
         super(props);
     }
     render(){
-        let {qbank_name, qbank_material_url, total_question, question_number, complish_statue} = this.props.item;
+        let {qbank_id, qbank_name, qbank_material_url, total_question, question_number, complish_statue=0} = this.props.item;
         let complish_text="";
         let operator = null;
         if(complish_statue===0){
@@ -27,7 +27,7 @@ class QbankListItem extends React.Component{
                 <li className="nb_list_item nb_flex nb_ver_center">
                     <img src={qbank_material_url}/>
                     <div className="nb_list_qbnk nb_flex nb_flex_clomun nb_ver_between">
-                        <Link to="/edit" className="nb_btn nb_btn_radius">{operator}</Link>
+                        <Link to={`/edit/${qbank_id}`} className="nb_btn nb_btn_radius">{operator}</Link>
                         <h4 className="nb_list_qbank_name">{qbank_name}</h4>
                         <p className="nb_list_progress">{complish_text}</p>
 

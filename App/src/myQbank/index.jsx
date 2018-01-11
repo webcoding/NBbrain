@@ -26,7 +26,7 @@ class  MyQbank extends React.Component{
         return (
             <div className="nb_wrap">
                 <Head>
-                    <SVG type="back" classes="nb_font_head"/>
+                    <SVG type="back" classes="nb_font_head" onClick={(e)=>{history.back()}}/>
                     <h3>我的题库</h3>
                     <Link to="/edit"><SVG type="add"  classes="nb_font_head"/></Link>
                 </Head>

@@ -61,7 +61,7 @@ export default class  Question extends React.Component{
         });
         let H_items = chioces.map((item, i)=>{
             return (<label key={`item_${item}`}>
-                        <input type="radio" checked={this.state.answer[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
+                        <input type="radio" checked={this.state.answers[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
                         {item}
                         <input type="text" className="nb_item_text" onChange={(e)=>{this.handleData(e,'items', i)}}  placeholder={`选项${item}`} value={this.state.items[i]}/>
                     </label>

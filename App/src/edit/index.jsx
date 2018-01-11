@@ -20,7 +20,7 @@ class  Qbank extends React.Component{
         let qbankid = (temp = location.pathname.match(/\?(\w*)$/)) ? temp[1] : '';
         this.state = {
             qbank_name: '',
-            time: 60,
+            time: "60",
             qbank_material_url: null,
             total_question: 1
         }
@@ -93,10 +93,10 @@ class  Qbank extends React.Component{
 
         let img = null;
         img = this.state.qbank_material_url ? <img className="showImage" src={this.state.qbank_material_url} ref="showImage"/> : <img className="showImage" ref="showImage"/>;
-        let list = null, time = [60, 120, 180];
+        let list = null, time = ["60", "120", "180"];
         list = time.map((item)=>{
             return (<label key={`time_${item}`}>
-            <input type="radio" name="time"  checked={this.state.time} value={item} onChange={(e)=>this.handleData(e, 'time')}/>{item}S
+            <input type="radio" name="time" checked={this.state.time===item} value={item} onChange={(e)=>this.handleData(e, 'time')}/>{item}S
             </label>)
         })
         return (

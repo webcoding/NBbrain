@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-12-27 18:08:14
+ * @Last Modified time: 2018-01-11 16:29:06
 */
 
 'use strict';
@@ -23,17 +23,23 @@ export function getUid(ctx){
 
 }
 
-export async function isExistUser(openid){
-    return await userSchema.findOne({openid: openid});
+export async function isExistUserAnduserId(openid){
+    return await userSchema.findOne({openid: openid},{user_id:1});
+}
+
+export async function isThisUser(uid,nickname) {
+    return await userSchema.findOne({user_id:uid, nickname: nickname})
 }
 
 export async function saveUserMsg(data, uid, token, cb){
-    if(!!data.errcode) return;
-    data = JSON.parse(data);
     data.user_id = uid;
     data.access_token = token;
     if(data && data.nickname){
-        userSchema.update({user_id:uid}, {'$set':data},{upsert: true},cb);
+        userSchema.update({user_id: uid}, {'$set':data},{upsert: true},function(err,doc){
+            if(!!err){
+                console.log('数据更新成功',doc)
+            }
+        });
     }
 }
 
