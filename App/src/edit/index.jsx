@@ -17,20 +17,26 @@ class  Qbank extends React.Component{
         super(props);
         // 编辑、获取数据
         let xhr = new XMLHttpRequest(), temp;
-        let qbankid = (temp = location.pathname.match(/\?(\w*)$/)) ? temp[1] : '';
+        let qbankid = (temp = location.pathname.match(/\/([\w]*)$/)) ? temp[1] : '';
         this.state = {
             qbank_name: '',
             time: "60",
             qbank_material_url: null,
-            total_question: 1
+            total_question: 1,
+            qbank_id:""
         }
-        if(!qbankid) return;
+        console.log(qbankid)
+        if(!qbankid || qbankid === 'edit') return;
+        this.setState({
+            qbank_id: qbankid
+        })
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get','http://localhost:3001/getqbank?qbankid='+qbankid)
+        let promise = fn('get','http://localhost:3001/getqbank?qbankid='+qbankid,null);
+        let that = this;
         promise.then((result)=>{
-            this.setState({
+            that.setState({
                 qbank_name: result.data.qbank_name || '',
-                time: result.data.time,
+                time: result.data.time+'',
                 qbank_material_url: result.data.qbank_material_url || null,
                 total_question: result.data.total_question
             });
