@@ -9,18 +9,23 @@ import test_data from '../test_data';
 class Home extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            recentQbanks : [],
+            recentChallenges : []
+        }
         let fn = utils.promisify(utils.ajax);
         let promise = fn('get','http://localhost:3001/recentUpdateQbank',null);
         let promise1 = fn('get','http://localhost:3001/recentChallengedQbank',null);
         let that = this;
         promise.then((result)=>{
-            that.props.recentQbanks = result.data;
+            that.setState({recentQbanks: result.data})
         });
         promise1.then((result)=>{
-            that.props.recentChallenges = result.data;
+            that.setState({recentChallenges: result.data})
         });
     }
     render(){
+        let {recentChallenges, recentQbanks} = this.state;
         return (
             <div className="nb_wrap">
                 <Head>
@@ -29,14 +34,22 @@ class Home extends React.Component{
                     <SVG type="system" classes="nb_font_head"/>
                 </Head>
                 <div className="nb_content">
-                    <h3 className="nb_home_title">最近挑战过的题目</h3>
-                    <ul className="nb_list">
-                        {test_data.home.data.map((item,index) => <ListItem key={index} item={item}/>)}
-                    </ul>
-                    <h2 className="nb_home_title">最新题目</h2>
-                    <ul className="nb_list">
-                        {test_data.home.data.map((item,index) => <ListItem key={index} item={item}/>)}
-                    </ul>
+                    {recentChallenges.length>0 &&
+                        <div>
+                        <h3 className="nb_home_title">最近挑战过的题目</h3>
+                        <ul className="nb_list">
+                            {recentChallenges.map((item,index) => <ListItem key={index} item={item}/>)}
+                        </ul>
+                        </div>
+                    }
+                    {recentQbanks.length>0 &&
+                        <div>
+                        <h3 className="nb_home_title">最新题目</h3>
+                        <ul className="nb_list">
+                            {recentQbanks.map((item,index) => <ListItem key={index} item={item}/>)}
+                        </ul>
+                        </div>
+                    }
                 </div>
                 <Foot/>
             </div>

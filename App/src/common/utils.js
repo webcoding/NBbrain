@@ -1,9 +1,9 @@
 import _ from 'lodash'
 export default {
-    ajax(method = 'get', url = '', data = null, cb) {
+    ajax(method = 'get', url = '', data = null, async = true) {
         let response;
         var xhr = new XMLHttpRequest();
-        xhr.open(method, url, true);
+        xhr.open(method, url, async);
         xhr.withCredentials = true;
         xhr.send(data);
         xhr.onreadystatechange = function () {
@@ -14,7 +14,7 @@ export default {
                         let url =  `/login?from=${location.href}`;
                         history.replaceState(null, 'NBbrain',url);
                     }
-                    cb(null, response);
+                    // cb(null, response);
                 } catch (err) {
                     console.log('返回json数据有问题，请检查')
                 }

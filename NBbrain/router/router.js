@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-18 17:24:43
+ * @Last Modified time: 2018-01-18 18:11:55
 */
 
 'use strict';
@@ -76,12 +76,14 @@ router.get('/recentUpdateQbank', async (ctx) =>{
     let temp = _.omit(result, ['_id','user_msg._id']);
     status.success(ctx, temp);
 })
-router.get('recentChallengedQbank', async(ctx)=>{
+router.get('/recentChallengedQbank', async(ctx)=>{
     let user_id = getUid(ctx);
     if(!!user_id){
         let result = await getRecentChallengedQbank(user_id, 5)
         let temp = _.omit(result, ['_id','user_msg._id']);
         status.success(ctx, temp);
+    }else{
+        status.success(ctx, null);
     }
 })
 
