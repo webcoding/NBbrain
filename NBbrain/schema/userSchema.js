@@ -1,8 +1,8 @@
 /*
 * @Author: mengyue
 * @Date:   2017-08-03 10:58:24
-* @Last Modified by:   mengyue
-* @Last Modified time: 2017-08-06 20:45:01
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-01-17 17:58:13
 */
 
 'use strict';
@@ -26,6 +26,7 @@ var scoreSchema = new mongoose.Schema({
     create_time: {type: Date, default: Date.now}
 });
 var UserSchema = new mongoose.Schema({
+    _id: Number,
     user_id:{type: String, unique: true, require: true},
     nickname: {type: String},
     city: {type: String},

@@ -25,7 +25,6 @@ class  Qbank extends React.Component{
             total_question: 1,
             qbank_id:""
         }
-        console.log(qbankid)
         if(!qbankid || qbankid === 'edit') return;
         this.setState({
             qbank_id: qbankid
@@ -42,22 +41,30 @@ class  Qbank extends React.Component{
             });
         });
     }
-    finish_edit(){
+    finish_edit(next){
         let data = new FormData();
         for(let key in this.state){
             data.append(key, this.state[key]);
         }
         let fn = utils.promisify(utils.ajax);
         let promise = fn('post','http://localhost:3001/updateQbank', data);
+        let that = this;
         promise.then((result)=>{
-            let url = `http://localhost:3004/edit_question/${result.data.qbank_id}`;
-            history.pushState(null,'新增题目',url);
+            if(!!next){
+                that.add_question(result);
+            }else{
+                let url = `http://localhost:3004/list/${result.data.user_id}`;
+                history.pushState(null,'我的题目',url);
+                history.go();
+            }
         },(err)=>{
             console.log(err);
         });
     }
-    add_question(){
-
+    add_question(result){
+        let url = `http://localhost:3004/edit_question/${result.data.qbank_id}`;
+        history.pushState(null,'新增题目',url);
+        history.go();
     }
     handleData(e,key){
         if(e.currentTarget.type==='file'){
@@ -143,7 +150,7 @@ class  Qbank extends React.Component{
                             <input type="number" value={this.state.total_question} onChange={(e)=>{this.handleData(e,'total_question')}} />
                         </dd>
                     </dl>
-                    <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>开始添加题目</button>
+                    <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit('next')}>开始添加题目</button>
                     <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>完成</button>
                 </div>
                 <Foot/>

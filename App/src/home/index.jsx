@@ -4,8 +4,22 @@ import Head from '../common/head';
 import Foot from '../common/foot';
 import ListItem from '../common/listItem';
 import SVG from '../common/SVG';
+import utils  from '../common/utils';
 import test_data from '../test_data';
 class Home extends React.Component{
+    constructor(props){
+        super(props)
+        let fn = utils.promisify(utils.ajax);
+        let promise = fn('get','http://localhost:3001/recentUpdateQbank',null);
+        let promise1 = fn('get','http://localhost:3001/recentChallengedQbank',null);
+        let that = this;
+        promise.then((result)=>{
+            that.props.recentQbanks = result.data;
+        });
+        promise1.then((result)=>{
+            that.props.recentChallenges = result.data;
+        });
+    }
     render(){
         return (
             <div className="nb_wrap">

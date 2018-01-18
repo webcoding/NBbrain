@@ -2,11 +2,12 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-11 16:54:25
+ * @Last Modified time: 2018-01-18 16:58:27
 */
 
 'use strict';
 import _ from 'underscore'
+import mongoose from 'mongoose'
 import {createRandom, saveFile} from '../common/utils'
 import qbanksModel from '../schema/qbankSchema.js'
 import userModel from '../schema/userSchema.js'
@@ -40,32 +41,19 @@ export async function getQbankMsg(qbankid){
 // }
 
 export async function updateQbankData(data, files){
-    let result;
     if(!data.qbank_id){
         data.qbank_id = createRandom();
         data.qbank_material_url = await saveFile(files,data.qbank_id);
         // data.questions = [{question_id: data.qbank_id}];
-        await qbanksModel.create(data, function(err, doc){
-            if(!err){
-                result = doc;
-            }else{
-                console.log(err.errmsg);
-                result = null
-            }
-        })
+        let arr = await qbanksModel.insertMany(data);
+        return arr && arr[0];
     }else{
         data.qbank_material_url = await saveFile(files,data.qbank_id);
-        await qbanksModel.update({qbank_id: data.qbank_id},{$set:data},function(err, doc){
-            if(!err){
-                result = doc;
-            }else{
-                console.log(err.errmsg);
-                result = null
-            }
-        })
+        return await qbanksModel.update({qbank_id: data.qbank_id},{$set:data})
     }
-    return result;
 }
+
+
 
 export async function updateQuestionData(data){
     if(data.qbank_id){
@@ -96,39 +84,43 @@ export async function updateQuestionData(data){
 
 export async function getUserQbanks(uid){
     return await qbanksModel.aggregate([
-            {$match:{user_id: uid}},
-            {$project:{
-                _id: 0,
-                qbank_id:1, qbank_name:1, qbank_material_url:1,update_time:1,complish_statue:1,
-                question_number: {$size: "$questions"},
-                total_question: 1,
-                question_ids:"$questions.question_id"
-            }}
-        ]);
+        {$match:{user_id: uid}},
+        {$project:{
+            _id: 0,
+            qbank_id:1, qbank_name:1, qbank_material_url:1,update_time:1,complish_statue:1,
+            question_number: {$size: "$questions"},
+            total_question: 1,
+            question_ids:"$questions.question_id"
+        }}
+    ]).exec();
 }
 
 
-export async function getRecentUpdateQbank(count,uid){
+export async function getRecentUpdateQbank(count){
     return await qbanksModel.aggregate([
         {$lookup:{
             from: "users",
             localField: "user_id",
             foreignField: "user_id",
-            as: "recent_qbanks"
-        }},
-        {$match:{
-            user_id: uid,
+            as: "user_msg"
         }},
         {$project:{
-            avator: 1,
-            username: 1,
-            title: 1,
+            user_id: 1,
+            "user_msg.headimgurl": 1,
+            "user_msg.nickname": 1,
+            "user_msg.title": 1,
             qbank_name: 1,
             material_url: 1,
-            qbank_count: {$}
+            qbank_id: 1,
+            qbank_name:1,
+            qbank_material_url: 1,
+            total_score: {$sum: "$questions.score"},
+            challenged_question_count: 1,
+            collected_question_count: 1
         }},
-        {$sort:{update_time: 1}},
-    ])
+        {$sort:{update_time: -1}},
+        {$limit: count}
+    ]).exec();
 }
 
 var uid = createData()

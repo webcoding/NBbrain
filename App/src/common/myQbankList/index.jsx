@@ -12,7 +12,7 @@ class QbankListItem extends React.Component{
         let operator = null;
         if(complish_statue===0){
             complish_text =`[${question_number}/${total_question}]`;
-            operator = <i><SVG type="edit" classes="nb_font_middle nb_font_align nb_right_gap"/>编辑</i>;
+            operator = <Link to={`/edit/${qbank_id}`}><SVG type="edit" classes="nb_font_middle nb_font_align nb_right_gap"/>编辑</Link>;
         }else if(complish_statue===1){
             complish_text = "[已完成]";
             operator = <i><SVG type="published"  classes="nb_font_middle nb_font_align nb_right_gap"/>发布</i>;

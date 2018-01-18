@@ -37,11 +37,11 @@ class  Login extends React.Component{
                     from = utils.store('from');
                     if(!!from){
                         history.pushState(null,'NBbrain',from);
-                        history.go(1);
+                        history.go();
                     }else{
                         let url = 'http://localhost:3004/user/' + result.data.uid;
                         history.pushState(null,'NBbrain',url);
-                        history.go(1);
+                        history.go();
                     }
                 }
             }

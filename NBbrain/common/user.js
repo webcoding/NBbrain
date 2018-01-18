@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-11 16:29:06
+ * @Last Modified time: 2018-01-18 15:44:21
 */
 
 'use strict';
@@ -42,6 +42,37 @@ export async function saveUserMsg(data, uid, token, cb){
         });
     }
 }
+
+export async function getRecentChallengedQbank(uid, limit){
+    return await userSchema.aggregate([
+        {$lookup:{
+            from: "qbanks",
+            localField: "user_id",
+            foreignField: "user_id",
+            as: "recent_challenge"
+        }},
+        {$match:{
+            user_id: uid
+        }},
+        {$project:{
+            user_id: 1,
+            // headimgurl: 1,
+            // nickname: 1,
+            // title: 1,
+            // qbank_name: 1,
+            // material_url: 1,
+            // qbank_id: 1,
+            // qbank_name:1,
+            // qbank_material_url: 1,
+            // total_score: {$sum: "$questions.score"},
+            // challenged_question_count: 1,
+            // collected_question_count: 1
+        }},
+        {$sort:{update_time: 1}},
+        {$limit: limit}
+    ]).exec();
+}
+
 
 export async function getUserAll(uid){
     let result = {};

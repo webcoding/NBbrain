@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 11:26:54
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-11 16:49:37
+ * @Last Modified time: 2018-01-17 17:58:08
 */
 
 'use strict';
@@ -28,6 +28,7 @@ var questionSchema = new mongoose.Schema({
         // 限制存入图片的大小？
     });
 var qbankSchema = new mongoose.Schema({
+    _id: Number,
     user_id: {type: String},
     qbank_id: {type: String, unique: true, require: true},
     total_question:{type: Number, default:1},
@@ -40,6 +41,7 @@ var qbankSchema = new mongoose.Schema({
     update_time: {type: Date, default: Date.now},
     qbank_material_url:mongoose.Schema.Types.Mixed,
     challenged_question_count: Number,  //题目被挑战过的次数
+    collected_question_count: Number,
     questions: [questionSchema]
 });
 
