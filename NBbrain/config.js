@@ -17,5 +17,6 @@ export default {
         secure: false,
         httpOnly: false,  // 是否只用于http请求中获取
         overwrite: false  // 是否允许重写
-    }
+    },
+    specialUid: []
 }
