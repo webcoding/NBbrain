@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2016-07-14 06:51:28
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-12-18 16:51:07
+ * @Last Modified time: 2018-01-19 14:43:44
 */
 
 'use strict';
@@ -16,6 +16,7 @@ import serve from 'koa-static';
 import body from 'koa-better-body';
 import cors from 'koa-cors';
 import db from './connect.js';
+import path from 'path';
 
 // import cors from 'cors';
 
@@ -45,7 +46,7 @@ app.use(views(__dirname + '/views', {
     extension: 'ejs',
     // map: {}
 }));
-app.use(serve(__dirname + '/upload'));
+app.use(mount('/upload', serve(path.join(__dirname ,'./upload'))));
 app.use(mount('/static', serve('interactive')));
 
 // app.use(mount('/upload'), serve('materials'))

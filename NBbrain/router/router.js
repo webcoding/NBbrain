@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-18 18:11:55
+ * @Last Modified time: 2018-01-19 14:17:37
 */
 
 'use strict';
@@ -73,14 +73,14 @@ router.post('/updateQuestion', async(ctx)=>{
 // 首页接口
 router.get('/recentUpdateQbank', async (ctx) =>{
     let result = await getRecentUpdateQbank(5)
-    let temp = _.omit(result, ['_id','user_msg._id']);
+    let temp = _.map(result, function(item){return _.omit(item,'_id')})
     status.success(ctx, temp);
 })
 router.get('/recentChallengedQbank', async(ctx)=>{
     let user_id = getUid(ctx);
     if(!!user_id){
         let result = await getRecentChallengedQbank(user_id, 5)
-        let temp = _.omit(result, ['_id','user_msg._id']);
+        let temp = _.map(result, function(item){return _.omit(item,'_id')})
         status.success(ctx, temp);
     }else{
         status.success(ctx, null);

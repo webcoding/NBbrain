@@ -34,7 +34,7 @@ class Home extends React.Component{
                     <SVG type="system" classes="nb_font_head"/>
                 </Head>
                 <div className="nb_content">
-                    {recentChallenges.length>0 &&
+                    {!!recentChallenges && recentChallenges.length>0 &&
                         <div>
                         <h3 className="nb_home_title">最近挑战过的题目</h3>
                         <ul className="nb_list">
@@ -42,7 +42,7 @@ class Home extends React.Component{
                         </ul>
                         </div>
                     }
-                    {recentQbanks.length>0 &&
+                    {!!recentQbanks && recentQbanks.length>0 &&
                         <div>
                         <h3 className="nb_home_title">最新题目</h3>
                         <ul className="nb_list">

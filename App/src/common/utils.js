@@ -1,6 +1,6 @@
 import _ from 'lodash'
 export default {
-    ajax(method = 'get', url = '', data = null, async = true) {
+    ajax(method = 'get', url = '', data = null, cb, async = true) {
         let response;
         var xhr = new XMLHttpRequest();
         xhr.open(method, url, async);
@@ -13,8 +13,9 @@ export default {
                     if(response.code===512){
                         let url =  `/login?from=${location.href}`;
                         history.replaceState(null, 'NBbrain',url);
+                        history.go();
                     }
-                    // cb(null, response);
+                    cb(null, response);
                 } catch (err) {
                     console.log('返回json数据有问题，请检查')
                 }

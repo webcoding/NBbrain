@@ -42,7 +42,7 @@ export async function saveFile(file,qbank_id, question_id){
             fs.mkdirSync(path);
         }
         fs.renameSync(oldPath, newPath);
-        return newPath;
+        return fileName;
     }
 }
 

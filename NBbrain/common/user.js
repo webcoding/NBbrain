@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-18 15:44:21
+ * @Last Modified time: 2018-01-19 14:26:03
 */
 
 'use strict';
@@ -56,17 +56,16 @@ export async function getRecentChallengedQbank(uid, limit){
         }},
         {$project:{
             user_id: 1,
-            // headimgurl: 1,
-            // nickname: 1,
-            // title: 1,
-            // qbank_name: 1,
-            // material_url: 1,
-            // qbank_id: 1,
-            // qbank_name:1,
-            // qbank_material_url: 1,
-            // total_score: {$sum: "$questions.score"},
-            // challenged_question_count: 1,
-            // collected_question_count: 1
+            headimgurl: 1,
+            nickname: 1,
+            title: 1,
+            challenged_question_count: 1,
+            collected_question_count: 1,
+            "recent_challenge.qbank_name": 1,
+            "recent_challenge.qbank_id": 1,
+            "recent_challenge.qbank_name":1,
+            "recent_challenge.qbank_material_url": 1,
+            total_score: {$sum: "$questions.score"}
         }},
         {$sort:{update_time: 1}},
         {$limit: limit}

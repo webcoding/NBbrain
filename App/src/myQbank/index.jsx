@@ -17,6 +17,7 @@ class  MyQbank extends React.Component{
         let promise = fn('get','http://localhost:3001/getMyQbanks',null);
         let that = this;
         promise.then((result)=>{
+            console.log(result.data);
             that.setState({
                 qbanks:result.data
             });
@@ -32,7 +33,7 @@ class  MyQbank extends React.Component{
                 </Head>
                 <div className="nb_content">
                     <ul className="nb_list">
-                    {this.state.qbanks.map((item,index) => <MyQbankList key={index} item={item}/>)}
+                    {this.state.qbanks && this.state.qbanks.forEach((item,index) => <MyQbankList key={index} item={item}/>)}
                     </ul>
                 </div>
                 <Foot/>

@@ -22,8 +22,9 @@ class  Qbank extends React.Component{
             qbank_name: '',
             time: "60",
             qbank_material_url: null,
-            total_question: 1,
-            qbank_id:""
+            total_question: 10,
+            qbank_id:"",
+            index: 0
         }
         if(!qbankid || qbankid === 'edit') return;
         this.setState({
@@ -37,7 +38,8 @@ class  Qbank extends React.Component{
                 qbank_name: result.data.qbank_name || '',
                 time: result.data.time+'',
                 qbank_material_url: result.data.qbank_material_url || null,
-                total_question: result.data.total_question
+                total_question: result.data.total_question,
+                index: result.data.questions.length
             });
         });
     }
@@ -102,6 +104,10 @@ class  Qbank extends React.Component{
             this.handleData(e, 'qbank_material_url');
         }
     }
+    upload(){
+        // total_question与题目个数
+        // 每个题目是完整的
+    }
     render(){
 
         let img = null;
@@ -117,7 +123,7 @@ class  Qbank extends React.Component{
                 <Head>
                     <SVG type="back" classes="nb_font_head"/>
                     <h3>新增题库</h3>
-                    <SVG type="more" classes="nb_font_head"/>
+                    <SVG type="published" onClick={(e)=>{this.upload()}} classes="nb_font_head"/>
                 </Head>
                 <div className="nb_content">
                     <dl className="nb_create_item flex">

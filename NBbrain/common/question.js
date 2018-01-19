@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-18 16:58:27
+ * @Last Modified time: 2018-01-19 15:02:46
 */
 
 'use strict';
@@ -29,11 +29,7 @@ function createData(){
     }).join('');
 }
 export async function getQbankMsg(qbankid){
-    let result;
-    await qbanksModel.findOne({qbank_id: qbankid},(err, doc)=>{
-        result = doc;
-    })
-    return result;
+    return await qbanksModel.findOne({qbank_id: qbankid});
 }
 
 // export async function getUsersQbanks(uid){
@@ -109,14 +105,13 @@ export async function getRecentUpdateQbank(count){
             "user_msg.headimgurl": 1,
             "user_msg.nickname": 1,
             "user_msg.title": 1,
+            "user_msg.challenged_question_count": 1,
+            "user_msg.collected_question_count": 1,
             qbank_name: 1,
-            material_url: 1,
             qbank_id: 1,
             qbank_name:1,
             qbank_material_url: 1,
-            total_score: {$sum: "$questions.score"},
-            challenged_question_count: 1,
-            collected_question_count: 1
+            total_score: {$sum: "$questions.score"}
         }},
         {$sort:{update_time: -1}},
         {$limit: count}
