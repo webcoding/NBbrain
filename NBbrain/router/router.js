@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-19 14:17:37
+ * @Last Modified time: 2018-01-19 18:58:31
 */
 
 'use strict';
@@ -11,7 +11,7 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank, submitQbanks, checkedQbank, getCheckQbankList} from '../common/question.js'
 import { setLoginUser, getLocalUid, getUserAll, getUid, getRecentChallengedQbank} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -101,6 +101,23 @@ router.get('/getQbank', async(ctx)=>{
     status.success(ctx, result);
 })
 
+router.get('/publishQbanks', async(ctx)=>{
+    let qbankid = ctx.query.qbank_id;
+    let result = await submitQbanks(qbankid)
+    status.success(ctx, result);
+})
+
+router.get('/checkQbankList', async(ctx)=>{
+    // 权限
+    let result = await getCheckQbankList();
+    status.success(ctx, result);
+})
+
+router.get('/checkQbank', async(ctx)=>{
+    let qbankid = ctx.query.qbank_id;
+    let result = await checkedQbank(qbankid)
+    status.success(ctx, result);
+})
 
 
 // 添加题目

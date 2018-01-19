@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-19 15:02:46
+ * @Last Modified time: 2018-01-19 19:09:25
 */
 
 'use strict';
@@ -57,11 +57,23 @@ export async function updateQuestionData(data){
             data.question_id = createRandom();
             data.items = data.items && data.items.split(',');
             data.answers = data.answers && data.answers.split(',');
+            let complish_statue = 0;
+            let totalQuestion = await qbanksModel.aggregate([
+                {
+                    $match:{qbank_id: data.qbank_id}
+                },
+                {$project: {_id:0, len: {$size: questions}, total_question: 1}}
+            ]);
+            // 完成后，不可再增加题目
+            if((totalQuestion.len+1) >= totalQuestion.total_question){
+                complish_statue = 1;
+            }
             return await qbanksModel.findOneAndUpdate(
                 {qbank_id: data.qbank_id},
                 {
                     $currentDate: {update_time: true},
-                    $push: {questions:_.pick(data,updateQuestion)}
+                    $push: {questions:_.pick(data,updateQuestion)},
+                    complish_statue: complish_statue
                 }
             );
         }else{
@@ -100,6 +112,7 @@ export async function getRecentUpdateQbank(count){
             foreignField: "user_id",
             as: "user_msg"
         }},
+        {$match: {complish_statue: 3}},
         {$project:{
             user_id: 1,
             "user_msg.headimgurl": 1,
@@ -116,6 +129,18 @@ export async function getRecentUpdateQbank(count){
         {$sort:{update_time: -1}},
         {$limit: count}
     ]).exec();
+}
+
+export async function submitQbanks(qbankid){
+    return await qbanksModel.findOneAndUpdate({qbank_id: qbankid},{$set:{complish_statue:2}})
+}
+
+export async function checkedQbank(qbankid){
+    return await qbanksModel.findOneAndUpdate({qbank_id: qbankid},{$set:{complish_statue:3}})
+}
+
+export async function getCheckQbankList(){
+    return await qbanksModel.find({complish_statue:2});
 }
 
 var uid = createData()
