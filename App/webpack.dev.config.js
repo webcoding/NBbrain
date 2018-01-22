@@ -98,9 +98,14 @@ module.exports = {
     },
     plugins: [
         new cleanWebpackPlugin(['dist']),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true
-          }),
+        new webpack.optimize.UglifyJsPlugin(
+            {
+                sourceMap: true,
+                compress: {
+                    warnings: false
+                }
+            }
+        ),
         new webpack.optimize.CommonsChunkPlugin({
             names: ['common']
         }),
