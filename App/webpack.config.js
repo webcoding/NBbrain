@@ -22,7 +22,7 @@ module.exports = {
         filename: '[name].js',
         // chunkFilename: '[id].[chunkhash].js'
     },
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     // devServer: {
     //     contentBase: './static/dist'
     // },
@@ -114,6 +114,9 @@ module.exports = {
         // ReactRouter: 'react-router'}),
         // 定义变量
         // new webpack.DefinePlugin()
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true
+          }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         // 热替换
         new webpack.HotModuleReplacementPlugin(),

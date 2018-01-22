@@ -98,7 +98,9 @@ module.exports = {
     },
     plugins: [
         new cleanWebpackPlugin(['dist']),
-        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true
+          }),
         new webpack.optimize.CommonsChunkPlugin({
             names: ['common']
         }),
