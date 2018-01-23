@@ -2,13 +2,13 @@
 * @Author: mengyue
 * @Date:   2017-08-02 17:55:51
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-17 16:14:59
+ * @Last Modified time: 2018-01-23 15:54:56
 */
 
 'use strict';
 import mongoose from 'mongoose'
 
-let promise = mongoose.connect('mongodb://127.0.0.1:27017/NBbrain',{
+let promise = mongoose.connect('mongodb://120.55.98.137:27017/NBbrain',{
     userMongoClient: true
 });
 // promise.then(function(db){
