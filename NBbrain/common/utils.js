@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import config from '../config'
+import config from '../config';
+import path from 'path';
 // 创建Hash('md5')得到生成器, update(str)  生成,   digest('hex')最终
 // Hmac('sha1',key)  彩虹表攻击, key--密钥  openssl生成
 // Cipher('',key)加密   生成的key文件，update(data, i_encoding, o_encoding), final()
@@ -31,15 +32,15 @@ export function chiptorEncrypt(ctx, username, password){
 
 export async function saveFile(file,qbank_id, question_id){
     if(file && file[0] && file[0].name){
-        let path = '/Users/mengyue/study/NBbrian/NBbrain/upload';
+        let file_path = path.resolve(__dirname , '../upload');
         let oldPath = file[0].path;
         qbank_id = qbank_id ? qbank_id + '_' : '';
         question_id = question_id ? question_id + '_' : '';
         let fileName = qbank_id + question_id + file[0].name;
-        let newPath =  path + '/'+ fileName;
-        let exists = fs.existsSync(path);
+        let newPath =  file_path + '/'+ fileName;
+        let exists = fs.existsSync(file_path);
         if(!exists){
-            fs.mkdirSync(path);
+            fs.mkdirSync(file_path);
         }
         fs.renameSync(oldPath, newPath);
         return fileName;
