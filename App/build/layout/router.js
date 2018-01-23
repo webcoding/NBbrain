@@ -1,10 +1,11 @@
 import os from 'os'
 let netWorkInf = os.networkInterfaces();
-const ip = netWorkInf.en0[1].address;
+// console.log(netWorkInf);
+// const ip = netWorkInf.en0[1].address;
 let config = {
     title: 'NBbrain',
     staticTag: '',
-    localIP: ip,
+    localIP: '127.0.0.1',
     port: '3004'
 }
 export default function(app){
