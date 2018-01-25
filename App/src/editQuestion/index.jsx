@@ -10,18 +10,43 @@ import './question'
 export default class  Question extends React.Component{
     constructor(props){
         super(props);
-        let temp;
-        let qbank_id = (temp = location.pathname.match(/\/([a-z0-9\_]*)$/)) && temp.length>1 ? temp[1]: '';
+        let temp, question_id, qbank_id;
+        temp = location.pathname.match(/edit_question\/([a-z0-9\_]*)([a-z0-9\_]*)$/);
+        if(temp.length>2){
+            question_id = temp[2];
+            qbank_id = temp[1];
+        }else if(temp.length>1){
+            qbank_id = temp[1];
+            question_id = ''
+        }
         this.state = {
             qbank_id: qbank_id,
-            question_id:'',
+            question_id: question_id,
             question_name:'',
             time: 0,
             // 验证选项值不能相同
             items:[],
             answers: ['A'],
-            score: '1'
+            score: '1',
+            index: 0
         };
+        let fn = utils.promisify(utils.ajax);
+        let promise = fn('get',`http://localhost:3001/getQuestion?qbank_id=${qbank_id}&questionid=${question_id}`, null);
+        let that = this;
+        promise.then((result)=>{
+            console.log(result)
+            let {index, len, question_name, time, items, answers, score} = result.data;
+            that.setState({
+                qbank_id: qbank_id,
+                question_id: question_id,
+                // question_name: question_name,
+                // time: time,
+                // items: items,
+                // answers: answers,
+                // score: score,
+                index: index || (len+1)
+            })
+        })
     }
     finish_edit(){
         let fn = utils.promisify(utils.ajax);
@@ -30,13 +55,28 @@ export default class  Question extends React.Component{
             data.append(key, this.state[key]);
         }
         let promise = fn('post','http://localhost:3001/updateQuestion',data);
+        let that = this;
         promise.then((result)=>{
-            console.log(result)
+            that.setState({
+                question_id: result.data.question_id
+            })
         })
     }
-    finish_question(){
+    next(){
         this.finish_edit();
-        // this.props.index++;
+        history.go(0);
+    }
+    prev(){
+        this.finish_edit();
+        let {question_ids, index, qbank_id} = this.state;
+        let url = `${location.hostname}/edit_question/${qbank_id}/${question_ids[index-1]}`
+        history.pushState(null,'',url);
+        history.go()
+    }
+    validate(){
+        // 提示是否保存？
+        // 修改了再更新到数据库，状态---原始数据？
+        // 上一题、下一题是否进行这一题的保存？
     }
     handleData(e, key, index){
         if(key !== 'items'){
@@ -52,7 +92,6 @@ export default class  Question extends React.Component{
         }
     }
     render(){
-        let {index} = this.props;
         let score = ['1','2','3'], chioces = ['A','B','C','D'];
         let temp = score.map((item)=>{
             return <label className="nb_choice_score" key={`scores_${item}`} id={`scores_${item}`}>
@@ -71,7 +110,7 @@ export default class  Question extends React.Component{
             <div className="nb_wrap">
                 <Head>
                     <SVG type="back" classes="nb_font_head"/>
-                    <h3 className="nb_title">题目--{index}</h3>
+                    <h3 className="nb_title">题目--{this.state.index}</h3>
                     <SVG type="more" classes="nb_font_head"/>
                 </Head>
                 <div className="nb_content">
@@ -101,7 +140,8 @@ export default class  Question extends React.Component{
                             </dd>
                         </dl>
                     </div>
-                    <button className="nb_btn" onClick={(e)=>{this.finish_question()}}>下一题</button>
+                    <button className="nb_btn" onClick={(e)=>{this.prev()}}>上一题</button>
+                    <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
                     <button className="nb_btn" onClick={(e)=>{this.finish_edit()}}>保存</button>
                 </div>
                 <Foot/>

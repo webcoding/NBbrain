@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2016-07-14 06:51:28
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-19 14:43:44
+ * @Last Modified time: 2018-01-24 17:40:53
 */
 
 'use strict';
@@ -25,12 +25,7 @@ var app = new koa();
 app.use(logger());
 app.use(body());
 app.use(cors({
-    origin: function (ctx) {
-        // if (ctx.url === '/test') {
-        //     return "*"; // 允许来自所有域名请求
-        // }
-        return 'http://localhost:3004';
-    },
+    origin: 'http://localhost:3004',
     credentials: true,   //跨域时是否允许其他域发送cookie, omit不允许其他域, same-origin同域, include允许；会导致cookie无法读取
     methods:['GET', 'PUT', 'POST'],
     headers: 'Content-Type,Authorization,X-Requested-With,ajax_log_id'

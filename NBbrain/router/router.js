@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-19 18:58:31
+ * @Last Modified time: 2018-01-25 17:41:06
 */
 
 'use strict';
@@ -11,7 +11,7 @@ import _ from 'underscore'
 import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
-import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank, submitQbanks, checkedQbank, getCheckQbankList} from '../common/question.js'
+import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank, submitQbanks, checkedQbank, getCheckQbankList, getQuestionMsg} from '../common/question.js'
 import { setLoginUser, getLocalUid, getUserAll, getUid, getRecentChallengedQbank} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -22,6 +22,10 @@ import {updateQbank_f} from '../common/v_field';
 var router = new Router();
 var usermodel = new userSchema;
 var qbankmodel = new qbanksModel;
+
+// 状态分发函数
+
+
 // 登录与注册
 router.get('/login', async(ctx) => {
     let code = ctx.query.code;
@@ -73,14 +77,25 @@ router.post('/updateQuestion', async(ctx)=>{
 // 首页接口
 router.get('/recentUpdateQbank', async (ctx) =>{
     let result = await getRecentUpdateQbank(5)
-    let temp = _.map(result, function(item){return _.omit(item,'_id')})
+    console.log(result.user_msg);
+    let temp = _.map(result, function(item){
+        let user_msg = _.flatten(_.values(_.pick(item,"user_msg")));
+        let _item = _.omit(item,"user_msg", "_id");
+        user_msg = !!user_msg && user_msg[0];
+        return _.extend(_item,user_msg);
+    })
     status.success(ctx, temp);
 })
 router.get('/recentChallengedQbank', async(ctx)=>{
     let user_id = getUid(ctx);
     if(!!user_id){
         let result = await getRecentChallengedQbank(user_id, 5)
-        let temp = _.map(result, function(item){return _.omit(item,'_id')})
+        let temp = _.map(result, function(item){
+            let recent_challenge = _.flatten(_.values(_.pick(item,"recent_challenge")));
+            let _item = _.omit(item,"recent_challenge", "_id");
+            recent_challenge = !!recent_challenge && recent_challenge[0];
+            return _.extend(_item,recent_challenge);
+        })
         status.success(ctx, temp);
     }else{
         status.success(ctx, null);
@@ -98,6 +113,14 @@ router.get('/user', async(ctx)=>{
 router.get('/getQbank', async(ctx)=>{
     let qbankid = ctx.query.qbankid;
     let result = await getQbankMsg(qbankid);
+    status.success(ctx, result);
+})
+
+// 获取题库的题目
+router.get('/getQuestion', async(ctx)=>{
+    let qbankid = ctx.query.qbank_id;
+    let questionid = ctx.query.question_id;
+    let result = await getQuestionMsg(qbankid, questionid);
     status.success(ctx, result);
 })
 
@@ -363,7 +386,7 @@ function addQuestion(doc, fields, qbank_id, question_id){
 
 function success(ctx, data){
     ctx.res.type = "application/json";
-    ctx.body = JSON.stringify(data);
+    ctx.body = data;
     return false;
 }
 

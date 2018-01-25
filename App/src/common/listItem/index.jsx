@@ -8,12 +8,12 @@ class ListItem extends React.Component{
         super(props);
     }
     render(){
-        let {user_msg, qbank_id, qbank_material_url, qbank_name, user_id, total_score} = this.props.item;
+        let {headimgurl, nickname, qbank_id, title, qbank_material_url, qbank_name, user_id, total_score} = this.props.item;
         let avator = null;
-        if(!user_msg.headimgurl){
+        if(!headimgurl){
             avator = <SVG type="avatar_girl" classes="nb_list_avator nb_font_middle nb_right_gap"/>
         }else{
-            avator = <img className="nb_list_avator" src={user_msg.headimgurl}/>
+            avator = <img className="nb_list_avator" src={headimgurl}/>
         }
         return (
                 <li className="nb_list_item">
@@ -24,9 +24,9 @@ class ListItem extends React.Component{
                         <div className="nb_list_oprate nb_flex_default">
                             <div className="nb_list_user nb_flex nb_flex_between">
                                 <span className="nb_list_message">
-                                    {user_msg.headimgurl}
-                                    <i className="nb_user_name">{user_msg.nickname}</i>
-                                    <i className="nb_user_title">{user_msg.title}</i>
+                                    {headimgurl}
+                                    <i className="nb_user_name">{nickname}</i>
+                                    <i className="nb_user_title">{title}</i>
                                 </span>
                                 <Link to="" className="nb_btn nb_btn_outline nb_button_small nb_btn_yellow">
                                     <SVG type="challenge_now" classes="nb_font_align nb_font_middle"/>GO

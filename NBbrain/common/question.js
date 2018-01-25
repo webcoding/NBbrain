@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-19 19:09:25
+ * @Last Modified time: 2018-01-25 18:07:55
 */
 
 'use strict';
@@ -62,13 +62,13 @@ export async function updateQuestionData(data){
                 {
                     $match:{qbank_id: data.qbank_id}
                 },
-                {$project: {_id:0, len: {$size: questions}, total_question: 1}}
+                {$project: {_id:0, len: {$size: "$questions"}, total_question: 1}}
             ]);
             // 完成后，不可再增加题目
             if((totalQuestion.len+1) >= totalQuestion.total_question){
                 complish_statue = 1;
             }
-            return await qbanksModel.findOneAndUpdate(
+            await qbanksModel.findOneAndUpdate(
                 {qbank_id: data.qbank_id},
                 {
                     $currentDate: {update_time: true},
@@ -76,18 +76,53 @@ export async function updateQuestionData(data){
                     complish_statue: complish_statue
                 }
             );
+            return {question_id: data.question_id};
         }else{
             data.items = data.items && data.items.split(',');
             data.answers = data.answers && data.answers.split(',');
-            return await qbanksModel
-                .findOneAndUpdate({$and: [{qbank_id: data.qbank_id}, {$elemMatch: {question_id: data.question_id}}]},
+            await qbanksModel
+                .findOneAndUpdate({$and: [{qbank_id: data.qbank_id}, {"questions.question_id": data.question_id}]},
                     {
                         $currentDate: {update_time: true},
                         $addToSet:{questions:_.pick(data,updateQuestion)}
                     }
                 );
+            return {question_id: data.question_id};
         }
     }
+}
+
+export async function getQuestionMsg(qbank_id, question_id = null){
+
+    let part =  await qbanksModel.aggregate([
+        {
+            $match:{
+                $or:[
+                    {qbank_id: qbank_id},
+                    {"questions.question_id": question_id}
+                ]
+            }
+        },{
+            $project:{
+                _id: 0,
+                question_ids: "$questions.question_id",
+                index:{$indexOfArray: ["$question_ids", question_id]},
+                len: {$size: "$questions"},
+                qbank_id: 1
+            }
+        }
+    ]);
+    return _.extend(part[0], await qbanksModel.findOne({
+        qbank_id: qbank_id,
+        "questions.question_id": question_id
+    },{
+        "questions.question_id": 1,
+        "questions.question_name":1,
+        "questions.time": 1,
+        "questions.items":1,
+        "questions.answers": 1,
+        "questions.score": 1,
+    }))
 }
 
 export async function getUserQbanks(uid){

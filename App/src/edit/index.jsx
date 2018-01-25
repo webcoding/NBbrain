@@ -16,30 +16,27 @@ class  Qbank extends React.Component{
     constructor(props){
         super(props);
         // 编辑、获取数据
-        let xhr = new XMLHttpRequest(), temp;
+        let temp;
         let qbankid = (temp = location.pathname.match(/\/([\w]*)$/)) ? temp[1] : '';
         this.state = {
             qbank_name: '',
             time: "60",
             qbank_material_url: null,
             total_question: 10,
-            qbank_id:"",
-            index: 0
+            qbank_id:""
         }
         if(!qbankid || qbankid === 'edit') return;
-        this.setState({
-            qbank_id: qbankid
-        })
         let fn = utils.promisify(utils.ajax);
         let promise = fn('get','http://localhost:3001/getqbank?qbankid='+qbankid,null);
         let that = this;
         promise.then((result)=>{
+            let {qbank_name, time, qbank_material_url,total_question} = result.data;
             that.setState({
-                qbank_name: result.data.qbank_name || '',
-                time: result.data.time+'',
-                qbank_material_url: result.data.qbank_material_url || null,
-                total_question: result.data.total_question,
-                index: result.data.questions.length
+                qbank_name: qbank_name,
+                time: time,
+                qbank_material_url: qbank_material_url,
+                total_question: total_question,
+                qbank_id: qbankid
             });
         });
     }
@@ -53,7 +50,7 @@ class  Qbank extends React.Component{
         let that = this;
         promise.then((result)=>{
             if(!!next){
-                that.add_question(result);
+                that.add_question(result.data);
             }else{
                 let url = `http://localhost:3004/list/${result.data.user_id}`;
                 history.pushState(null,'我的题目',url);
@@ -63,8 +60,9 @@ class  Qbank extends React.Component{
             console.log(err);
         });
     }
-    add_question(result){
-        let url = `http://localhost:3004/edit_question/${result.data.qbank_id}`;
+    add_question(data){
+        let qbankid = data.qbank_id || this.state.qbank_id
+        let url = `http://localhost:3004/edit_question/${qbankid}`;
         history.pushState(null,'新增题目',url);
         history.go();
     }
@@ -92,10 +90,6 @@ class  Qbank extends React.Component{
         }else{
             let reader = new FileReader();
             let imgDOM = this.refs.showImage;
-            // reader.onprogress = function(evt){
-            //     console.log(evt);
-            //     // precentLoaded = Math.round(evt.loaded / evt.)
-            // }
             reader.onload = function(evt){
                 let url = reader.result;
                 imgDOM.src = url;
@@ -104,9 +98,12 @@ class  Qbank extends React.Component{
             this.handleData(e, 'qbank_material_url');
         }
     }
+    validate(){
+        // 添加题目的状态
+        // 外层发布
+    }
     upload(){
-        // total_question与题目个数
-        // 每个题目是完整的
+
     }
     render(){
 
