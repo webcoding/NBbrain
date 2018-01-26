@@ -107,7 +107,7 @@ class  Qbank extends React.Component{
         for(var key in this.state){
             if((!!this.state[key])===false){
                 this.isError = true;
-                this.msg = `{key}填写有误，请检查修正后再保存`;
+                this.msg = `${key}填写有误，请检查修正后再保存`;
                 return false;
             }
         }

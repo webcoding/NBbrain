@@ -50,7 +50,7 @@ export default class  Question extends React.Component{
             })
         })
     }
-    finish_edit(){
+    finish_edit(save){
         if(this.isModify && this.validate()){
             let fn = utils.promisify(utils.ajax);
             let data = new FormData();
@@ -60,9 +60,15 @@ export default class  Question extends React.Component{
             let promise = fn('post','http://localhost:3001/updateQuestion',data);
             let that = this;
             promise.then((result)=>{
+                let
                 that.setState({
                     question_id: result.data.question_id
                 })
+                if(!!save){
+                    let url = `http://localhost:3004/list/${qbank_id}/`
+                    history.pushState(null,'',url);
+                    history.go()
+                }
             })
         }
     }
@@ -79,13 +85,13 @@ export default class  Question extends React.Component{
     }
     validate(){
         for(var key in this.state){
-            if((!!this.state[key])===false){
+            if((!!this.state[key])===false && key !== 'question_id'){
                 this.isError = true;
-                this.msg = `{key}填写有误，请检查修正后再保存`;
+                this.msg = `${key}填写有误，请检查修正后再保存`;
                 return false;
             }else if(key==="items" && !(_.uniq(this.state[key]))){
                 this.isError = true;
-                this.msg = `{key}项不能相同`;
+                this.msg = `${key}项不能相同`;
                 return false;
             }
         }
@@ -160,7 +166,8 @@ export default class  Question extends React.Component{
                     {!!this.question_ids && this.state.index < this.question_ids.length &&
                         <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
                     }
-                    <button className="nb_btn" onClick={(e)=>{this.finish_edit()}}>保存</button>
+                    {/* 保存并开始下一题 */}
+                    <button className="nb_btn" onClick={(e)=>{this.finish_edit('save')}}>保存</button>
                 </div>
                 <Foot/>
                 { this.isError && <Toast msg={this.msg}/>}
