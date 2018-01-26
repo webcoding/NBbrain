@@ -12,10 +12,10 @@ export default {
                     response = JSON.parse(xhr.response);
                     if(response.code===512){
                         let url =  `/login?from=${location.href}`;
-                        console.log(url)
                         history.replaceState(null, 'NBbrain',url);
+                    }else{
+                        cb(null, response);
                     }
-                    cb(null, response);
                 } catch (err) {
                     console.log('返回json数据有问题，请检查')
                 }

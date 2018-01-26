@@ -4,6 +4,7 @@ import Foot from '../common/foot';
 import {render} from 'react-dom';
 import SVG from '../common/SVG';
 import utils from '../common/utils';
+import Toast from '../common/toast';
 import './question'
 
 // class createQbank extends Component
@@ -49,18 +50,20 @@ export default class  Question extends React.Component{
         })
     }
     finish_edit(){
-        let fn = utils.promisify(utils.ajax);
-        let data = new FormData();
-        for(let key in this.state){
-            data.append(key, this.state[key]);
-        }
-        let promise = fn('post','http://localhost:3001/updateQuestion',data);
-        let that = this;
-        promise.then((result)=>{
-            that.setState({
-                question_id: result.data.question_id
+        if(this.isModify && this.validate()){
+            let fn = utils.promisify(utils.ajax);
+            let data = new FormData();
+            for(let key in this.state){
+                data.append(key, this.state[key]);
+            }
+            let promise = fn('post','http://localhost:3001/updateQuestion',data);
+            let that = this;
+            promise.then((result)=>{
+                that.setState({
+                    question_id: result.data.question_id
+                })
             })
-        })
+        }
     }
     next(){
         this.finish_edit();
@@ -74,11 +77,21 @@ export default class  Question extends React.Component{
         history.go()
     }
     validate(){
-        // 提示是否保存？
-        // 修改了再更新到数据库，状态---原始数据？
-        // 上一题、下一题是否进行这一题的保存？
+        for(var key in this.state){
+            if((!!this.state[key])===false){
+                this.isError = true;
+                this.msg = `{key}填写有误，请检查修正后再保存`;
+                return false;
+            }else if(key==="items" && !(_.uniq(this.state[key]))){
+                this.isError = true;
+                this.msg = `{key}项不能相同`;
+                return false;
+            }
+        }
+        return true;
     }
     handleData(e, key, index){
+        this.isModify = true;
         if(key !== 'items'){
             this.setState({
                 [key]: key==='answer'? [e.currentTarget.value] : e.currentTarget.value
@@ -140,11 +153,16 @@ export default class  Question extends React.Component{
                             </dd>
                         </dl>
                     </div>
-                    <button className="nb_btn" onClick={(e)=>{this.prev()}}>上一题</button>
-                    <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
+                    { this.state.index > 1 &&
+                        <button className="nb_btn" onClick={(e)=>{this.prev()}}>上一题</button>
+                    }
+                    { this.state.index < this.question_ids.length &&
+                        <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
+                    }
                     <button className="nb_btn" onClick={(e)=>{this.finish_edit()}}>保存</button>
                 </div>
                 <Foot/>
+                { this.isError && <Toast msg={this.msg}/>}
             </div>
         );
     }

@@ -4,6 +4,7 @@ import Foot from '../common/foot';
 import SVG from '../common/SVG';
 import editPage from './edit.scss';
 import {render} from 'react-dom';
+import Toast from '../common/toast';
 // import PropTypes from 'prop-types';
 import utils from '../common/utils';
 
@@ -31,42 +32,46 @@ class  Qbank extends React.Component{
         let that = this;
         promise.then((result)=>{
             let {qbank_name, time, qbank_material_url,total_question} = result.data;
+            this.questions = result.data.questions;
             that.setState({
                 qbank_name: qbank_name,
-                time: time,
+                time: time+'',
                 qbank_material_url: qbank_material_url,
                 total_question: total_question,
                 qbank_id: qbankid
             });
         });
     }
+    // user_id 写入localstorage中
     finish_edit(next){
-        let data = new FormData();
-        for(let key in this.state){
-            data.append(key, this.state[key]);
-        }
-        let fn = utils.promisify(utils.ajax);
-        let promise = fn('post','http://localhost:3001/updateQbank', data);
-        let that = this;
-        promise.then((result)=>{
-            if(!!next){
-                that.add_question(result.data);
-            }else{
-                let url = `http://localhost:3004/list/${result.data.user_id}`;
-                history.pushState(null,'我的题目',url);
-                history.go();
+        if(this.modify && this.validate()){
+            let data = new FormData();
+            for(let key in this.state){
+                data.append(key, this.state[key]);
             }
-        },(err)=>{
-            console.log(err);
-        });
+            let fn = utils.promisify(utils.ajax);
+            let promise = fn('post','http://localhost:3001/updateQbank', data);
+            let that = this;
+            promise.then((result)=>{
+                if(!next){
+                    let url = `http://localhost:3004/list/${result.data.user_id}`;
+                    history.pushState(null,'我的题目',url);
+                    history.go();
+                }
+            },(err)=>{
+                console.log(err);
+            });
+        }
     }
     add_question(data){
-        let qbankid = data.qbank_id || this.state.qbank_id
+        this.finish_edit('next');
+        let qbankid = this.state.qbank_id
         let url = `http://localhost:3004/edit_question/${qbankid}`;
         history.pushState(null,'新增题目',url);
         history.go();
     }
     handleData(e,key){
+        this.modify = true;
         if(e.currentTarget.type==='file'){
             this.setState({
                 [key]: e.currentTarget.files[0]
@@ -99,14 +104,19 @@ class  Qbank extends React.Component{
         }
     }
     validate(){
-        // 添加题目的状态
-        // 外层发布
+        for(var key in this.state){
+            if((!!this.state[key])===false){
+                this.isError = true;
+                this.msg = `{key}填写有误，请检查修正后再保存`;
+                return false;
+            }
+        }
+        return true;
     }
     upload(){
 
     }
     render(){
-
         let img = null;
         img = this.state.qbank_material_url ? <img className="showImage" src={this.state.qbank_material_url} ref="showImage"/> : <img className="showImage" ref="showImage"/>;
         let list = null, time = ["60", "120", "180"];
@@ -153,18 +163,18 @@ class  Qbank extends React.Component{
                             <input type="number" value={this.state.total_question} onChange={(e)=>{this.handleData(e,'total_question')}} />
                         </dd>
                     </dl>
-                    <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit('next')}>开始添加题目</button>
+                    {!!this.questions && this.questions.length < this.state.total_question &&
+                    <button className="nb_btn nb_btn_primary" onClick={(e)=>this.add_question()}>
+                     开始添加题目
+                    </button>
+                    }
                     <button className="nb_btn nb_btn_primary" onClick={(e)=>this.finish_edit()}>完成</button>
                 </div>
                 <Foot/>
+                { this.isError && <Toast msg={this.msg}/>}
             </div>
 
         );
     }
 }
-// Qbank.PropTypes = {
-//     qbank_name: React.PropTypes.string.isRequired,
-//     reply_rule: React.PropTypes.string.isRequired,
-//     qbank_material_url: React.PropTypes.object.isRequired
-// }
 export default Qbank;
