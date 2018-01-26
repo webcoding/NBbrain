@@ -37,6 +37,7 @@ export default class  Question extends React.Component{
         promise.then((result)=>{
             console.log(result)
             let {index, len, question_name, time, items, answers, score} = result.data;
+            this.question_ids = result.data.question_ids;
             that.setState({
                 qbank_id: qbank_id,
                 question_id: question_id,
@@ -72,7 +73,7 @@ export default class  Question extends React.Component{
     prev(){
         this.finish_edit();
         let {question_ids, index, qbank_id} = this.state;
-        let url = `${location.hostname}/edit_question/${qbank_id}/${question_ids[index-1]}`
+        let url = `http://localhost:3004/edit_question/${qbank_id}/${this.question_ids[index-1]}`
         history.pushState(null,'',url);
         history.go()
     }
@@ -156,7 +157,7 @@ export default class  Question extends React.Component{
                     { this.state.index > 1 &&
                         <button className="nb_btn" onClick={(e)=>{this.prev()}}>上一题</button>
                     }
-                    { this.state.index < this.question_ids.length &&
+                    {!!this.question_ids && this.state.index < this.question_ids.length &&
                         <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
                     }
                     <button className="nb_btn" onClick={(e)=>{this.finish_edit()}}>保存</button>
