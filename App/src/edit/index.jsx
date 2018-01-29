@@ -53,22 +53,23 @@ class  Qbank extends React.Component{
             let promise = fn('post','http://localhost:3001/updateQbank', data);
             let that = this;
             promise.then((result)=>{
-                if(!next){
-                    let url = `http://localhost:3004/list/${result.data.user_id}`;
-                    history.pushState(null,'我的题目',url);
-                    history.go();
-                }
             },(err)=>{
                 console.log(err);
             });
+        }
+        let uid = utils.store('uid');
+        if(!next){
+            let url = `http://localhost:3004/list/${uid}`;
+            utils.go('我的题目',url);
+            utils.forward();
         }
     }
     add_question(data){
         this.finish_edit('next');
         let qbankid = this.state.qbank_id
         let url = `http://localhost:3004/edit_question/${qbankid}`;
-        history.pushState(null,'新增题目',url);
-        history.go();
+        utils.go('新增题目',url);
+        utils.forward();
     }
     handleData(e,key){
         this.modify = true;

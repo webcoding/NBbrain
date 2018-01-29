@@ -12,7 +12,8 @@ export default {
                     response = JSON.parse(xhr.response);
                     if(response.code===512){
                         let url =  `/login?from=${location.href}`;
-                        history.replaceState(null, 'NBbrain',url);
+                        history.replaceState('','NBbrain',url);
+                        history.go();
                     }else{
                         cb(null, response);
                     }
@@ -43,5 +44,22 @@ export default {
                 });
             });
         };
+    },
+    go(title='我是title', url, remaind = true){
+        if(remaind){
+            history.pushState(title, '', url);
+        }else{
+            // 替换历史记录
+            history.replaceState(title, '', url);
+        }
+    },
+    back(){
+        history.go(-1);
+    },
+    forward(){
+        history.go(1)
+    },
+    refresh(){
+        history.go(0);
     }
 }

@@ -36,12 +36,12 @@ class  Login extends React.Component{
                     utils.store('uid',result.data.uid);
                     from = utils.store('from');
                     if(!!from){
-                        history.pushState(null,'NBbrain',from);
-                        history.go();
+                        utils.go('NBbrain',from, false);
+                        utils.forward();
                     }else{
                         let url = 'http://localhost:3004/user/' + result.data.uid;
-                        history.pushState(null,'NBbrain',url);
-                        history.go();
+                        utils.go('NBbrain',url,false);
+                        utils.forward();
                     }
                 }
             }

@@ -60,28 +60,27 @@ export default class  Question extends React.Component{
             let promise = fn('post','http://localhost:3001/updateQuestion',data);
             let that = this;
             promise.then((result)=>{
-                let
                 that.setState({
                     question_id: result.data.question_id
                 })
-                if(!!save){
-                    let url = `http://localhost:3004/list/${qbank_id}/`
-                    history.pushState(null,'',url);
-                    history.go()
-                }
             })
+        }
+        if(!!save){
+            let url = `http://localhost:3004/list/${this.state.qbank_id}/`
+            utils.go('',url);
+            utils.forward()
         }
     }
     next(){
         this.finish_edit();
-        history.go(0);
+        utils.refresh();
     }
     prev(){
         this.finish_edit();
         let {question_ids, index, qbank_id} = this.state;
         let url = `http://localhost:3004/edit_question/${qbank_id}/${this.question_ids[index-1]}`
-        history.pushState(null,'',url);
-        history.go()
+        utils.go('',url);
+        utils.forward()
     }
     validate(){
         for(var key in this.state){
@@ -166,7 +165,6 @@ export default class  Question extends React.Component{
                     {!!this.question_ids && this.state.index < this.question_ids.length &&
                         <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
                     }
-                    {/* 保存并开始下一题 */}
                     <button className="nb_btn" onClick={(e)=>{this.finish_edit('save')}}>保存</button>
                 </div>
                 <Foot/>
