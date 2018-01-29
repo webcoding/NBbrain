@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-19 14:26:03
+ * @Last Modified time: 2018-01-29 17:05:41
 */
 
 'use strict';
@@ -52,7 +52,8 @@ export async function getRecentChallengedQbank(uid, limit){
             as: "recent_challenge"
         }},
         {$match:{
-            user_id: uid
+            user_id: uid,
+            challenges:{$exists: true}
         }},
         {$project:{
             user_id: 1,
