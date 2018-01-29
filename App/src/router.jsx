@@ -4,7 +4,7 @@ import {BrowserRouter, Route, Link, browserHistory} from 'react-router-dom';
 import Home from './home';
 import Rank from './rank';
 import QbankRank from './qbankRank';
-import MyQbank from './MyQbank';
+import MyQbank from './myQbank';
 import Edit from './edit';
 import EditQuestion from './editQuestion';
 import User from './user';
