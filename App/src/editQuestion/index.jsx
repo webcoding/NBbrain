@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import history from './history';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import {render} from 'react-dom';
@@ -66,9 +67,9 @@ export default class  Question extends React.Component{
             })
         }
         if(!!save){
-            let url = `http://localhost:3004/list/${this.state.qbank_id}/`
-            utils.go('',url);
-            utils.forward()
+            let url = `/list/${this.state.qbank_id}/`
+            history.push(url)
+            history.goForward();
         }
     }
     next(){
@@ -78,9 +79,9 @@ export default class  Question extends React.Component{
     prev(){
         this.finish_edit();
         let {question_ids, index, qbank_id} = this.state;
-        let url = `http://localhost:3004/edit_question/${qbank_id}/${this.question_ids[index-1]}`
-        utils.go('',url);
-        utils.forward()
+        let url = `/edit_question/${qbank_id}/${this.question_ids[index-1]}`
+        history.push(url);
+        history.goForward();
     }
     validate(){
         for(var key in this.state){

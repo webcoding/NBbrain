@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route, Link, browserHistory} from 'react-router-dom';
+import {BrowserRouter, Route, Link} from 'react-router-dom';
+import history from './history';
 import Home from './home';
 import Rank from './rank';
 import QbankRank from './qbankRank';
@@ -15,7 +16,7 @@ const element =  document.getElementsByClassName('mod-app')[0];
 
 
 ReactDOM.render(
-    (<BrowserRouter history={browserHistory}>
+    (<BrowserRouter history={history}>
         <div>
             <Route path="/index" component={Home}/>
             <Route path="/rank" component={Rank}/>

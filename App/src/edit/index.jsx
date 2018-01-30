@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import history from './history';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import SVG from '../common/SVG';
@@ -9,8 +10,6 @@ import Toast from '../common/toast';
 import utils from '../common/utils';
 
 // 验证、获取uid去用户列表页面、编辑图片
-
-
 
 // class createQbank extends Component
 class  Qbank extends React.Component{
@@ -59,17 +58,17 @@ class  Qbank extends React.Component{
         }
         let uid = utils.store('uid');
         if(!next){
-            let url = `http://localhost:3004/list/${uid}`;
-            utils.go('我的题目',url);
-            utils.forward();
+            let url = `/list/${uid}`;
+            history.push(url);
+            history.goForward();
         }
     }
     add_question(data){
         this.finish_edit('next');
         let qbankid = this.state.qbank_id
-        let url = `http://localhost:3004/edit_question/${qbankid}`;
-        utils.go('新增题目',url);
-        utils.forward();
+        let url = `/edit_question/${qbankid}`;
+        history.push(url);
+        history.goForward();
     }
     handleData(e,key){
         this.modify = true;
@@ -106,7 +105,8 @@ class  Qbank extends React.Component{
     }
     validate(){
         for(var key in this.state){
-            if((!!this.state[key])===false){
+            if((!!this.state[key])===false && key != 'qbank_id'){
+                console.log(key);
                 this.isError = true;
                 this.msg = `${key}填写有误，请检查修正后再保存`;
                 return false;
