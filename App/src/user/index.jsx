@@ -15,7 +15,7 @@ export default class  User extends React.Component{
     componentWillMount(){
         let xhr = new XMLHttpRequest(), temp;
         let uid = (temp = location.pathname.match(/\/(\w*)$/)) ? temp[1] : '';
-        xhr.open('get','http://localhost:3001/user?uid='+uid, true);
+        xhr.open('get','${config.env}/user?uid='+uid, true);
         xhr.withCredentials = true;
         xhr.send(null);
         let response;

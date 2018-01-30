@@ -16,7 +16,7 @@ class  Login extends React.Component{
         utils.store('from', from);
         if(!code.length) return;
         let xhr = new XMLHttpRequest();
-        xhr.open('get','http://localhost:3001/login?code=' + code ,true);
+        xhr.open('get','${config.env}/login?code=' + code ,true);
         xhr.withCredentials = true;
         xhr.send(null);
         xhr.onerror = function(err){

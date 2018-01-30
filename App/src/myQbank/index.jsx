@@ -14,7 +14,7 @@ class  MyQbank extends React.Component{
             qbanks: []
         }
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get','http://localhost:3001/getMyQbanks',null);
+        let promise = fn('get','${config.env}/getMyQbanks',null);
         let that = this;
         promise.then((result)=>{
             that.setState({

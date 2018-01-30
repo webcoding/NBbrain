@@ -7,6 +7,6 @@ export default {
         appid: '1105687350',
         appkey: 'fsSgJRCqShANJhb1'
     },
-    env: 'localhost:3001',
-    prd: '120.55.98.137'
+    env: 'http://localhost:3001',
+    prd: 'http://120.55.98.137:3001'
 }

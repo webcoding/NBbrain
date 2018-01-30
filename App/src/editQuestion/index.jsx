@@ -33,7 +33,7 @@ export default class  Question extends React.Component{
             index: 0
         };
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get',`http://localhost:3001/getQuestion?qbank_id=${qbank_id}&questionid=${question_id}`, null);
+        let promise = fn('get',`${config.env}/getQuestion?qbank_id=${qbank_id}&questionid=${question_id}`, null);
         let that = this;
         promise.then((result)=>{
             console.log(result)
@@ -58,7 +58,7 @@ export default class  Question extends React.Component{
             for(let key in this.state){
                 data.append(key, this.state[key]);
             }
-            let promise = fn('post','http://localhost:3001/updateQuestion',data);
+            let promise = fn('post',`${config.env}/updateQuestion`,data);
             let that = this;
             promise.then((result)=>{
                 that.setState({

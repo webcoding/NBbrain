@@ -14,8 +14,8 @@ class Home extends React.Component{
             recentChallenges : []
         }
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get','http://localhost:3001/recentUpdateQbank',null);
-        let promise1 = fn('get','http://localhost:3001/recentChallengedQbank',null);
+        let promise = fn('get','${config.env}/recentUpdateQbank',null);
+        let promise1 = fn('get','${config.env}/recentChallengedQbank',null);
         let that = this;
         promise.then((result)=>{
             that.setState({recentQbanks: result.data})

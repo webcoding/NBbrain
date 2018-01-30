@@ -27,7 +27,8 @@ class  Qbank extends React.Component{
         }
         if(!qbankid || qbankid === 'edit') return;
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get','http://localhost:3001/getqbank?qbankid='+qbankid,null);
+        let url = `${config.env}/getqbank?qbankid=${qbankid}`;
+        let promise = fn('get',url,null);
         let that = this;
         promise.then((result)=>{
             let {qbank_name, time, qbank_material_url,total_question} = result.data;
@@ -49,7 +50,8 @@ class  Qbank extends React.Component{
                 data.append(key, this.state[key]);
             }
             let fn = utils.promisify(utils.ajax);
-            let promise = fn('post','http://localhost:3001/updateQbank', data);
+            let url = `${config.env}/updateQbank`
+            let promise = fn('post', url, data);
             let that = this;
             promise.then((result)=>{
             },(err)=>{
