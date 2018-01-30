@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-29 17:05:41
+ * @Last Modified time: 2018-01-30 16:07:44
 */
 
 'use strict';
@@ -72,6 +72,37 @@ export async function getRecentChallengedQbank(uid, limit){
         {$limit: limit}
     ]).exec();
 }
+
+export async function getChallengeRank(){
+    return await userSchema.aggregate([
+        {
+            $lookup:{
+                from: 'qbanks',
+                localField: 'user_id',
+                foreignField: 'user_id',
+                as: 'challenge_rank'
+            }
+        },
+        {
+            $group: {
+                id: "$user_id",
+                qbank_ids: {$push: "$qbank_id"}
+            }
+        },
+        {
+            $project:{
+                user_id: 1,
+                nickname: 1,
+                headimgurl: 1,
+                title: 1,
+                scores: {$sum: "$scores.score"}, //总得分
+                qbanks: {$size: "$qbank_ids"}, // 贡献题库数
+                challenges: {$size: "$challenges"}, //挑战次数
+            }
+        }
+    ])
+}
+
 
 
 export async function getUserAll(uid){

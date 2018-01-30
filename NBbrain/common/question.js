@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-25 18:07:55
+ * @Last Modified time: 2018-01-30 16:07:03
 */
 
 'use strict';
@@ -164,6 +164,37 @@ export async function getRecentUpdateQbank(count){
         {$sort:{update_time: -1}},
         {$limit: count}
     ]).exec();
+}
+
+
+export async function getQbankRank(){
+    return await qbanksModel.aggregate([
+        {
+            $lookup:{
+                from: 'users',
+                localField: 'user_id',
+                foreignField: 'user_id',
+                as: 'update_rank'
+            }
+        },
+        {
+            $group: {
+                id: "$user_id",
+                qbank_ids: {$push: "$qbank_id"}
+            }
+        },
+        {
+            $project:{
+                user_id: 1,
+                nickname: 1,
+                headimgurl: 1,
+                title: 1,
+                scores: {$sum: "$scores.score"}, //总得分
+                qbanks: {$size: "$qbank_ids"}, // 贡献题库数
+                challenges: {$size: "$challenges"}, //挑战次数
+            }
+        }
+    ])
 }
 
 export async function submitQbanks(qbankid){
