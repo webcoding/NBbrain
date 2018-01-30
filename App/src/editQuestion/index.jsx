@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import history from './history';
+import history from '../history';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import {render} from 'react-dom';

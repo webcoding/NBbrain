@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import history from './history';
+import history from '../history';
 import Head from '../common/head';
 import Foot from '../common/foot';
 import SVG from '../common/SVG';
@@ -59,16 +59,17 @@ class  Qbank extends React.Component{
         let uid = utils.store('uid');
         if(!next){
             let url = `/list/${uid}`;
-            history.push(url);
-            history.goForward();
+
+            // history.push(url);
+            // history.goForward();
         }
     }
     add_question(data){
         this.finish_edit('next');
         let qbankid = this.state.qbank_id
         let url = `/edit_question/${qbankid}`;
-        history.push(url);
-        history.goForward();
+        // history.push(url);
+        // history.goForward();
     }
     handleData(e,key){
         this.modify = true;
