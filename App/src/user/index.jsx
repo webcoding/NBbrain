@@ -4,6 +4,7 @@ import Foot from '../common/foot';
 import Head from '../common/head';
 import SVG from '../common/SVG';
 import config from '../config';
+import utils from '../common/utils';
 
 export default class  User extends React.Component{
     constructor(props){
@@ -12,25 +13,15 @@ export default class  User extends React.Component{
             basic: null,
             qbanks:0
         }
-    }
-    componentWillMount(){
-        let xhr = new XMLHttpRequest(), temp;
+        let temp;
         let uid = (temp = location.pathname.match(/\/(\w*)$/)) ? temp[1] : '';
-        xhr.open('get',`${config.env}/user?uid=${uid}`, true);
-        xhr.withCredentials = true;
-        xhr.send(null);
-        let response;
-        let that = this;
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-                response = JSON.parse(xhr.response);
-                if(!!response.data){
-                    that.setState({basic:response.data.basic});
-                }
-            }
-        }
+        let fn = utils.promisify(utils.ajax);
+        let promise = fn('get',`${config.env}/user?uid=${uid}`,null);
+            let that = this;
+            promise.then((result)=>{
+                that.setState({basic:result.data.basic});
+            })
     }
-
     render(){
         let default_data
         if(!this.state.basic){

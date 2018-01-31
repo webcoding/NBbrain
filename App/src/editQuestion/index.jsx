@@ -26,7 +26,7 @@ export default class  Question extends React.Component{
             qbank_id: qbank_id,
             question_id: question_id,
             question_name:'',
-            time_limit: 0,
+            time_limit: '',
             // 验证选项值不能相同
             items:[],
             answers: ['A'],
@@ -46,11 +46,11 @@ export default class  Question extends React.Component{
                 qbank_id: qbank_id,
                 question_id: question_id,
                 question_name: question_name || "",
-                time_limit: time_limit || 0,
+                time_limit: time_limit || "",
                 items: items || [],
                 answers: answers || ['A'],
-                score: score+'' || '1' ,
-                index: _.findIndex(question_ids, question_id)
+                score: !!score && score+'' || '1' ,
+                index: _.findIndex(question_ids, question_id) || (len+1)
             })
         })
     }
@@ -73,28 +73,33 @@ export default class  Question extends React.Component{
             let url = `/list/${this.state.qbank_id}/`
             history.push(url);
         }
+        return true;
     }
     create(){
-        this.finish_edit();
-        let {qbank_id} = this.state;
-        let url = `/edit_question/${qbank_id}`
-        history.push(url);
+        if(this.finish_edit()){
+            let {qbank_id} = this.state;
+            let url = `/edit_question/${qbank_id}`
+            history.push(url);
+        }
     }
     next(){
-        this.finish_edit();
-        let {question_ids, index, qbank_id} = this.state;
-        let url = `/edit_question/${qbank_id}/${this.question_ids[index]}`
-        history.push(url);
+        if(this.finish_edit()){
+            let {question_ids, index, qbank_id} = this.state;
+            let url = `/edit_question/${qbank_id}/${this.question_ids[index]}`
+            history.push(url);
+        }
     }
     prev(){
-        this.finish_edit();
-        let {question_ids, index, qbank_id} = this.state;
-        let url = `/edit_question/${qbank_id}/${this.question_ids[index-2]}`
-        history.push(url);
+        if(this.finish_edit()){
+            let {question_ids, index, qbank_id} = this.state;
+            let url = `/edit_question/${qbank_id}/${this.question_ids[index-2]}`
+            history.push(url);
+        }
     }
     validate(){
         for(var key in this.state){
             if((!!this.state[key])===false && key !== 'question_id'){
+                console.log(key)
                 this.isError = true;
                 this.msg = `${key}填写有误，请检查修正后再保存`;
                 return false;
