@@ -2,11 +2,11 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-30 16:07:03
+ * @Last Modified time: 2018-01-31 16:44:29
 */
 
 'use strict';
-import _ from 'underscore'
+import _ from 'lodash'
 import mongoose from 'mongoose'
 import {createRandom, saveFile} from '../common/utils'
 import qbanksModel from '../schema/qbankSchema.js'
@@ -93,36 +93,38 @@ export async function updateQuestionData(data){
 }
 
 export async function getQuestionMsg(qbank_id, question_id = null){
-
     let part =  await qbanksModel.aggregate([
         {
             $match:{
-                $or:[
-                    {qbank_id: qbank_id},
-                    {"questions.question_id": question_id}
-                ]
+                qbank_id: qbank_id
             }
         },{
             $project:{
                 _id: 0,
-                question_ids: "$questions.question_id",
-                index:{$indexOfArray: ["$question_ids", question_id]},
                 len: {$size: "$questions"},
-                qbank_id: 1
+                question_ids: "$questions.question_id",
+                qbank_id: 1,
+                total_question: 1
             }
         }
     ]);
-    return _.extend(part[0], await qbanksModel.findOne({
-        qbank_id: qbank_id,
-        "questions.question_id": question_id
-    },{
-        "questions.question_id": 1,
-        "questions.question_name":1,
-        "questions.time": 1,
-        "questions.items":1,
-        "questions.answers": 1,
-        "questions.score": 1,
-    }))
+    if(!!question_id){
+        let data = await qbanksModel.findOne({
+            qbank_id: qbank_id,
+            "questions.question_id": question_id
+        },{
+            "questions.question_id": 1,
+            "questions.question_name":1,
+            "questions.time_limit": 1,
+            "questions.items":1,
+            "questions.answers": 1,
+            "questions.score": 1,
+        })
+        let temp = _.assign(part[0], _.find(data.questions,{question_id: question_id}));
+        return _.pick(temp,['question_ids','index','len','qbank_id','total_question','_doc']);
+    }else{
+        return part[0];
+    }
 }
 
 export async function getUserQbanks(uid){

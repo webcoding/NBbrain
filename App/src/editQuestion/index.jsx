@@ -6,6 +6,7 @@ import {render} from 'react-dom';
 import SVG from '../common/SVG';
 import utils from '../common/utils';
 import Toast from '../common/toast';
+import config from '../config';
 import './question'
 
 // class createQbank extends Component
@@ -13,7 +14,7 @@ export default class  Question extends React.Component{
     constructor(props){
         super(props);
         let temp, question_id, qbank_id;
-        temp = location.pathname.match(/edit_question\/([a-z0-9\_]*)([a-z0-9\_]*)$/);
+        temp = location.pathname.match(/edit_question\/([a-z0-9\_]*)\/?([a-z0-9\_]*)?$/);
         if(temp.length>2){
             question_id = temp[2];
             qbank_id = temp[1];
@@ -25,7 +26,7 @@ export default class  Question extends React.Component{
             qbank_id: qbank_id,
             question_id: question_id,
             question_name:'',
-            time: 0,
+            time_limit: 0,
             // 验证选项值不能相同
             items:[],
             answers: ['A'],
@@ -33,21 +34,23 @@ export default class  Question extends React.Component{
             index: 0
         };
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get',`${config.env}/getQuestion?qbank_id=${qbank_id}&questionid=${question_id}`, null);
+        let promise = fn('get',`${config.env}/getQuestion?qbankid=${qbank_id}&questionid=${question_id || ''}`, null);
         let that = this;
         promise.then((result)=>{
-            console.log(result)
-            let {index, len, question_name, time, items, answers, score} = result.data;
-            this.question_ids = result.data.question_ids;
+            let {index, len, question_ids, total_question} = result.data;
+            let _doc = result.data._doc || {};
+            let {question_name, time_limit, items, answers, score} = _doc;
+            this.question_ids = question_ids;
+            this.total_question = total_question;
             that.setState({
                 qbank_id: qbank_id,
                 question_id: question_id,
-                // question_name: question_name,
-                // time: time,
-                // items: items,
-                // answers: answers,
-                // score: score,
-                index: index || (len+1)
+                question_name: question_name || "",
+                time_limit: time_limit || 0,
+                items: items || [],
+                answers: answers || ['A'],
+                score: score+'' || '1' ,
+                index: _.findIndex(question_ids, question_id)
             })
         })
     }
@@ -68,20 +71,26 @@ export default class  Question extends React.Component{
         }
         if(!!save){
             let url = `/list/${this.state.qbank_id}/`
-            history.push(url)
-            history.goForward();
+            history.push(url);
         }
+    }
+    create(){
+        this.finish_edit();
+        let {qbank_id} = this.state;
+        let url = `/edit_question/${qbank_id}`
+        history.push(url);
     }
     next(){
         this.finish_edit();
-        utils.refresh();
+        let {question_ids, index, qbank_id} = this.state;
+        let url = `/edit_question/${qbank_id}/${this.question_ids[index]}`
+        history.push(url);
     }
     prev(){
         this.finish_edit();
         let {question_ids, index, qbank_id} = this.state;
-        let url = `/edit_question/${qbank_id}/${this.question_ids[index-1]}`
+        let url = `/edit_question/${qbank_id}/${this.question_ids[index-2]}`
         history.push(url);
-        history.goForward();
     }
     validate(){
         for(var key in this.state){
@@ -150,7 +159,7 @@ export default class  Question extends React.Component{
                         <dl className="nb_createQuestion_item">
                             <dt>答题所需时间</dt>
                             <dd>
-                                <input type="number" onChange={(e)=>{this.handleData(e, 'time')}}/>
+                                <input type="number" value={this.state.time_limit} onChange={(e)=>{this.handleData(e, 'time_limit')}}/>
                             </dd>
                         </dl>
                         <dl className="nb_createQuestion_item nb_create_chioce" ref="addCheckItem">
@@ -160,13 +169,16 @@ export default class  Question extends React.Component{
                             </dd>
                         </dl>
                     </div>
+                    {!!this.question_ids && this.question_ids.length < this.total_question &&
+                        <button className="nb_btn" onClick={(e)=>{this.create()}}>新建题目</button>
+                    }
+                    <button className="nb_btn" onClick={(e)=>{this.finish_edit('save')}}>保存</button>
                     { this.state.index > 1 &&
                         <button className="nb_btn" onClick={(e)=>{this.prev()}}>上一题</button>
                     }
                     {!!this.question_ids && this.state.index < this.question_ids.length &&
                         <button className="nb_btn" onClick={(e)=>{this.next()}}>下一题</button>
                     }
-                    <button className="nb_btn" onClick={(e)=>{this.finish_edit('save')}}>保存</button>
                 </div>
                 <Foot/>
                 { this.isError && <Toast msg={this.msg}/>}

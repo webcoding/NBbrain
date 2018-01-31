@@ -4,7 +4,7 @@ import Head from '../common/head';
 import Foot from '../common/foot';
 import MyQbankList from '../common/myQbankList';
 import SVG from '../common/SVG';
-// import test_data from '../test_data';
+import config from '../config';
 import utils  from '../common/utils';
 
 class  MyQbank extends React.Component{
@@ -14,7 +14,7 @@ class  MyQbank extends React.Component{
             qbanks: []
         }
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get','${config.env}/getMyQbanks',null);
+        let promise = fn('get',`${config.env}/getMyQbanks`,null);
         let that = this;
         promise.then((result)=>{
             that.setState({
@@ -23,7 +23,6 @@ class  MyQbank extends React.Component{
         })
     }
     render(){
-        console.log(this.state.qbanks)
         return (
             <div className="nb_wrap">
                 <Head>

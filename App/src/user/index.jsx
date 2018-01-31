@@ -3,6 +3,7 @@ import users from './user.scss';
 import Foot from '../common/foot';
 import Head from '../common/head';
 import SVG from '../common/SVG';
+import config from '../config';
 
 export default class  User extends React.Component{
     constructor(props){
@@ -15,7 +16,7 @@ export default class  User extends React.Component{
     componentWillMount(){
         let xhr = new XMLHttpRequest(), temp;
         let uid = (temp = location.pathname.match(/\/(\w*)$/)) ? temp[1] : '';
-        xhr.open('get','${config.env}/user?uid='+uid, true);
+        xhr.open('get',`${config.env}/user?uid=${uid}`, true);
         xhr.withCredentials = true;
         xhr.send(null);
         let response;

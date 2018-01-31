@@ -61,5 +61,8 @@ export default {
     },
     refresh(){
         history.go(0);
+    },
+    publish(){
+
     }
 }

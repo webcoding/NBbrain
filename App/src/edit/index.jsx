@@ -6,7 +6,7 @@ import SVG from '../common/SVG';
 import editPage from './edit.scss';
 import {render} from 'react-dom';
 import Toast from '../common/toast';
-// import PropTypes from 'prop-types';
+import config from '../config';
 import utils from '../common/utils';
 
 // 验证、获取uid去用户列表页面、编辑图片
@@ -61,17 +61,14 @@ class  Qbank extends React.Component{
         let uid = utils.store('uid');
         if(!next){
             let url = `/list/${uid}`;
-
-            // history.push(url);
-            // history.goForward();
+            history.push(url);
         }
     }
     add_question(data){
         this.finish_edit('next');
         let qbankid = this.state.qbank_id
         let url = `/edit_question/${qbankid}`;
-        // history.push(url);
-        // history.goForward();
+        history.push(url);
     }
     handleData(e,key){
         this.modify = true;
@@ -116,9 +113,6 @@ class  Qbank extends React.Component{
             }
         }
         return true;
-    }
-    upload(){
-
     }
     render(){
         let img = null;
