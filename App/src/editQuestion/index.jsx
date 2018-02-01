@@ -20,11 +20,11 @@ export default class  Question extends React.Component{
             qbank_id = temp[1];
         }else if(temp.length>1){
             qbank_id = temp[1];
-            question_id = ''
+            question_id = ""
         }
         this.state = {
             qbank_id: qbank_id,
-            question_id: question_id,
+            question_id: question_id || "",
             question_name:'',
             time_limit: '',
             // 验证选项值不能相同
@@ -39,18 +39,18 @@ export default class  Question extends React.Component{
         promise.then((result)=>{
             let {index, len, question_ids, total_question} = result.data;
             let _doc = result.data._doc || {};
-            let {question_name, time_limit, items, answers, score} = _doc;
+            let {question_name, time_limit, items, answers, score, question_id} = _doc;
             this.question_ids = question_ids;
             this.total_question = total_question;
             that.setState({
                 qbank_id: qbank_id,
-                question_id: question_id,
+                question_id: question_id || '',
                 question_name: question_name || "",
                 time_limit: time_limit || "",
                 items: items || [],
                 answers: answers || ['A'],
                 score: !!score && score+'' || '1' ,
-                index: _.findIndex(question_ids, question_id) || (len+1)
+                index: _.indexOf(question_ids, question_id)+1 || (len+1)
             })
         })
     }

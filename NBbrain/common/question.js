@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-31 16:44:29
+ * @Last Modified time: 2018-01-31 18:12:22
 */
 
 'use strict';
@@ -133,6 +133,7 @@ export async function getUserQbanks(uid){
         {$project:{
             _id: 0,
             qbank_id:1, qbank_name:1, qbank_material_url:1,update_time:1,complish_statue:1,
+            questions: 1,
             question_number: {$size: "$questions"},
             total_question: 1,
             question_ids:"$questions.question_id"

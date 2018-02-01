@@ -6,6 +6,7 @@ import ListItem from '../common/listItem';
 import SVG from '../common/SVG';
 import utils  from '../common/utils';
 import test_data from '../test_data';
+import config from '../config';
 class Home extends React.Component{
     constructor(props){
         super(props)
@@ -14,8 +15,8 @@ class Home extends React.Component{
             recentChallenges : []
         }
         let fn = utils.promisify(utils.ajax);
-        let promise = fn('get','${config.env}/recentUpdateQbank',null);
-        let promise1 = fn('get','${config.env}/recentChallengedQbank',null);
+        let promise = fn('get',`${config.env}/recentUpdateQbank`,null);
+        let promise1 = fn('get',`${config.env}/recentChallengedQbank`,null);
         let that = this;
         promise.then((result)=>{
             that.setState({recentQbanks: result.data})

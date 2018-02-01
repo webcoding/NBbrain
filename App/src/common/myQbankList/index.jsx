@@ -6,8 +6,11 @@ class QbankListItem extends React.Component{
     constructor(props){
         super(props);
     }
+    Item(props){
+
+    }
     render(){
-        let {qbank_id, qbank_name, qbank_material_url, total_question, question_number, complish_statue=0} = this.props.item;
+        let {qbank_id, qbank_name, qbank_material_url, total_question, question_number, complish_statue=0, questions} = this.props.item;
         let complish_text="";
         let operator = null;
         if(complish_statue===0){
@@ -23,6 +26,15 @@ class QbankListItem extends React.Component{
             complish_text = "[审核通过]"
             operator = <i><SVG type="friend"  classes="nb_font_middle nb_font_align nb_right_gap"/>邀请朋友来挑战</i>
         }
+        function Item(props){
+            let items = props.items;
+            return (
+                !!items && tems.map((item,index)=>(
+                (every.answers[0].charCodeAt()-65)=== index ?
+                        <i className="nb_answer">{item}</i> : <i>{item}</i>
+                ))
+            )
+        }
         return (
                 <li className="nb_list_item nb_flex nb_ver_center">
                     <img src={qbank_material_url}/>
@@ -30,7 +42,12 @@ class QbankListItem extends React.Component{
                         <Link to={`/edit/${qbank_id}`} className="nb_btn nb_btn_radius">{operator}</Link>
                         <h4 className="nb_list_qbank_name">{qbank_name}</h4>
                         <p className="nb_list_progress">{complish_text}</p>
-
+                        {questions.map((every)=>(
+                            <div>
+                                <h4>{every.question_name}<span>{every.time_limit}</span></h4>
+                                <Item key={every.items}/>
+                            </div>
+                        ))}
                     </div>
                 </li>
                 );
