@@ -12,7 +12,8 @@ import User from './user';
 import Login from './login';
 import NoMatch from './noMatch';
 import Pinyin from './pinyin';
-
+import addQbank from './addData';
+// addQbank();
 const element =  document.getElementsByClassName('mod-app')[0];
 
 
