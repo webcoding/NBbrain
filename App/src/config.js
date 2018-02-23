@@ -8,5 +8,5 @@ export default {
         appkey: 'fsSgJRCqShANJhb1'
     },
     env: 'http://localhost:3001',
-    prd: 'http://120.55.98.137:3001'
+    prd: 'http://120.55.98.137:3001',
 }

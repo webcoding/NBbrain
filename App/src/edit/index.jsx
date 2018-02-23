@@ -116,7 +116,9 @@ class  Qbank extends React.Component{
     }
     render(){
         let img = null;
-        img = this.state.qbank_material_url ? <img className="showImage" src={this.state.qbank_material_url} ref="showImage"/> : <img className="showImage" ref="showImage"/>;
+        console.log(!!this.state.qbank_material_url)
+        img = !!this.state.qbank_material_url ? <img className="showImage"
+        src={`${config.env}/upload/${this.state.qbank_material_url}`} ref="showImage"/> : <img className="showImage" ref="showImage"/>;
         let list = null, time = ["60", "120", "180"];
         list = time.map((item)=>{
             return (<label key={`time_${item}`}>
