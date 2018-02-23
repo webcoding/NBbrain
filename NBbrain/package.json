@@ -46,6 +46,7 @@
     "chai": "^3.5.0",
     "cors": "^2.8.4",
     "eslint": "^4.3.0",
+    "iconv-lite": "^0.4.19",
     "jsdoc": "^3.4.3",
     "jsx-loader": "^0.13.2",
     "koa-webpack-middleware": "^1.0.3",

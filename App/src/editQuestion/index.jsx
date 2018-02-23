@@ -115,7 +115,7 @@ export default class  Question extends React.Component{
         this.isModify = true;
         if(key !== 'items'){
             this.setState({
-                [key]: key==='answer'? [e.currentTarget.value] : e.currentTarget.value
+                [key]: key==='answers'? [e.currentTarget.value] : e.currentTarget.value
             });
         }else{
             let temp = this.state.items;
@@ -134,7 +134,7 @@ export default class  Question extends React.Component{
         });
         let H_items = chioces.map((item, i)=>{
             return (<label key={`item_${item}`}>
-                        <input type="radio" checked={this.state.answers[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answer')}}/>
+                        <input type="radio" checked={this.state.answers[0]===item} value={item} onChange={(e)=>{this.handleData(e,'answers')}}/>
                         {item}
                         <input type="text" className="nb_item_text" onChange={(e)=>{this.handleData(e,'items', i)}}  placeholder={`选项${item}`} value={this.state.items[i]}/>
                     </label>

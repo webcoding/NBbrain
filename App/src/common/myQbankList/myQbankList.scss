@@ -1,26 +1,40 @@
-// .nb_list_item{
-//   height: 168px;
-//   overflow: hidden;
-//   border:none;
-//   img{
-//     width: 168px;
-//     height: 168px;
-//     background-color: rgb(206, 213, 214);
-//     border-radius: 6px;
-//   }
-//   .nb_list_qbnk{
-//     background-color: #ffffff;
-//     padding: 5%;
-//     border-radius: 8px;
-//     margin-left: -5%;
-//     height: 116px;
-
-//     .nb_list_qbank_name{
-//       font-size: 18px;
-//       margin: 10px 0;
-//     }
-//     .nb_list_progress{
-//       color: rgb(157, 157, 157);
-//     }
-//   }
-// }
+@import "../base";
+.nb_list_item{
+  border: none;
+}
+.nb_list_qbnk{
+  width: 100%;
+  .nb_qbank_name{
+    padding-bottom: 2%;
+  }
+  .nb_list_qbank_name{
+    color: rgb(28, 28, 28);
+    font-size: 16px;
+    display: inline-block;
+    height: 35p;
+    line-height: 35px;
+    .nb_list_progress{
+      font-size: 12px;
+      color: $orange-color;
+    }
+  }
+  .nb_list_question{
+    background: #fefefe;
+    .nb_list_questionName{
+      color: #333;
+      font-size: 14px;
+      height: 24px;
+      line-height: 24px;
+      border-left: 4px solid $orange-color;
+      border-radius: 4px;
+      text-indent: 8px;
+    }
+    .nb_list_option{
+      height: 24px;
+      line-height: 24px;
+      &.nb_list_correct{
+        color: $orange-color;
+      }
+    }
+  }
+}

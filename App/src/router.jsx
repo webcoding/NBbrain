@@ -11,6 +11,7 @@ import EditQuestion from './editQuestion';
 import User from './user';
 import Login from './login';
 import NoMatch from './noMatch';
+import Pinyin from './pinyin';
 
 const element =  document.getElementsByClassName('mod-app')[0];
 
@@ -26,6 +27,7 @@ ReactDOM.render(
             <Route path="/edit_question/:qbankid(/:questionid)?" component={EditQuestion}/>
             <Route path="/user/:userid" component={User}/>
             <Route path="/login" component={Login}/>
+            <Route path="/pinyin" component={Pinyin}/>
             <Route exact path="*" component={NoMatch}/>
         </div>
     </BrowserRouter>

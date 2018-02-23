@@ -82,7 +82,7 @@ class  Qbank extends React.Component{
         //     });
         }else{
             this.setState({
-                [key]: e.currentTarget.value
+                [key]: parseInt(e.currentTarget.value)
             });
         }
     }
