@@ -13,6 +13,7 @@ import Login from './login';
 import NoMatch from './noMatch';
 import Pinyin from './pinyin';
 import addQbank from './addData';
+import ant from './ant';
 // addQbank();
 const element =  document.getElementsByClassName('mod-app')[0];
 
@@ -29,7 +30,7 @@ ReactDOM.render(
             <Route path="/user/:userid" component={User}/>
             <Route path="/login" component={Login}/>
             <Route path="/pinyin" component={Pinyin}/>
-            <Route exact path="*" component={NoMatch}/>
+            <Route path="/ant" component={ant}/>
         </div>
     </BrowserRouter>
 ),element);
