@@ -14,6 +14,7 @@ import NoMatch from './noMatch';
 import Pinyin from './pinyin';
 import addQbank from './addData';
 import ant from './ant';
+import animations from './animations';
 // addQbank();
 const element =  document.getElementsByClassName('mod-app')[0];
 
@@ -31,6 +32,7 @@ ReactDOM.render(
             <Route path="/login" component={Login}/>
             <Route path="/pinyin" component={Pinyin}/>
             <Route path="/ant" component={ant}/>
+            <Route path="/animations" component={animations}/>
         </div>
     </BrowserRouter>
 ),element);

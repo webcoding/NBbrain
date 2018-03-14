@@ -25,14 +25,14 @@ export default class Ant extends React.Component{
   moving(e){
     if(this.dragging){
       let self = this.selfDom;
-      var x = this.getPos(e).x - this.offsetX;
-      var y = this.getPos(e).y - this.offsetY;
-      var width = document.documentElement.clientWidth - self.offsetWidth;
-      var height = document.documentElement.clientHeight - self.offsetHeight;
+      var x = this.getPos(e).x// - this.offsetX;
+      var y = this.getPos(e).y //- this.offsetY;
+      // var width = document.documentElement.clientWidth - self.offsetWidth;
+      // var height = document.documentElement.clientHeight - self.offsetHeight;
 
-      self.style.left = Math.min(Math.max(0, x), width);
-      self.style.top = Math.min(Math.max(0, y), height);
-      // self.style.transform = `translate(${x}px, ${y}px)`;
+      // self.style.left = Math.min(Math.max(0, x), width);
+      // self.style.top = Math.min(Math.max(0, y), height);
+      self.style.transform = `translate(${x}px, ${y}px)`;
       this.setState({
         hasClass: true,
         index: Math.floor(Math.random() * (7 - 1 + 1)) + 1
