@@ -34,7 +34,16 @@ export default class Ant extends React.Component{
             </div>
           </div>
         </li>
-        <li className = "item item2">2</li>
+        <li className = "item item2" onMouseOver={(e)=>{this.update(true)}} onMouseOut={(e)=>{this.update(false);}}>
+          <div className="circle-box">
+            <div className={`circle-mask ${this.state.status ? 'circle-masked' : ''}`} >
+              <div className="circle-loaded circle-loaded-right"/>
+            </div>
+            <div className={`circle-mask ${this.state.status ? 'circle-masked' : ''}`} >
+              <div className="circle-loaded circle-loaded-left"/>
+            </div>
+          </div>
+        </li>
         <li className = "item item3">3</li>
         <li className = "item item4">4</li>
         <li className = "item item5">5</li>
