@@ -4,12 +4,12 @@ export default class Ant extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      rollback: false
+      status: false
     }
   }
-  rollback(val){
+  update(val){
     this.setState({
-      rollback: val
+      status: val
     })
   }
   render(){
@@ -22,17 +22,17 @@ export default class Ant extends React.Component{
         })
     return (
       <ul className="container">
-        <li className = {`item item1`} onMouseOver={(e)=>{this.rollback(true)}} onMouseOut={(e)=>{this.rollback(false)}}>
-        <div className="roll-wrap">
-          <div className="roll-box">
-            <p className="roll-front">
-            1
-            </p>
-            <p className={`roll-back animated ${this.state.rollback ? 'flip': ''}`}>
-            已
-            </p>
+        <li className ="item item1">
+          <div className="roll-wrap">
+            <div className="roll-box" onMouseOver={(e)=>{this.update(true)}} onMouseOut={(e)=>{this.update(false);}}>
+              <p className={`roll-front ${this.state.status ? 'roll-backed': ''}`}>
+              正面
+              </p>
+              <p className={`roll-back ${this.state.status ? 'roll-fronted': ''}`}>
+              反面
+              </p>
+            </div>
           </div>
-        </div>
         </li>
         <li className = "item item2">2</li>
         <li className = "item item3">3</li>
