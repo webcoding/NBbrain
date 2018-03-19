@@ -1,9 +1,10 @@
 $color: #820014 #d4380d #ad4e00 #fa8c16 #d48806 #faad14 #3f6600 #a0d911 #006d75 #08979c #002766  #1890ff #722ed1 #391085 #c41d7f #9e1068;
 .container{
   display: grid;
-  grid-template-rows: repeat(6, 120px);
-  grid-template-columns: repeat(3, 120px);
+  grid-template-rows: repeat(6, 140px);
+  grid-template-columns: repeat(3, 140px);
   grid-gap: 10px;
+  margin: 10px;
   .item{
     text-align: center;
     font-size: 20px;
@@ -51,40 +52,69 @@ $color: #820014 #d4380d #ad4e00 #fa8c16 #d48806 #faad14 #3f6600 #a0d911 #006d75 
     }
   }
   .item2{
-    background-color: #f1f1f1;
     .circle-box{
       width: 120px;
       height: 120px;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
       border-radius: 50%;
       position: relative;
+      // padding-left: 1px;
+      // padding-right: 1px;
+      overflow: hidden;
+      margin: 0 auto;
     }
     .circle-mask{
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      transition: transform 1s;
-      &.circle-masked{
-        transform: rotate(179.9deg);
+      border-radius: 0 60px 60px 0;
+      clip: rect(0 120px 120px 60px); //右
+      &.circle-mask-left{
+        border-radius: 60px 0 0 60px;
+        clip: rect(0 60px 120px 0px); //左
       }
-      .circle-loaded{
+      .circle-fill{
         position: absolute;
         width: 100%;
         height: 100%;
         box-shadow: inset 0 0 0 1px #1f7aea;
         backface-visibility: hidden;
-        border-radius: 50%;
-        &.circle-loaded-left{
-          clip: rect(6px, 120px, 120px, 0px);
+        transition: transform 1s;
+        &.circle-loaded{
+          border-radius: 60px 0 0 60px;
+          clip: rect(0 60px 120px 0);
         }
         &.circle-loaded-right{
-          clip: rect(0px, 120px, 120px, 60px);
+          border-radius: 0 60px 60px 0;
+          clip: rect(0 120px 120px 60px);  //右
+          transition: transform 0.9s 1s;
+        }
+        &.circle-loading{
+          transform: rotate(180deg);
         }
       }
-
     }
   }
+}
+$deg: floor(180/100);
+@keyframes loadWrap{
+  0%{
+    transform: rotate(0deg);
+  }
+  25%{
+    transform: rotate($deg*25deg);
+  }
+  50%{
+    transform: rotate($deg*50deg);
+  }
+  75%{
+    transform: rotate($deg*75deg);
+  }
+  100%{
+    transform: rotate($deg*100deg);
+  }
+
 }
 
 @keyframes flip {
