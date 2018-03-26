@@ -14,7 +14,7 @@ class Home extends React.Component{
             recentQbanks : [],
             recentChallenges : []
         }
-        let fn = utils.promisify(utils.ajax);
+        let fn = utils.promisify(utils._ajax);
         let promise = fn('get',`${config.env}/recentUpdateQbank`,null);
         let promise1 = fn('get',`${config.env}/recentChallengedQbank`,null);
         let that = this;

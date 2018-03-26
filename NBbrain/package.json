@@ -59,7 +59,9 @@
     "yui-jsdoc": "^0.0.3"
   },
   "scripts": {
-    "build": "nodemon  --use_strict ./start.js"
+    "build": "nodemon  --use_strict ./start.js",
+    "debug": "babel-node --inspect ./app.js",
+    "start": "babel-node app.js NODE_ENV='dev' PORT='3001' HOST_ADDRESS='local.nbbrain.com'"
   },
   "author": "mengyue",
   "license": "ISC"

@@ -303,3 +303,12 @@ div {
     }
 
 }
+.progress{
+    transition: transform 60s;
+    height: 10px;
+    background-color: $red-color;
+    transform-origin: left center;
+    &.begin{
+        transform: scaleX(0);
+    }
+}

@@ -8,7 +8,7 @@ class ListItem extends React.Component{
         super(props);
     }
     render(){
-        let {headimgurl, nickname, qbank_id, title, qbank_material_url, qbank_name, user_id, total_score} = this.props.item;
+        let {headimgurl, nickname, qbank_id, title, qbank_material_url, qbank_name, user_id, total_score,challenge_total, collect_total} = this.props.item;
         let avator = null;
         if(!headimgurl){
             avator = <SVG type="avatar_girl" classes="nb_list_avator nb_font_middle nb_right_gap"/>
@@ -18,17 +18,14 @@ class ListItem extends React.Component{
         return (
                 <li className="nb_list_item">
                     <div className="nb_list_qbnk nb_flex">
-                        <p className="nb_qbank_matrial">
-                            <img src={qbank_material_url}/>
-                        </p>
                         <div className="nb_list_oprate nb_flex_default">
                             <div className="nb_list_user nb_flex nb_flex_between">
                                 <span className="nb_list_message">
-                                    {headimgurl}
+                                    <img src={headimgurl} width="40" height="40"/>
                                     <i className="nb_user_name">{nickname}</i>
                                     <i className="nb_user_title">{title}</i>
                                 </span>
-                                <Link to="" className="nb_btn nb_btn_outline nb_button_small nb_btn_yellow">
+                                <Link to={`/fight/${qbank_id}`} className="nb_btn nb_btn_outline nb_button_small nb_btn_yellow nb_btn_define">
                                     <SVG type="challenge_now" classes="nb_font_align nb_font_middle"/>GO
                                 </Link>
                             </div>
@@ -38,14 +35,14 @@ class ListItem extends React.Component{
                                     <SVG type="total_score" classes="nb_font_align nb_font_default nb_font_small nb_right_gap"/>
                                     {total_score}
                                 </p>
-                                {/* <p>
+                                <p>
                                     <SVG type="challenge_now" classes="nb_font_align nb_font_default nb_font_small nb_right_gap"/>
                                     {challenge_total}
                                 </p>
                                 <p>
                                     <SVG type="star" classes="nb_font_align nb_font_default nb_font_small nb_right_gap"/>
                                     {collect_total}
-                                </p> */}
+                                </p>
                             </div>
                         </div>
                     </div>

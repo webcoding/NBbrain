@@ -15,7 +15,7 @@ export default class  User extends React.Component{
         }
         let temp;
         let uid = (temp = location.pathname.match(/\/(\w*)$/)) ? temp[1] : '';
-        let fn = utils.promisify(utils.ajax);
+        let fn = utils.promisify(utils._ajax);
         let promise = fn('get',`${config.env}/user?uid=${uid}`,null);
             let that = this;
             promise.then((result)=>{

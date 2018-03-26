@@ -81,6 +81,7 @@ module.exports = {
             loader: 'svg-sprite-loader',
             options: {
                 runtimeCompat: true,
+                symbolId: 'icon-[name]',
             }
         },{
             test: /.scss$/,

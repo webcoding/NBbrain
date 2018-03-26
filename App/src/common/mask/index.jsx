@@ -6,8 +6,9 @@ export default class Mask extends React.Component{
     super(props);
   }
   render(){
+    let {content, show} = this.props;
     return (
-      <div class="nb_mask_wrape"></div>
+      <div className="nb_mask_wrape" style={{display: show ? '' : 'none'}}>{content}</div>
     )
   }
 }

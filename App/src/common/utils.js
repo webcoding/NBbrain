@@ -1,6 +1,6 @@
 import _ from 'lodash'
 export default {
-    ajax(method = 'get', url = '', data = null, cb, async = true) {
+    _ajax(method = 'get', url = '', data = null, cb, async = true) {
         let response;
         var xhr = new XMLHttpRequest();
         xhr.open(method, url, async);
@@ -38,12 +38,16 @@ export default {
     promisify(api) {
         return function (...args) {
             return new Promise(function (resolve, reject) {
+                // 里面调用_ajax方法,
                 api(...args, function (err, response) {
                     if (err) return reject(err);
                     resolve(response);
                 });
             });
         };
+    },
+    ajax(){
+        return this.promisify(this._ajax);
     },
     go(title='我是title', url, remaind = true){
         if(remaind){

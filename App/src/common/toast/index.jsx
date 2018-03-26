@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Mask from '../mask';
+import SVG from '../SVG';
 import './toast.scss';
 
 export default class Toast extends React.Component{
@@ -7,18 +8,20 @@ export default class Toast extends React.Component{
     super(props);
   }
   render(){
-    let {msg} = this.props.msg;
+    let {msg, closeCb, show} = this.props;
+    let content = (<div className="nb_toast_wrape">
+    <div className="nb_toast_content">
+      <header>
+        提醒
+        <SVG  type="close" classes="nb_right_top"  onClick={(e)=>{closeCb()}}/>
+      </header>
+      <p className="nb_toast_msg">{msg}</p>
+    </div>
+  </div>);
     return (
-      <dialog class="nb_toast_wrape">
-        <Mask/>
-        <div class="nb_toast_content">
-          <header>
-            提醒
-            <SVG  type="close" classes=""/>
-          </header>
-          <p>{msg}</p>
-        </div>
-      </dialog>
+      <div>
+        <Mask show={show} content={content}/>
+      </div>
     )
   }
 }

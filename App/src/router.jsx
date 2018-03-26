@@ -11,11 +11,9 @@ import EditQuestion from './editQuestion';
 import User from './user';
 import Login from './login';
 import NoMatch from './noMatch';
-import Pinyin from './pinyin';
-import addQbank from './addData';
+import fight from './fight';
 import ant from './ant';
 import animations from './animations';
-// addQbank();
 const element =  document.getElementsByClassName('mod-app')[0];
 
 
@@ -30,7 +28,8 @@ ReactDOM.render(
             <Route path="/edit_question/:qbankid(/:questionid)?" component={EditQuestion}/>
             <Route path="/user/:userid" component={User}/>
             <Route path="/login" component={Login}/>
-            <Route path="/pinyin" component={Pinyin}/>
+            <Route path="/fight/:qbank_id" component={fight}/>
+
             <Route path="/ant" component={ant}/>
             <Route path="/animations" component={animations}/>
         </div>

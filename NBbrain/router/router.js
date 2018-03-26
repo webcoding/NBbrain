@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-31 11:43:51
+ * @Last Modified time: 2018-03-26 17:34:35
 */
 
 'use strict';
@@ -12,6 +12,7 @@ import https from 'https'
 import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank, submitQbanks, checkedQbank, getCheckQbankList, getQuestionMsg} from '../common/question.js'
+import {getQuestion} from '../common/getQbankData';
 import { setLoginUser, getLocalUid, getUserAll, getUid, getRecentChallengedQbank} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
@@ -119,8 +120,9 @@ router.get('/getQbank', async(ctx)=>{
 // 获取题库的题目
 router.get('/getQuestion', async(ctx)=>{
     let qbankid = ctx.query.qbankid;
-    let questionid = ctx.query.questionid;
-    let result = await getQuestionMsg(qbankid, questionid);
+    let index = ctx.query.index;
+    // let result = await getQuestionMsg(qbankid, questionid);
+    let result = await getQuestion(qbankid, index);
     status.success(ctx, result);
 })
 
