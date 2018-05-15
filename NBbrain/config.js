@@ -12,7 +12,7 @@ export default {
         // signed
         domain: 'localhost',  // 写cookie所在的域名
         path: '/',       // 写cookie所在的路径
-        maxAge: 24 * 60 * 1000 * 30, // cookie有效时长
+        maxAge: 24 * 7 * 60 * 1000 * 30, // cookie有效时长
         // expires: new Date('2017-02-15'),  // cookie失效时间
         secure: false,
         httpOnly: false,  // 是否只用于http请求中获取

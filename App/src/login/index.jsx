@@ -42,6 +42,7 @@ class  Login extends React.Component{
                     }else{
                         let url = '/user/' + result.data.uid;
                         history.push(url);
+                        history.goForward();
                     }
                 }
             }

@@ -9,7 +9,7 @@ export default class  Footer extends React.Component{
         super(props)
     }
     render(){
-        let uid = utils.store('uid');
+        let uid = utils.getUid();
         return (
             <div className="nb_bottom_wrap">
                 <ul className="nb_bottom_content">
@@ -24,12 +24,12 @@ export default class  Footer extends React.Component{
                         </Link>
                     </li>
                     <li>
-                        <Link to={`/list/${uid}`}>
+                        <Link to={uid ? `/list/${uid}` : `/login`}>
                             <SVG classes="nb_font nb_font_head" type="my_qbank_list"/>
                         </Link>
                     </li>
                     <li>
-                        <Link to={`/user/${uid}`}>
+                        <Link to={uid ? `/user/${uid}` : `/login`}>
                             <SVG classes="nb_font nb_font_head" type="account"/>
                         </Link>
                     </li>

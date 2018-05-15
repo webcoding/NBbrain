@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 17:21:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-03-26 17:34:35
+ * @Last Modified time: 2018-05-15 18:16:04
 */
 
 'use strict';
@@ -13,7 +13,7 @@ import userSchema from '../schema/userSchema'
 import qbanksModel from '../schema/qbankSchema'
 import {newestQuestion, newestChallenge, createQuestion, getQbankMsg, updateQbankData, getUserQbanks, updateQuestionData, getRecentUpdateQbank, submitQbanks, checkedQbank, getCheckQbankList, getQuestionMsg} from '../common/question.js'
 import {getQuestion} from '../common/getQbankData';
-import { setLoginUser, getLocalUid, getUserAll, getUid, getRecentChallengedQbank} from '../common/user.js'
+import { setLoginUser, getLocalUid, getUserAll, getRecentChallengedQbank, updateChallengeData} from '../common/user.js'
 import {md5Encrypt, createRandom, chiptorEncrypt} from '../common/utils'
 import {weixinLogin, getUserBaseMsg} from './login'
 import {status} from '../common/utils'
@@ -34,14 +34,16 @@ router.get('/login', async(ctx) => {
     let uid = ctx.cookies.get('user_id');
     let userMsg = await weixinLogin(code, uid);
     status.success(ctx,{uid: userMsg.user_id});
+    // 更新到cookie
     ctx.cookies.set('user_id', userMsg.user_id, config.cookieConfig);
+    console.log(ctx.cookies.get("user_id"))
 });
 
 // 添加题库
 router.post('/updateQbank', async(ctx)=>{
     let fields = ctx.request.fields;
     let files = ctx.request.files;
-    fields.user_id = getUid(ctx);
+    fields.user_id = ctx.cookies.get('user_id');
     if(!fields.user_id){
         status.gotoLogin(ctx)
     }else{
@@ -54,7 +56,7 @@ router.post('/updateQbank', async(ctx)=>{
 
 // 获取我的题库
 router.get('/getMyQbanks', async(ctx)=>{
-    let user_id = getUid(ctx);
+    let user_id = ctx.cookies.get('user_id');
     if(!user_id){
         status.gotoLogin(ctx)
     }else{
@@ -66,7 +68,7 @@ router.get('/getMyQbanks', async(ctx)=>{
 // 添加题目
 router.post('/updateQuestion', async(ctx)=>{
     let fields = ctx.request.fields;
-    let user_id = getUid(ctx);
+    let user_id = ctx.cookies.get('user_id');
     if(!user_id){
         status.gotoLogin(ctx)
     }else{
@@ -78,7 +80,6 @@ router.post('/updateQuestion', async(ctx)=>{
 // 首页接口
 router.get('/recentUpdateQbank', async (ctx) =>{
     let result = await getRecentUpdateQbank(5)
-    console.log(result.user_msg);
     let temp = _.map(result, function(item){
         let user_msg = _.flatten(_.values(_.pick(item,"user_msg")));
         let _item = _.omit(item,"user_msg", "_id");
@@ -88,7 +89,7 @@ router.get('/recentUpdateQbank', async (ctx) =>{
     status.success(ctx, temp);
 })
 router.get('/recentChallengedQbank', async(ctx)=>{
-    let user_id = getUid(ctx);
+    let user_id = ctx.cookies.get('user_id');
     if(!!user_id){
         let result = await getRecentChallengedQbank(user_id, 5)
         let temp = _.map(result, function(item){
@@ -143,4 +144,11 @@ router.get('/checkQbank', async(ctx)=>{
     let result = await checkedQbank(qbankid)
     status.success(ctx, result);
 })
+router.post('/updateScore', async(ctx)=>{
+    let qbankid = ctx.query.qbank_id;
+    let score = ctx.query.score;
+    let temp = await updateChallengeData(qbankid, score, result);
+    status.success(ctx, temp);
+})
+
 export default router;

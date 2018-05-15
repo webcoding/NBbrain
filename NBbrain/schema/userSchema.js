@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 10:58:24
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-17 17:58:13
+ * @Last Modified time: 2018-05-15 16:48:10
 */
 
 'use strict';
@@ -17,14 +17,15 @@ var challengeSchema = new mongoose.Schema({
     challenge_type: {type: Number, default: 1, enum:[1,2]}, // 人1   题库 2
     result: {type: Number, default: 1, enum: [0, 1]},
     score: {type: Number, default: 0},  //得分
-    create_time: {type: Date, default: Date.now}
-});
-var scoreSchema = new mongoose.Schema({
-    rec_id: {type: String},
-    score: {type: Number, default: 0},
     remark: {type: String},
     create_time: {type: Date, default: Date.now}
 });
+// var scoreSchema = new mongoose.Schema({
+//     rec_id: {type: String},
+//     score: {type: Number, default: 0},
+//     remark: {type: String},
+//     create_time: {type: Date, default: Date.now}
+// });
 var UserSchema = new mongoose.Schema({
     _id: Number,
     user_id:{type: String, unique: true, require: true},
@@ -57,7 +58,7 @@ var UserSchema = new mongoose.Schema({
     provide_question_count: Number,  //贡献过的题目数
     collections: [collectionSchema],
     collected_question_count: Number,    //用户收藏的题目总数
-    scores: [scoreSchema],
+    // scores: [scoreSchema],
     challenges: [challengeSchema],
     challenge_question_count: Number, //挑战过的题目数  === 挑战过的总次数
     challenge_user_count: Number,  // 用户挑战过的总人数    主动挑战过的人数

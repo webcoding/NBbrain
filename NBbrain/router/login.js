@@ -1,7 +1,7 @@
 import https from 'https';
 import config from '../config';
 import { createData, createRandom, promisify } from '../common/utils';
-import {hasToken, saveUserMsg, isExistUserAnduserId, isThisUser} from '../common/user'
+import {hasToken, saveUserMsg, isExistUserAnduserId, isThisUser, getUserMsg} from '../common/user'
 
 export async function weixinLogin(code, uid){
     let appid = config.weinxin_test.appid;
@@ -9,78 +9,38 @@ export async function weixinLogin(code, uid){
     let userLoginMsg = null;
     // 根据uid获取用户信息
     let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code`;
-    let permission = await getPermission(url);
 
-    // 新用户
-    if(!!permission){
-        let access_token = permission.access_token;
-        let openid = permission.openid;
+    //根据cookie返回用户信息
+    if(!!uid){
+        return await getUserMsg(uid);
+    }else{
+        let permission = await getPermission(url);
+        let access_token = permission && permission.access_token;
+        let openid = permission && permission.openid;
         await isAvaliable(access_token, openid);
+        // 获取微信用户信息
         let userMsg = await getUserBaseMsg(access_token, openid);
+        // 判断是否为已有用户
         let dbUid = await isExistUserAnduserId(userMsg.openid);
+        // 如果为已有用户，取uid; 否则创建uid
         uid = !!uid && isThisUser(uid,userMsg.nickname) ? uid : dbUid && dbUid.user_id ? dbUid.user_id : createRandom();
+        // 保存或更新用户信息
         await saveUserMsg(userMsg,uid,access_token);
         userMsg.user_id = uid;
         return userMsg;
     }
-    // 老用户
-    // 不是同一个用户----切换用户
 }
 
 async function getPermission(url){
     return await promisify(https.get)(url);
-    // let temp = '';
-    // let result = null;
-    // https.get(url, (res)=>{
-    //     res.on('data', (data)=>{
-    //         temp += data;
-    //     });
-    //     res.on('end', ()=>{
-    //         result = JSON.parse(temp);
-    //     });
-    // });
-    // return result;
-
 }
 // 获取用户基本信息
 export async function getUserBaseMsg(token, openid){
     return await promisify(https.get)(`https://api.weixin.qq.com/sns/userinfo?access_token=${token}&openid=${openid}&lang=zh_CN`)
-    // await https.get(`https://api.weixin.qq.com/sns/userinfo?access_token=${token}&openid=${openid}&lang=zh_CN`, async(res)=>{
-    //     let temp = null;
-    //     let result = '';
-    //     res.on('data', (data)=>{
-    //         result += data;
-    //     });
-    //     res.on('end', async(data)=>{
-    //         await saveUserMsg(result, uid, token, (err, data)=>{
-    //             if(err){
-    //                 console.log(err.errmsg);
-    //             }else{
-    //                 temp = data;
-    //                 console.log('保存用户信息',data);
-    //             }
-    //         });
-    //     });
-    //     return temp;
-    // });
 }
 // 如何返回数据？
 export async function isAvaliable(token, openid){
     return await promisify(https.get)(`https://api.weixin.qq.com/sns/auth?access_token=${token}&openid=${openid}`)
-    // return await https.get(`https://api.weixin.qq.com/sns/auth?access_token=${token}&openid=${openid}`, (res)=>{
-    //     let result = '';
-    //     let uid = '';
-    //     res.on('data', (data)=>{
-    //         result += data;
-    //     });
-    //     res.on('end', ()=>{
-    //         result = JSON.parse(result);
-    //         if(!result.errcode){
-    //             uid = createRandom();
-    //         }
-    //     });
-    //     return uid;
-    // })
 }
 
 

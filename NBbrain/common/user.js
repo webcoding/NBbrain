@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:30
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-01-30 16:07:44
+ * @Last Modified time: 2018-05-15 18:15:59
 */
 
 'use strict';
@@ -12,15 +12,6 @@ import {getUserQbanks} from './question'
 
 export async function hasToken(uid,cb){
     return await userSchema.findOne({user_id: uid},{access_token:1,openid:1})
-}
-
-export function getUid(ctx){
-    let user_id = ctx.cookies.get('user_id');
-    if(!user_id){
-        return 0;
-    }
-    return user_id;
-
 }
 
 export async function isExistUserAnduserId(openid){
@@ -103,7 +94,17 @@ export async function getChallengeRank(){
     ])
 }
 
-
+// 更新challenge_question_count, score, challenges
+/**
+ *  chalenges_data: {type: String, require: true},// qbank_id
+    challenge_type: {type: Number, default: 1, enum:[1,2]}, // 人1   题库 2
+    result: {type: Number, default: 1, enum: [0, 1]},
+    score: {type: Number, default: 0},  //得分
+    remark: {type: String},
+    create_time: {type: Date, default: Date.now}
+ */
+export async function updateChallengeData(qbankid, score, result){
+}
 
 export async function getUserAll(uid){
     let result = {};

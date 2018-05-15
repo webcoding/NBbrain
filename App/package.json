@@ -7,7 +7,6 @@
     "eslint": "eslint src --ext '.js,.jsx'",
     "build": "babel ./task/ -d ./dist/ --source-maps",
     "start": "nodemon --inspect --watch src --exec babel-node --presets env task/dev.js",
-    "test": "babel-node ./task/dev.js",
     "dev": "babel-node ./task/test.js",
     "server": "webpack-dev-server --config webpack.dev.config.js"
   },

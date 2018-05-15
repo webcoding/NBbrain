@@ -9,11 +9,16 @@ export default class Toast extends React.Component{
   }
   render(){
     let {msg, closeCb, show} = this.props;
+    const closeCallback = function(e){
+      if(closeCb){
+        closeCb(e)
+      }
+    }
     let content = (<div className="nb_toast_wrape">
     <div className="nb_toast_content">
       <header>
         提醒
-        <SVG  type="close" classes="nb_right_top"  onClick={(e)=>{closeCb()}}/>
+        <span   onClick={closeCallback}><SVG  type="close" classes="nb_right_top"/></span>
       </header>
       <p className="nb_toast_msg">{msg}</p>
     </div>

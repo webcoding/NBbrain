@@ -2,7 +2,7 @@
 * @Author: mengyue
 * @Date:   2017-08-03 16:52:20
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-03-23 16:24:20
+ * @Last Modified time: 2018-03-28 17:41:10
 */
 
 'use strict';
@@ -142,6 +142,19 @@ export async function getUserQbanks(uid){
 }
 
 
+// export async function getRecentUpdateQbank(count){
+//     let qbanks = await qbanksModel.find({complish_statue: 3},{
+//         user_id: 1,
+//         qbank_name: 1,
+//         qbank_id: 1,
+//         qbank_material_url: 1,
+//         total_score: {$sum: "$questions.score"}
+//     }).sort({update_time: -1});
+//     console.log(qbanks);
+//     return null;
+//     // let user = await userModel.find({user_id: {$elemMatch: qbanks}})
+// }
+
 export async function getRecentUpdateQbank(count){
     return await qbanksModel.aggregate([
         {$lookup:{
@@ -150,7 +163,7 @@ export async function getRecentUpdateQbank(count){
             foreignField: "user_id",
             as: "user_msg"
         }},
-        {$match: {complish_statue: 3}},
+        {$match: {complish_statue: 3, qbank_id:{$exists: true} }},
         {$project:{
             user_id: 1,
             "user_msg.headimgurl": 1,

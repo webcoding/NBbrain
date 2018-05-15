@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 import config from '../config';
 import path from 'path';
+import zlib from 'zlib';
 // 创建Hash('md5')得到生成器, update(str)  生成,   digest('hex')最终
 // Hmac('sha1',key)  彩虹表攻击, key--密钥  openssl生成
 // Cipher('',key)加密   生成的key文件，update(data, i_encoding, o_encoding), final()
@@ -65,6 +66,10 @@ export function promisify(API){
             })
         })
     }
+}
+
+export function zipData(data){
+
 }
 
 export var status = {

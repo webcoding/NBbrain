@@ -35,6 +35,9 @@ export default {
             localStorage.setItem(key, value);
         }
     },
+    getUid(){
+        return /user_id=([\w]+)/.exec(document.cookie) && RegExp.$1;
+    },
     promisify(api) {
         return function (...args) {
             return new Promise(function (resolve, reject) {

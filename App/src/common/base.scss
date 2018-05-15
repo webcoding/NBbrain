@@ -305,10 +305,18 @@ div {
 }
 .progress{
     transition: transform 60s;
-    height: 10px;
-    background-color: $red-color;
+    height: 6px;
+    background-color: #096dd9;
     transform-origin: left center;
     &.begin{
+        animation: width 60s linear 0s 1 forwards;
+    }
+}
+@keyframes width{
+    form{
+        transform: scaleX(1);
+    }
+    to{
         transform: scaleX(0);
     }
 }
